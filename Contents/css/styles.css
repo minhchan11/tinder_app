@@ -1,0 +1,16 @@
+.delete-button {
+  background-color: #ff8a80;
+}
+
+.deleteAll-button {
+  background-color: #d50000;
+}
+
+.search-button {
+  background-color: #8e24aa;
+}
+
+body {
+  font-family: 'Slabo 27px', serif;
+  font-size: 2em;
+}
