@@ -194,79 +194,116 @@ namespace TinderApp
         SqlDataReader rdr = cmd.ExecuteReader();
         while(rdr.Read())
         {
-            Console.WriteLine(rdr.GetString(1));
             genderList.Add(rdr.GetString(1));
         }
         DB.CloseSqlConnection(conn, rdr);
         return genderList;
     }
 
-    public void AddWork(string work)
+    public void AddWork(string workValue)
     {
         SqlConnection conn = DB.Connection();
         conn.Open();
         int workId = 0;
+        SqlCommand cmd = new SqlCommand();
 
-        if (!CheckExistence("works", work))
+        if (!CheckExistence("works", workValue))
         {
-            SqlCommand cmdWork = new SqlCommand("INSERT INTO works (work) OUTPUT INSERTED.id VALUES (@UserWork);", conn);
-            cmdWork.Parameters.Add(new SqlParameter("@UserWork", work));
-            SqlDataReader rdr = cmdWork.ExecuteReader();
-            while(rdr.Read())
-            {
-                workId = rdr.GetInt32(0);
-            }
+            cmd.CommandText = "INSERT INTO works (work) OUTPUT INSERTED.id VALUES (@UserWork);";
         }
         else
         {
-            SqlCommand cmdWork = new SqlCommand("SELECT * FROM works WHERE work = @UserWork;", conn);
-            cmdWork.Parameters.Add(new SqlParameter("@UserWork", work));
-            SqlDataReader rdr = cmdWork.ExecuteReader();
-            while(rdr.Read())
-            {
-                workId = rdr.GetInt32(0);
-            }
+            cmd.CommandText = "SELECT * FROM works WHERE work = @UserWork;";
         }
-        SqlCommand cmd = new SqlCommand("INSERT INTO users_works (user_id, work_id) VALUES (@UserId, @WorkId);", conn);
-        cmd.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
-        cmd.Parameters.Add(new SqlParameter("@WorkId", workId.ToString()));
+        cmd.Connection = conn;
+        cmd.Parameters.Add(new SqlParameter("@UserWork", workValue));
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while(rdr.Read())
+        {
+            workId = rdr.GetInt32(0);
+        }
 
-        cmd.ExecuteNonQuery();
-        DB.CloseSqlConnection(conn);
+        if(rdr != null)
+        {
+          rdr.Close();
+        }
+
+        SqlCommand cmd2 = new SqlCommand("INSERT INTO users_works (user_id, work_id) VALUES (@UserId, @WorkId);", conn);
+        cmd2.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
+        cmd2.Parameters.Add(new SqlParameter("@WorkId", workId.ToString()));
+
+        cmd2.ExecuteNonQuery();
+        DB.CloseSqlConnection(conn, rdr);
     }
 
-    public void AddFood(string food)
+    public List<string> GetWorks()
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        List<string> workList = new List<string>{};
+
+        SqlCommand cmd = new SqlCommand("SELECT works.* FROM users JOIN users_works ON (users.id = users_works.user_id) JOIN works ON (users_works.work_id = works.id) WHERE users.id = @UserId;", conn);
+        cmd.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while(rdr.Read())
+        {
+            workList.Add(rdr.GetString(1));
+        }
+        DB.CloseSqlConnection(conn, rdr);
+        return workList;
+    }
+
+    public void AddFood(string foodValue)
     {
         SqlConnection conn = DB.Connection();
         conn.Open();
         int foodId = 0;
+        SqlCommand cmd = new SqlCommand();
 
-        if (!CheckExistence("foods", food))
+        if (!CheckExistence("foods", foodValue))
         {
-            SqlCommand cmdFood = new SqlCommand("INSERT INTO foods (food) OUTPUT INSERTED.id VALUES (@UserFood);", conn);
-            cmdFood.Parameters.Add(new SqlParameter("@UserFood", food));
-            SqlDataReader rdr = cmdFood.ExecuteReader();
-            while(rdr.Read())
-            {
-                foodId = rdr.GetInt32(0);
-            }
+            cmd.CommandText = "INSERT INTO foods (food) OUTPUT INSERTED.id VALUES (@UserFood);";
         }
         else
         {
-            SqlCommand cmdFood = new SqlCommand("SELECT * FROM foods WHERE food = @UserFood;", conn);
-            cmdFood.Parameters.Add(new SqlParameter("@UserFood", food));
-            SqlDataReader rdr = cmdFood.ExecuteReader();
-            while(rdr.Read())
-            {
-                foodId = rdr.GetInt32(0);
-            }
+            cmd.CommandText = "SELECT * FROM foods WHERE food = @UserFood;";
         }
-        SqlCommand cmd = new SqlCommand("INSERT INTO users_foods (user_id, food_id) VALUES (@UserId, @FoodId);", conn);
-        cmd.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
-        cmd.Parameters.Add(new SqlParameter("@FoodId", foodId.ToString()));
+        cmd.Connection = conn;
+        cmd.Parameters.Add(new SqlParameter("@UserFood", foodValue));
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while(rdr.Read())
+        {
+            foodId = rdr.GetInt32(0);
+        }
 
-        cmd.ExecuteNonQuery();
-        DB.CloseSqlConnection(conn);
+        if(rdr != null)
+        {
+          rdr.Close();
+        }
+
+        SqlCommand cmd2 = new SqlCommand("INSERT INTO users_foods (user_id, food_id) VALUES (@UserId, @FoodId);", conn);
+        cmd2.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
+        cmd2.Parameters.Add(new SqlParameter("@FoodId", foodId.ToString()));
+
+        cmd2.ExecuteNonQuery();
+        DB.CloseSqlConnection(conn, rdr);
+    }
+
+    public List<string> GetFoods()
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        List<string> foodList = new List<string>{};
+
+        SqlCommand cmd = new SqlCommand("SELECT foods.* FROM users JOIN users_foods ON (users.id = users_foods.user_id) JOIN foods ON (users_foods.food_id = foods.id) WHERE users.id = @UserId;", conn);
+        cmd.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while(rdr.Read())
+        {
+            foodList.Add(rdr.GetString(1));
+        }
+        DB.CloseSqlConnection(conn, rdr);
+        return foodList;
     }
 
     public static bool CheckExistence(string tableName, string rowValue)

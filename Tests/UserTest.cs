@@ -100,6 +100,19 @@ namespace TinderApp
         Assert.Equal(verify, output);
     }
 
+    [Fact]
+    public void AddWorkGetWorks_OneUser_ListOfWorks()
+    {
+        User testUser = new User("Nick", "hello");
+        testUser.Save();
+        testUser.AddWork("McDonalds");
+        testUser.AddWork("Burger King");
+        List<string> output = testUser.GetWorks();
+        List<string> verify = new List<string>{"McDonalds", "Burger King"};
+
+        Assert.Equal(verify, output);
+    }
+
     // [Fact]
     // public void Find_OneBandId_ReturnBandFromDatabase()
     // {
