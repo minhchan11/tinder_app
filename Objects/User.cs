@@ -155,7 +155,6 @@ namespace TinderApp
 
         if (!CheckExistence("genders", genderValue))
         {
-            Console.WriteLine(genderValue + " doesn't exist yet");
             cmd.CommandText = "INSERT INTO genders (gender) OUTPUT INSERTED.id VALUES (@UserGender);";
         }
         else
@@ -198,6 +197,31 @@ namespace TinderApp
         }
         DB.CloseSqlConnection(conn, rdr);
         return genderList;
+    }
+
+    public void DeleteGender(string gender)
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        int genderId = 0;
+        SqlCommand cmdQuery = new SqlCommand("SELECT * FROM genders WHERE gender = @GenderName;", conn);
+        cmdQuery.Parameters.Add(new SqlParameter("@GenderName", gender));
+        SqlDataReader rdr = cmdQuery.ExecuteReader();
+        while(rdr.Read())
+        {
+            genderId = rdr.GetInt32(0);
+        }
+
+        if(rdr != null)
+        {
+          rdr.Close();
+        }
+
+        SqlCommand cmdDelete = new SqlCommand("DELETE FROM users_genders WHERE user_id = @UserId AND gender_id = @GenderId;", conn);
+        cmdDelete.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
+        cmdDelete.Parameters.Add(new SqlParameter("@GenderId", genderId.ToString()));
+        cmdDelete.ExecuteNonQuery();
+        DB.CloseSqlConnection(conn, rdr);
     }
 
     public void AddWork(string workValue)
@@ -253,6 +277,31 @@ namespace TinderApp
         return workList;
     }
 
+    public void DeleteWork(string work)
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        int workId = 0;
+        SqlCommand cmdQuery = new SqlCommand("SELECT * FROM works WHERE work = @WorkName;", conn);
+        cmdQuery.Parameters.Add(new SqlParameter("@WorkName", work));
+        SqlDataReader rdr = cmdQuery.ExecuteReader();
+        while(rdr.Read())
+        {
+            workId = rdr.GetInt32(0);
+        }
+
+        if(rdr != null)
+        {
+          rdr.Close();
+        }
+
+        SqlCommand cmdDelete = new SqlCommand("DELETE FROM users_works WHERE user_id = @UserId AND work_id = @WorkId;", conn);
+        cmdDelete.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
+        cmdDelete.Parameters.Add(new SqlParameter("@WorkId", workId.ToString()));
+        cmdDelete.ExecuteNonQuery();
+        DB.CloseSqlConnection(conn, rdr);
+    }
+
     public void AddFood(string foodValue)
     {
         SqlConnection conn = DB.Connection();
@@ -304,6 +353,31 @@ namespace TinderApp
         }
         DB.CloseSqlConnection(conn, rdr);
         return foodList;
+    }
+
+    public void DeleteFood(string food)
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        int foodId = 0;
+        SqlCommand cmdQuery = new SqlCommand("SELECT * FROM foods WHERE food = @FoodName;", conn);
+        cmdQuery.Parameters.Add(new SqlParameter("@FoodName", food));
+        SqlDataReader rdr = cmdQuery.ExecuteReader();
+        while(rdr.Read())
+        {
+            foodId = rdr.GetInt32(0);
+        }
+
+        if(rdr != null)
+        {
+          rdr.Close();
+        }
+
+        SqlCommand cmdDelete = new SqlCommand("DELETE FROM users_foods WHERE user_id = @UserId AND food_id = @FoodId;", conn);
+        cmdDelete.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
+        cmdDelete.Parameters.Add(new SqlParameter("@FoodId", foodId.ToString()));
+        cmdDelete.ExecuteNonQuery();
+        DB.CloseSqlConnection(conn, rdr);
     }
 
     public static bool CheckExistence(string tableName, string rowValue)

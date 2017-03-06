@@ -126,6 +126,34 @@ namespace TinderApp
         Assert.Equal(verify, output);
     }
 
+    [Fact]
+    public void DeleteGender_OneUser_EmptyList()
+    {
+        User testUser = new User("Riley", "hello");
+        testUser.Save();
+        testUser.AddGender("Male");
+        testUser.AddGender("Transgender");
+        testUser.DeleteGender("Male");
+        List<string> output = testUser.GetGenders();
+        List<string> verify = new List<string>{"Transgender"};
+
+        Assert.Equal(verify, output);
+    }
+
+    [Fact]
+    public void DeleteWork_OneUser_EmptyList()
+    {
+        User testUser = new User("Riley", "hello");
+        testUser.Save();
+        testUser.AddWork("Microsoft");
+        testUser.AddWork("Epicodus");
+        testUser.DeleteWork("Microsoft");
+        List<string> output = testUser.GetWorks();
+        List<string> verify = new List<string>{"Epicodus"};
+
+        Assert.Equal(verify, output);
+    }
+
     // [Fact]
     // public void Find_OneBandId_ReturnBandFromDatabase()
     // {
