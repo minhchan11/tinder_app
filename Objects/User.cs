@@ -53,6 +53,12 @@ namespace TinderApp
     public static void DeleteAll()
     {
       DB.DeleteAll("users");
+      DB.DeleteAll("genders");
+      DB.DeleteAll("works");
+      DB.DeleteAll("foods");
+      DB.DeleteAll("users_genders");
+      DB.DeleteAll("users_works");
+      DB.DeleteAll("users_foods");
     }
 
     public static List<User> GetAll()
@@ -104,38 +110,95 @@ namespace TinderApp
       DB.CloseSqlConnection(conn, rdr);
     }
 
-    public void AddGender(string gender)
+    // public void AddGender(string genderValue)
+    // {
+    //     SqlConnection conn = DB.Connection();
+    //     conn.Open();
+    //     int genderId = 0;
+    //     SqlCommand cmd = new SqlCommand();
+    //
+    //     if (!CheckExistence("genders", genderValue))
+    //     {
+    //         cmd.CommandText = "INSERT INTO genders (gender) OUTPUT INSERTED.id VALUES (@UserGender);";
+    //         cmd.Parameters.Add(new SqlParameter("@UserGender", genderValue));
+    //         SqlDataReader rdr = cmd.ExecuteReader();
+    //         while(rdr.Read())
+    //         {
+    //             genderId = rdr.GetInt32(0);
+    //         }
+    //     }
+    //     else
+    //     {
+    //         cmd.CommandText = "SELECT * FROM genders WHERE gender = @UserGender;";
+    //         cmd.Parameters.Add(new SqlParameter("@UserGender", genderValue));
+    //         SqlDataReader rdr = cmdGender.ExecuteReader();
+    //         while(rdr.Read())
+    //         {
+    //             genderId = rdr.GetInt32(0);
+    //         }
+    //         DB.CloseSqlConnection(rdr);
+    //     }
+    //     SqlCommand cmd = new SqlCommand("INSERT INTO users_genders (user_id, gender_id) VALUES (@UserId, @GenderId);", conn);
+    //     cmd.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
+    //     cmd.Parameters.Add(new SqlParameter("@GenderId", genderId.ToString()));
+    //
+    //     cmd.ExecuteNonQuery();
+    //     DB.CloseSqlConnection(conn);
+    // }
+
+    public void AddGender(string genderValue)
     {
         SqlConnection conn = DB.Connection();
         conn.Open();
         int genderId = 0;
+        SqlCommand cmd = new SqlCommand();
 
-        if (!CheckExistence("genders", "gender", gender))
+        if (!CheckExistence("genders", genderValue))
         {
-            SqlCommand cmdGender = new SqlCommand("INSERT INTO genders (gender) OUTPUT INSERTED.id VALUES (@UserGender);", conn);
-            cmdGender.Parameters.Add(new SqlParameter("@UserGender", gender));
-            SqlDataReader rdr = cmdGender.ExecuteReader();
-            while(rdr.Read())
-            {
-                genderId = rdr.GetInt32(0);
-            }
+            Console.WriteLine(genderValue + " doesn't exist yet");
+            cmd.CommandText = "INSERT INTO genders (gender) OUTPUT INSERTED.id VALUES (@UserGender);";
         }
         else
         {
-            SqlCommand cmdGender = new SqlCommand("SELECT * FROM genders WHERE gender = @UserGender;", conn);
-            cmdGender.Parameters.Add(new SqlParameter("@UserGender", gender));
-            SqlDataReader rdr = cmdGender.ExecuteReader();
-            while(rdr.Read())
-            {
-                genderId = rdr.GetInt32(0);
-            }
+            cmd.CommandText = "SELECT * FROM genders WHERE gender = @UserGender;";
         }
-        SqlCommand cmd = new SqlCommand("INSERT INTO users_genders (user_id, gender_id) VALUES (@UserId, @GenderId);", conn);
-        cmd.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
-        cmd.Parameters.Add(new SqlParameter("@GenderId", genderId.ToString()));
+        cmd.Connection = conn;
+        cmd.Parameters.Add(new SqlParameter("@UserGender", genderValue));
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while(rdr.Read())
+        {
+            genderId = rdr.GetInt32(0);
+        }
 
-        cmd.ExecuteNonQuery();
-        DB.CloseSqlConnection(conn);
+        if(rdr != null)
+        {
+          rdr.Close();
+        }
+
+        SqlCommand cmd2 = new SqlCommand("INSERT INTO users_genders (user_id, gender_id) VALUES (@UserId, @GenderId);", conn);
+        cmd2.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
+        cmd2.Parameters.Add(new SqlParameter("@GenderId", genderId.ToString()));
+
+        cmd2.ExecuteNonQuery();
+        DB.CloseSqlConnection(conn, rdr);
+    }
+
+    public List<string> GetGenders()
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        List<string> genderList = new List<string>{};
+
+        SqlCommand cmd = new SqlCommand("SELECT genders.* FROM users JOIN users_genders ON (users.id = users_genders.user_id) JOIN genders ON (users_genders.gender_id = genders.id) WHERE users.id = @UserId;", conn);
+        cmd.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while(rdr.Read())
+        {
+            Console.WriteLine(rdr.GetString(1));
+            genderList.Add(rdr.GetString(1));
+        }
+        DB.CloseSqlConnection(conn, rdr);
+        return genderList;
     }
 
     public void AddWork(string work)
@@ -144,7 +207,7 @@ namespace TinderApp
         conn.Open();
         int workId = 0;
 
-        if (!CheckExistence("works", "work", work))
+        if (!CheckExistence("works", work))
         {
             SqlCommand cmdWork = new SqlCommand("INSERT INTO works (work) OUTPUT INSERTED.id VALUES (@UserWork);", conn);
             cmdWork.Parameters.Add(new SqlParameter("@UserWork", work));
@@ -178,7 +241,7 @@ namespace TinderApp
         conn.Open();
         int foodId = 0;
 
-        if (!CheckExistence("foods", "food", food))
+        if (!CheckExistence("foods", food))
         {
             SqlCommand cmdFood = new SqlCommand("INSERT INTO foods (food) OUTPUT INSERTED.id VALUES (@UserFood);", conn);
             cmdFood.Parameters.Add(new SqlParameter("@UserFood", food));
@@ -204,6 +267,39 @@ namespace TinderApp
 
         cmd.ExecuteNonQuery();
         DB.CloseSqlConnection(conn);
+    }
+
+    public static bool CheckExistence(string tableName, string rowValue)
+    {
+        bool existence = false;
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        SqlCommand cmd = new SqlCommand();
+
+        if (tableName == "genders")
+        {
+            cmd.CommandText = "SELECT * FROM genders WHERE gender = @RowValue;";
+        }
+        else if(tableName == "works")
+        {
+            cmd.CommandText = "SELECT * FROM works WHERE work = @RowValue;";
+        }
+        else
+        {
+            cmd.CommandText = "SELECT * FROM foods WHERE food = @RowValue;";
+        }
+        cmd.Connection = conn;
+
+        cmd.Parameters.Add(new SqlParameter("@RowValue", rowValue));
+
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while (rdr.Read())
+        {
+            existence = true;
+        }
+
+        DB.CloseSqlConnection(conn, rdr);
+        return existence;
     }
 
         // public void DeleteThis()
@@ -248,27 +344,6 @@ namespace TinderApp
     //       DB.CloseSqlConnection(conn, rdr);
     //       return foundUser;
     //     }
-
-        public static bool CheckExistence(string tableName, string columnName, string rowValue)
-        {
-            bool existence = false;
-            SqlConnection conn = DB.Connection();
-            conn.Open();
-
-            SqlCommand cmd = new SqlCommand("SELECT * From @TableName WHERE @ColumnName = @Value;", conn);
-            cmd.Parameters.Add(new SqlParameter("@TableName", tableName));
-            cmd.Parameters.Add(new SqlParameter("@ColumnName", columnName));
-            cmd.Parameters.Add(new SqlParameter("@Value", rowValue));
-
-            SqlDataReader rdr = cmd.ExecuteReader();
-            while (rdr.Read())
-            {
-                existence = true;
-            }
-
-            DB.CloseSqlConnection(conn, rdr);
-            return existence;
-        }
 
         // public static List<User> SearchName(string name)
         // {

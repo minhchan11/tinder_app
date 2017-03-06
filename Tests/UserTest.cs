@@ -39,54 +39,67 @@ namespace TinderApp
       Assert.Equal(userTwo, userOne);
     }
 
-    // [Fact]
-    // public void Save_OneBand_BandSavedToDatabase()
-    // {
-    //   //Arrange
-    //   Band testBand = new Band ("Green Day");
-    //
-    //   //Act
-    //   testBand.Save();
-    //   List<Band> output = Band.GetAll();
-    //   List<Band> verify = new List<Band>{testBand};
-    //
-    //   //Assert
-    //   Assert.Equal(verify, output);
-    // }
-    //
-    // [Fact]
-    // public void Save_OneBand_BandSavedWithCorrectID()
-    // {
-    //   //Arrange
-    //   Band testBand = new Band ("Green Day");
-    //   testBand.Save();
-    //   Band savedBand = Band.GetAll()[0];
-    //
-    //   //Act
-    //   int output = savedBand.GetId();
-    //   int verify = testBand.GetId();
-    //
-    //   //Assert
-    //   Assert.Equal(verify, output);
-    // }
-    //
-    // [Fact]
-    // public void SaveGetAll_ManyBands_ReturnListOfBands()
-    // {
-    //   //Arrange
-    //   Band bandOne = new Band ("Green Day");
-    //   bandOne.Save();
-    //   Band bandTwo = new Band ("Spice Girl");
-    //   bandTwo.Save();
-    //
-    //   //Act
-    //   List<Band> output = Band.GetAll();
-    //   List<Band> verify = new List<Band>{bandOne, bandTwo};
-    //
-    //   //Assert
-    //   Assert.Equal(verify, output);
-    // }
-    //
+    [Fact]
+    public void Save_OneUser_UserSavedToDatabase()
+    {
+      //Arrange
+      User testUser = new User ("Nick", "I like stuff");
+
+      //Act
+      testUser.Save();
+      List<User> output = User.GetAll();
+      List<User> verify = new List<User>{testUser};
+
+      //Assert
+      Assert.Equal(verify, output);
+    }
+
+    [Fact]
+    public void Save_OneUser_UserSavedWithCorrectID()
+    {
+      //Arrange
+      User testUser = new User ("Nick", "blah");
+      testUser.Save();
+      User savedUser = User.GetAll()[0];
+
+      //Act
+      int output = savedUser.userId;
+      int verify = testUser.userId;
+
+      //Assert
+      Assert.Equal(verify, output);
+    }
+
+    [Fact]
+    public void SaveGetAll_ManyUsers_ReturnListOfUsers()
+    {
+      //Arrange
+      User userOne = new User ("nick", "hello");
+      userOne.Save();
+      User userTwo = new User ("Jiwon", "hi");
+      userTwo.Save();
+
+      //Act
+      List<User> output = User.GetAll();
+      List<User> verify = new List<User>{userOne, userTwo};
+
+      //Assert
+      Assert.Equal(verify, output);
+    }
+
+    [Fact]
+    public void AddGenderGetGenders_OneUser_ListOfGenders()
+    {
+        User testUser = new User("Nick", "hello");
+        testUser.Save();
+        testUser.AddGender("Male");
+        testUser.AddGender("Transgender");
+        List<string> output = testUser.GetGenders();
+        List<string> verify = new List<string>{"Male", "Transgender"};
+
+        Assert.Equal(verify, output);
+    }
+
     // [Fact]
     // public void Find_OneBandId_ReturnBandFromDatabase()
     // {
