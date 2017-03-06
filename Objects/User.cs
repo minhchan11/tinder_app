@@ -66,7 +66,7 @@ namespace TinderApp
 
       while(rdr.Read())
       {
-        User newUser = new User(rdr.GetString(1), rdr.GetInt32(0));
+        User newUser = new User(rdr.GetString(1), rdr.GetString(2), rdr.GetInt32(0));
         allUsers.Add(newUser);
       }
 
@@ -83,7 +83,7 @@ namespace TinderApp
       else
       {
         User newUser = (User) randomUser;
-        bool newEqual = (this.userId == newUser.userId) && (this.name == newUser.name) && (this.gender == newUser.gender) && (this.work == newUser.work) && (this.food == newUser.food) && (this.description == newUser.description);
+        bool newEqual = (this.userId == newUser.userId) && (this.name == newUser.name) && (this.description == newUser.description);
         return newEqual;
       }
     }
@@ -131,7 +131,7 @@ namespace TinderApp
             }
         }
         SqlCommand cmd = new SqlCommand("INSERT INTO users_genders (user_id, gender_id) VALUES (@UserId, @GenderId);", conn);
-        cmd.Parameters.Add(new SqlParameter("@UserId", this.id.ToString()));
+        cmd.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
         cmd.Parameters.Add(new SqlParameter("@GenderId", genderId.ToString()));
 
         cmd.ExecuteNonQuery();
@@ -165,7 +165,7 @@ namespace TinderApp
             }
         }
         SqlCommand cmd = new SqlCommand("INSERT INTO users_works (user_id, work_id) VALUES (@UserId, @WorkId);", conn);
-        cmd.Parameters.Add(new SqlParameter("@UserId", this.id.ToString()));
+        cmd.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
         cmd.Parameters.Add(new SqlParameter("@WorkId", workId.ToString()));
 
         cmd.ExecuteNonQuery();
@@ -191,7 +191,7 @@ namespace TinderApp
         else
         {
             SqlCommand cmdFood = new SqlCommand("SELECT * FROM foods WHERE food = @UserFood;", conn);
-            food.Parameters.Add(new SqlParameter("@UserFood", food));
+            cmdFood.Parameters.Add(new SqlParameter("@UserFood", food));
             SqlDataReader rdr = cmdFood.ExecuteReader();
             while(rdr.Read())
             {
@@ -199,7 +199,7 @@ namespace TinderApp
             }
         }
         SqlCommand cmd = new SqlCommand("INSERT INTO users_foods (user_id, food_id) VALUES (@UserId, @FoodId);", conn);
-        cmd.Parameters.Add(new SqlParameter("@UserId", this.id.ToString()));
+        cmd.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
         cmd.Parameters.Add(new SqlParameter("@FoodId", foodId.ToString()));
 
         cmd.ExecuteNonQuery();
@@ -291,3 +291,5 @@ namespace TinderApp
         //   DB.CloseSqlConnection(conn, rdr);
         //   return foundUsers;
         // }
+    }
+}

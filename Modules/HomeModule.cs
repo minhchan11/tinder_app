@@ -8,20 +8,21 @@ namespace TinderApp
   {
     public HomeModule()
     {
-      Get["/"] = _ => {
-        return View["index.cshtml"];
-      };
-
-
-    }
-    public static Dictionary<string, object> ModelMaker()
-    {
-      Dictionary<string, object> model = new Dictionary<string, object>
-      {
-        {"Bands", Band.GetAll()},
-        {"Venues", Venue.GetAll()},
-      };
-      return model;
+    //   Get["/"] = _ => {
+    //     return View["index.cshtml"];
+    //   };
+    //
+    //
+    // }
+    // public static Dictionary<string, object> ModelMaker()
+    // {
+    //   Dictionary<string, object> model = new Dictionary<string, object>
+    //   {
+    //     {"Bands", Band.GetAll()},
+    //     {"Venues", Venue.GetAll()},
+    //   };
+    //   return model;
+    // }
     }
   }
 }
