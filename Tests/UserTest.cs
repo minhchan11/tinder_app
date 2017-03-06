@@ -113,6 +113,19 @@ namespace TinderApp
         Assert.Equal(verify, output);
     }
 
+    [Fact]
+    public void AddFoodGetFoods_OneUser_ListOfFoods()
+    {
+        User testUser = new User("Nick", "hello");
+        testUser.Save();
+        testUser.AddFood("McDonalds");
+        testUser.AddFood("Burger King");
+        List<string> output = testUser.GetFoods();
+        List<string> verify = new List<string>{"McDonalds", "Burger King"};
+
+        Assert.Equal(verify, output);
+    }
+
     // [Fact]
     // public void Find_OneBandId_ReturnBandFromDatabase()
     // {
