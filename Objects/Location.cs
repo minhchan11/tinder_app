@@ -132,5 +132,18 @@ namespace TinderApp
         return matchedLocations;
       }
 
+      public void Update(string newLocation)
+      {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+
+        SqlCommand cmd = new SqlCommand("UPDATE locations SET location = @newLocation WHERE id = @TargetId;", conn);
+        cmd.Parameters.Add(new SqlParameter("@newLocation", newLocation));
+        cmd.Parameters.Add(new SqlParameter("@TargetId", this.locationId));
+        cmd.ExecuteNonQuery();
+        this.locationCoord = newLocation;
+        DB.CloseSqlConnection(conn);
+      }
+
   }
 }

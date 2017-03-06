@@ -95,7 +95,7 @@ namespace TinderApp
           // Arrange
           Location locationOne = new Location ("POINT (-73.993808 40.702999)");
           locationOne.Save();
-          Location locationTwo = new Location ("POINT(-73.994014 40.703058)");
+          Location locationTwo = new Location ("POINT (-73.994014 40.703058)");
           locationTwo.Save();
 
 
@@ -106,7 +106,17 @@ namespace TinderApp
           //Assert
           Assert.Equal(verify, output);
         }
+    [Fact]
+        public void Location_Update_UpdateDatabaseAndLocalObject()
+        {
+          Location testLocation = new Location ("POINT (-73.993808 40.702999)");
+          testLocation.Save();
 
+          testLocation.Update("POINT (-73.994014 40.703058)");
+          Location expectedLocation = new Location("POINT (-73.994014 40.703058)", testLocation.locationId);
+
+          Assert.Equal(expectedLocation, Location.Find(testLocation.locationId));
+        }
 
   }
 }
