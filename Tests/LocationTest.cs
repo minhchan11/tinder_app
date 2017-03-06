@@ -74,6 +74,7 @@ namespace TinderApp
           //Assert
           Assert.Equal(verify, output);
         }
+
     [Fact]
         public void Find_LocationId_LocationWithIdFound()
         {
@@ -86,6 +87,24 @@ namespace TinderApp
 
           //Assert
           Assert.Equal(testLocation, foundLocation);
+        }
+
+    [Fact]
+        public void FindNearby_Location_ListOfMatchedLocation()
+        {
+          // Arrange
+          Location locationOne = new Location ("POINT (-73.993808 40.702999)");
+          locationOne.Save();
+          Location locationTwo = new Location ("POINT(-73.994014 40.703058)");
+          locationTwo.Save();
+
+
+          //Act
+          List<Location> output= Location.FindNearby(locationOne);
+          List<Location> verify = new List<Location>{Location.Find(locationTwo.locationId)};
+
+          //Assert
+          Assert.Equal(verify, output);
         }
 
 

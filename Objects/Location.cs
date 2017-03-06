@@ -112,5 +112,25 @@ namespace TinderApp
           return foundLocation;
         }
 
+      public static List<Location> FindNearby(Location searchLocation)
+      {
+        List<Location> matchedLocations = new List<Location>{};
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+
+        SqlCommand cmd = new SqlCommand("DECLARE @g geography; SET @g = geography::STGeomFromText(@LocationCoord, 4326); SELECT id, location.STAsText() FROM locations WHERE radius.STContains(@g) = 'true' AND id <> @LocationId;", conn);
+        cmd.Parameters.Add(new SqlParameter("@LocationCoord", searchLocation.locationCoord));
+        cmd.Parameters.Add(new SqlParameter("@LocationId", searchLocation.locationId));
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while(rdr.Read())
+        {
+          Location newLocation = new Location(rdr.GetString(1), rdr.GetInt32(0));
+          matchedLocations.Add(newLocation);
+        }
+
+        DB.CloseSqlConnection(conn, rdr);
+        return matchedLocations;
+      }
+
   }
 }
