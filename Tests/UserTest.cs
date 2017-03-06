@@ -154,6 +154,20 @@ namespace TinderApp
         Assert.Equal(verify, output);
     }
 
+    [Fact]
+    public void DeleteFood_OneUser_EmptyList()
+    {
+        User testUser = new User("Riley", "hello");
+        testUser.Save();
+        testUser.AddFood("Sushi");
+        testUser.AddFood("Burger");
+        testUser.DeleteFood("Sushi");
+        List<string> output = testUser.GetFoods();
+        List<string> verify = new List<string>{"Burger"};
+
+        Assert.Equal(verify, output);
+    }
+
     // [Fact]
     // public void Find_OneBandId_ReturnBandFromDatabase()
     // {
