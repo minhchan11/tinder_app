@@ -6,24 +6,23 @@ using Xunit;
 
 namespace TinderApp
 {
-  public class BandTest: IDisposable
+  public class UserTest: IDisposable
   {
-    public BandTest()
+    public UserTest()
     {
       DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=tinder_test;Integrated Security=SSPI;";
     }
 
     public void Dispose()
     {
-      Band.DeleteAll();
-      Venue.DeleteAll();
+      User.DeleteAll();
     }
 
     [Fact]
     public void GetAll_DatabaseEmptyAtFirst_ZeroOutput()
     {
       //Arrange, Act
-      int result = Band.GetAll().Count;
+      int result = User.GetAll().Count;
 
       //Assert
       Assert.Equal(0, result);
