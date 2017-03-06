@@ -1,0 +1,16 @@
+
+USE tinder_test
+GO 
+
+INSERT INTO locations_test (location)  
+VALUES (geography::STGeomFromText('POINT(-73.9949905872345 40.728616558706655)', 4326));  
+GO 
+INSERT INTO locations_test (location)  
+VALUES (geography::STGeomFromText('POINT(-122.33250090000001 47.6067006)', 4326));  
+GO 
+
+
+DECLARE @g geography;
+SET @g = geography::STGeomFromText('POINT(-73.99617612361908 40.72882591627228)', 4326);
+SELECT * FROM locations_test WHERE deliveryArea.STContains(@g) = 'true';
+GO
