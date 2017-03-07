@@ -151,6 +151,19 @@ namespace TinderApp
     }
 
     [Fact]
+    public void DeleteUser_OneUser_EmptyList()
+    {
+        User testUser = new User("Riley", "Hello");
+        testUser.Save();
+        User testUser2 = new User("John", "I love Epicodus");
+        testUser2.Save();
+        List<User> expectedUser = new List<User>{testUser2};
+        testUser.DeleteUser(testUser.userId);
+
+        Assert.Equal(expectedUser, User.GetAll());
+    }
+
+    [Fact]
     public void DeleteGender_OneUser_EmptyList()
     {
         User testUser = new User("Riley", "hello");
@@ -242,6 +255,7 @@ namespace TinderApp
         List<string> expected = new List<string>{"Gym", "Eating"};
         Assert.Equal(expected, output);
     }
+
 
     // [Fact]
     // public void AddLike_OneUser_ListOfLikes()
