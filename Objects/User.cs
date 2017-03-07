@@ -94,6 +94,24 @@ namespace TinderApp
       }
     }
 
+    public List<int> GetLikedUsers()
+    {
+        List<int> likedUserIds = new List<int>{};
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM likes WHERE userLiking_id = @UserId;", conn);
+        cmd.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
+
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while(rdr.Read())
+        {
+          likedUserIds.Add(rdr.GetInt32(2));
+        }
+        DB.CloseSqlConnection(conn, rdr);
+        return likedUserIds;
+    }
+
     public void Save()
     {
       SqlConnection conn = DB.Connection();
@@ -411,6 +429,34 @@ namespace TinderApp
 
         DB.CloseSqlConnection(conn, rdr);
         return existence;
+    }
+
+    public void AddLike(int idLiked)
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+
+        SqlCommand cmd = new SqlCommand("INSERT INTO likes (userLiking_id, userLiked_id) VALUES (@UserLiking, @UserLiked);", conn);
+        cmd.Parameters.Add(new SqlParameter("@UserLiking", this.userId.ToString()));
+        cmd.Parameters.Add(new SqlParameter("@UserLiked", idLiked.ToString()));
+
+        cmd.ExecuteNonQuery();
+        DB.CloseSqlConnection(conn);
+    }
+
+
+
+    public void DeleteLike(int idLiked)
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+
+        SqlCommand cmd = new SqlCommand("DELETE FROM likes WHERE userLiked_id = @UserLiked AND userLiking_id = @UserLiking;", conn);
+        cmd.Parameters.Add(new SqlParameter("@UserLiked", idLiked.ToString()));
+        cmd.Parameters.Add(new SqlParameter("@UserLiking", this.userId.ToString()));
+
+        cmd.ExecuteNonQuery();
+        DB.CloseSqlConnection(conn);
     }
 
         // public void DeleteThis()

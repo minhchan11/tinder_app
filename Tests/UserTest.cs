@@ -168,6 +168,25 @@ namespace TinderApp
         Assert.Equal(verify, output);
     }
 
+    [Fact]
+    public void GetLikedUsers_OneUser_ListOfLikedUsers()
+    {
+        User testUser = new User("Riley", "hello");
+        testUser.Save();
+        User likedUser = new User("Carl", "sup");
+        likedUser.Save();
+        User likedUser2 = new User("Fred", "dude");
+        likedUser2.Save();
+        testUser.AddLike(likedUser.userId);
+        testUser.AddLike(likedUser2.userId);
+        List<int> output = testUser.GetLikedUsers();
+        List<int> expected = new List<int>{likedUser.userId, likedUser2.userId};
+        Assert.Equal(expected, output);
+    }
+
+    // [Fact]
+    // public void AddLike_OneUser_ListOfLikes()
+
     // [Fact]
     // public void Find_OneBandId_ReturnBandFromDatabase()
     // {
