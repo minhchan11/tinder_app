@@ -47,7 +47,7 @@ CREATE TABLE [dbo].[avatars](
 )
 
 Declare @sql varchar(500)
-SET @sql = 'bcp tinder_test.dbo.TestBlob format nul -T -n -f C:\users\epicodus\desktop\testblob.fmt -S ' + '(localdb)\mssqllocaldb'
+SET @sql = 'bcp tinder_test.dbo.TestBlob format nul -T -n -f C:\users\epicodus\desktop\tinder_app\Resources\testblob.fmt -S ' + '(localdb)\mssqllocaldb'
 select @sql
 EXEC master.dbo.xp_CmdShell @sql
 
@@ -55,7 +55,7 @@ USE tinder_test;
 GO
 
 Declare @sql varchar(500)
-SET @sql = 'BCP "SELECT tbBin FROM tinder_test.dbo.TestBlob where tbId=1" QUERYOUT C:\users\epicodus\desktop\cat3.jpg -T -f C:\users\epicodus\desktop\testblob.fmt -S ' + '(localdb)\mssqllocaldb';
+SET @sql = 'BCP "SELECT tbBin FROM tinder_test.dbo.TestBlob where tbId=1" QUERYOUT C:\users\epicodus\desktop\cat3.jpg -T -f C:\users\epicodus\desktop\tinder_app\Resources\testblob.fmt -S ' + '(localdb)\mssqllocaldb';
 EXEC master.dbo.xp_CmdShell @sql
 
 EXEC sp_configure 'show advanced options', 1;

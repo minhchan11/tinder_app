@@ -108,6 +108,26 @@ namespace TinderApp
      DB.CloseSqlConnection(conn, rdr);
    }
 
+   public static Avatar Find(int id)
+   {
+     Avatar foundAvatar = new Avatar("");
+     SqlConnection conn = DB.Connection();
+     conn.Open();
+
+     SqlCommand cmd = new SqlCommand("SELECT * FROM avatars WHERE id = @AvatarId;", conn);
+     cmd.Parameters.Add(new SqlParameter("@AvatarId", id.ToString()));
+     SqlDataReader rdr = cmd.ExecuteReader();
+
+     while (rdr.Read())
+     {
+       foundAvatar.avatarId = rdr.GetInt32(0);
+       foundAvatar.avatarPath = rdr.GetString(2);
+       foundAvatar.avatarBinary = System.Text.Encoding.Default.GetString((byte[]) rdr.GetValue(1));
+     }
+
+     DB.CloseSqlConnection(conn, rdr);
+     return foundAvatar;
+   }
 
 
   }

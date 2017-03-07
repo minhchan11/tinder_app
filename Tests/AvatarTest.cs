@@ -80,6 +80,22 @@ namespace TinderApp
       Assert.Equal(verify, output);
     }
 
+    [Fact]
+    public void Find_AvatarId_AvatarWithIdFound()
+    {
+      // Arrange
+      Avatar testAvatar = new Avatar ("C:\\Users\\epicodus\\Desktop\\cat.jpg");
+      testAvatar.Save();
+
+      //Act
+      Avatar foundAvatar = Avatar.Find(testAvatar.avatarId);
+
+      //Assert
+      Assert.Equal(testAvatar, foundAvatar);
+    }
+
+
+
 
   }
 }
