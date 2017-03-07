@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using Xunit;
 
 
@@ -322,6 +323,20 @@ namespace TinderApp
     }
 
     [Fact]
+    public void AddRatingGetAverageRating_OneUser_AverageRatingInt()
+    {
+        User testUser = new User("Nick", "hello");
+        testUser.Save();
+        User.AddRating(testUser.userId, 2);
+        User.AddRating(testUser.userId, 4);
+        User.AddRating(testUser.userId, 5);
+        User.AddRating(testUser.userId, 1);
+        User.AddRating(testUser.userId, 5);
+        User.AddRating(testUser.userId, 4);
+        Assert.Equal(3.5, testUser.GetAverageRating());
+    }
+
+    [Fact]
     public void Contains_True()
     {
         User testUser = new User("Nick", "hello");
@@ -329,134 +344,6 @@ namespace TinderApp
         List<User> testList = new List<User>{testUser, testUser2};
         Assert.Equal(true, testList.Contains(testUser));
     }
-
-
-
-
-    // [Fact]
-    // public void AddLike_OneUser_ListOfLikes()
-
-    // [Fact]
-    // public void Find_OneBandId_ReturnBandFromDatabase()
-    // {
-    //   //Arrange
-    //   Band testBand = new Band ("Green Day");
-    //   testBand.Save();
-    //
-    //   //Act
-    //   Band foundBand = Band.Find(testBand.GetId());
-    //
-    //   //Assert
-    //   Assert.Equal(testBand, foundBand);
-    // }
-    //
-    // [Fact]
-    // public void SearchName_Name_ReturnBandFromDatabase()
-    // {
-    //   //Arrange
-    //   Band testBand = new Band ("Green Day");
-    //   testBand.Save();
-    //
-    //   //Act
-    //   List<Band> output = Band.SearchName("Green Day");
-    //   List<Band> verify = new List<Band>{testBand};
-    //
-    //   //Assert
-    //   Assert.Equal(verify, output);
-    // }
-    //
-    // [Fact]
-    // public void AddVenue_OneBand_VenueAddedToJoinTable()
-    // {
-    //   //Arrange
-    //   Band testBand = new Band ("Green Day");
-    //   testBand.Save();
-    //   Venue testVenue = new Venue("Park");
-    //   testVenue.Save();
-    //   testBand.AddVenue(testVenue);
-    //
-    //   //Act
-    //   List<Venue> output = testBand.GetVenues();
-    //   List<Venue> verify = new List<Venue>{testVenue};
-    //
-    //   //Assert
-    //   Assert.Equal(verify, output);
-    // }
-    //
-    // [Fact]
-    // public void DeleteVenue_TwoVenueRemoveOne_VenueRemovedFromJoinTable()
-    // {
-    //   //Arrange
-    //   Band testBand = new Band ("Green Day");
-    //   testBand.Save();
-    //   Venue testVenue1 = new Venue("Park");
-    //   Venue testVenue2 = new Venue("Manhattan Square");
-    //   testVenue1.Save();
-    //   testVenue2.Save();
-    //   testBand.AddVenue(testVenue1);
-    //   testBand.AddVenue(testVenue2);
-    //   testBand.DeleteVenue(testVenue1);
-    //
-    //   //Act
-    //   List<Venue> output = testBand.GetVenues();
-    //   List<Venue> verify = new List<Venue>{testVenue2};
-    //
-    //   //Assert
-    //   Assert.Equal(verify, output);
-    // }
-    //
-    // [Fact]
-    // public void DeleteVenues_OneBand_VenueRemovedFromJoinTable()
-    // {
-    //   //Arrange
-    //   Band testBand = new Band ("Green Day");
-    //   testBand.Save();
-    //   Venue testVenue1 = new Venue("Park");
-    //   Venue testVenue2 = new Venue("Manhattan Square");
-    //   testVenue1.Save();
-    //   testVenue2.Save();
-    //   testBand.DeleteVenues();
-    //
-    //   //Act
-    //   int output = testBand.GetVenues().Count;
-    //   //Assert
-    //   Assert.Equal(0, output);
-    // }
-    //
-    //
-    // [Fact]
-    // public void Band_Delete_RemoveObjectFromDatabase()
-    // {
-    //   Band testBand = new Band ("Green Day");
-    //   testBand.Save();
-    //
-    //   testBand.DeleteThis();
-    //
-    //   Assert.Equal(0, Band.GetAll().Count);
-    // }
-    //
-    // [Fact]
-    // public void Band_Update_UpdateDatabaseAndLocalObject()
-    // {
-    //   Band testBand = new Band ("Green Day");
-    //   testBand.Save();
-    //
-    //   testBand.Update("Yellow Day");
-    //   Band expectedBand = new Band("Yellow Day", testBand.GetId());
-    //
-    //   Assert.Equal(expectedBand, Band.Find(testBand.GetId()));
-    // }
-    //
-    // [Fact]
-    // public void Band_Save_NoSaveOnDuplicateBand()
-    // {
-    //   Band testBand = new Band ("Green Day");
-    //   testBand.Save();
-    //   Band secondBand = new Band ("Green Day");
-    //   secondBand.Save();
-    //
-    //   Assert.Equal(1, Band.GetAll().Count);
-    // }
 
   }
 }

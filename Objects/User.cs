@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace TinderApp
 {
@@ -62,6 +63,7 @@ namespace TinderApp
       DB.DeleteAll("likes");
       DB.DeleteAll("hobbies");
       DB.DeleteAll("users_hobbies");
+      DB.DeleteAll("ratings");
     }
 
     public static List<User> GetAll()
@@ -687,6 +689,37 @@ namespace TinderApp
 
         DB.CloseSqlConnection(conn, rdr);
         return userList;
+    }
+
+    public static void AddRating(int id, int rating)
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+
+        SqlCommand cmd = new SqlCommand("INSERT INTO ratings (user_rated_id, rating) VALUES (@UserId, @RatingId);", conn);
+        cmd.Parameters.Add(new SqlParameter("@UserId", id));
+        cmd.Parameters.Add(new SqlParameter("@RatingId", rating));
+        cmd.ExecuteNonQuery();
+        DB.CloseSqlConnection(conn);
+    }
+
+    public double GetAverageRating()
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        List<int> ratingList = new List<int>{};
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM ratings WHERE user_rated_id = @UserId;", conn);
+        cmd.Parameters.Add("@UserId", this.userId);
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while(rdr.Read())
+        {
+            ratingList.Add(rdr.GetInt32(2));
+        }
+
+        double averageRating = (double)ratingList.Sum()/(double)ratingList.Count;
+
+        return averageRating;
     }
 
     // public static List<int> FindHobbyId(string hobby)
