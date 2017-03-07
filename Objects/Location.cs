@@ -83,7 +83,7 @@ namespace TinderApp
            SqlConnection conn = DB.Connection();
            conn.Open();
            SqlCommand cmd = new SqlCommand("INSERT INTO locations (location) OUTPUT INSERTED.id VALUES (geography::STGeomFromText(@LocationCoord, 4326));", conn);
-           cmd.Parameters.Add(new SqlParameter("@LocationCoord", this.locationCoord));
+           cmd.Parameters.Add("@LocationCoord", this.locationCoord);
            SqlDataReader rdr = cmd.ExecuteReader();
            while(rdr.Read())
            {
