@@ -70,7 +70,7 @@ namespace TinderApp
 
      while(rdr.Read())
      {
-       Avatar newAvatar = new Avatar(rdr.GetString(1), System.Text.Encoding.Default.GetString((byte[]) rdr.GetValue(2)), rdr.GetInt32(0));
+       Avatar newAvatar = new Avatar(rdr.GetString(2), System.Text.Encoding.Default.GetString((byte[]) rdr.GetValue(1)), rdr.GetInt32(0));
        allAvatars.Add(newAvatar);
      }
 
@@ -91,6 +91,26 @@ namespace TinderApp
            return newEqual;
          }
        }
+
+   public void Save()
+   {
+     SqlConnection conn = DB.Connection();
+     conn.Open();
+    //  string command = string.Format("INSERT INTO avatars (path, image) OUTPUT INSERTED.id,INSERTED.image, INSERTED.path SELECT path, BulkColumn FROM Openrowset(Bulk 'C:\\Users\\epicodus\\Desktop\\cat.jpg', SINGLE_BLOB) as tb;", this.avatarPath);
+    //  SqlCommand cmd = new SqlCommand(command, conn);
+     SqlCommand cmd = new SqlCommand("INSERT INTO avatars (path, image) OUTPUT INSERTED.id,INSERTED.image, INSERTED.path SELECT @ImagePath, BulkColumn FROM Openrowset(Bulk '@ImagePath', SINGLE_BLOB) as tb;", conn);
+     Console.WriteLine(this.avatarPath);
+     cmd.Parameters.Add("@ImagePath",  this.avatarPath);
+    //  cmd.Parameters.Add("@Bulk", "Bulk " + "'" + )
+     SqlDataReader rdr = cmd.ExecuteReader();
+     while(rdr.Read())
+     {
+       this.avatarId = rdr.GetInt32(0);
+       this.avatarPath = rdr.GetString(2);
+       this.avatarBinary = System.Text.Encoding.Default.GetString((byte[]) rdr.GetValue(1));
+     }
+     DB.CloseSqlConnection(conn, rdr);
+   }
 
   }
 }

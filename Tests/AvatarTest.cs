@@ -39,5 +39,16 @@ namespace TinderApp
       Assert.Equal(avatarTwo, avatarOne);
     }
 
+    [Fact]
+    public void Save_NewAvatar_SaveToDatabase()
+    {
+      //Arrange, Act
+      Avatar testAvatar = new Avatar ("C:\\Users\\epicodus\\Desktop\\cat.jpg");
+      testAvatar.Save();
+      //Assert
+      Avatar result = Avatar.GetAll()[0];
+      Assert.Equal(testAvatar, result);
+    }
+
   }
 }
