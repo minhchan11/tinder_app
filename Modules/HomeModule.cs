@@ -24,8 +24,33 @@ namespace TinderApp
          return View["users.cshtml", user1];
        };
 
-       Get[""] = _ => {
+       Get["/users/{id}"] = parameters => {
+          /* Dictionary<string, object> model = new Dictionary<string, object>();
+           var SelectedUser = User.Find(parameters.id);
+           var UserUsers = SelectedUser.GetUsers();
+           List<User> AllUsers = User.GetAll();
+           model.Add("venue", SelectedUser);
+           model.Add("venueUsers", UserUsers);
+           model.Add("allUsers", AllUsers);*/
+           return View["user.cshtml"];
+       };
 
+       Get["/users/detail/{id}"] = parameters =>
+       {
+           User user = User.Find(parameters.id);
+           return View["user-detail.cshtml", user];
+       };
+
+       Delete["/users/{id}"] = parameters =>
+       {
+           User targetUser = User.Find(parameters.id);
+           targetUser.Delete();
+           return View["users.cshtml", User.GetAll()];
+       };
+
+       Post["/users/delete"] = _ => {
+           User.DeleteAll();
+           return View["index.cshtml"];
        };
     }
   }
