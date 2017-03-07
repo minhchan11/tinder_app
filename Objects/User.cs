@@ -483,10 +483,62 @@ namespace TinderApp
         DB.CloseSqlConnection(conn);
     }
 
-    public List<User> Filter()
+    public static List<User> Filter(Dictionary<string, string> preferences)
     {
         SqlConnection conn = DB.Connection();
         conn.Open();
+        List<User> foundUsers = new List<User>{};
+
+        if(preferences["gender"] != "no preference")
+        {
+            foundUsers = FindByGender(preferences["gender"], User.GetAll());
+            if (foundUsers.Count == 0)
+            {
+                return foundUsers;
+            }
+        }
+        if(preferences["work"] != "no preference")
+        {
+            if(foundUsers.Count > 0)
+            {
+                foundUsers = FindByWork(preferences["work"], foundUsers);
+            }
+            else
+            {
+                foundUsers = FindByWork(preferences["work"], User.GetAll());
+            }
+            if (foundUsers.Count == 0)
+            {
+                return foundUsers;
+            }
+        }
+        if(preferences["food"] != "no preference")
+        {
+            if(foundUsers.Count > 0)
+            {
+                foundUsers = FindByFood(preferences["food"], foundUsers);
+            }
+            else
+            {
+                foundUsers = FindByFood(preferences["food"], User.GetAll());
+            }
+            if (foundUsers.Count == 0)
+            {
+                return foundUsers;
+            }
+        }
+        if(preferences["hobby"] != "no preference")
+        {
+            if(foundUsers.Count > 0)
+            {
+                foundUsers = FindByHobby(preferences["hobby"], foundUsers);
+            }
+            else
+            {
+                foundUsers = FindByHobby(preferences["hobby"], User.GetAll());
+            }
+        }
+        return foundUsers;
     }
 
     public static List<User> FindByGender(string gender, List<User> passedList)

@@ -282,6 +282,46 @@ namespace TinderApp
     }
 
     [Fact]
+    public void Filter_ManyUsers_ListOfUsersWithMatchingPreferences()
+    {
+        User nick = new User("nick", "hey");
+        User minh = new User("minh", "hi");
+        User jiwon = new User("jiwon", "sup");
+        User renee = new User("renee", "dude");
+        User john = new User("john", "hey");
+        nick.Save();
+        minh.Save();
+        jiwon.Save();
+        renee.Save();
+        john.Save();
+        nick.AddGender("Male");
+        minh.AddGender("Male");
+        jiwon.AddGender("Female");
+        renee.AddGender("Female");
+        john.AddGender("Male");
+        nick.AddWork("McDonalds");
+        minh.AddWork("McDonalds");
+        jiwon.AddWork("Burger King");
+        renee.AddWork("KFC");
+        john.AddWork("Epicodus");
+        nick.AddHobby("Gym");
+        minh.AddHobby("Fashion");
+        jiwon.AddHobby("Hello Kitty");
+        renee.AddHobby("Traveling");
+        john.AddHobby("Grading");
+        Dictionary<string, string> preferences = new Dictionary<string, string>()
+        {
+            {"gender", "Male"},
+            {"work", "McDonalds"},
+            {"food", "no preference"},
+            {"hobby", "Gym"}
+        };
+        List<User> expected = new List<User>{nick};
+        List<User> actual = User.Filter(preferences);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
     public void Contains_True()
     {
         User testUser = new User("Nick", "hello");
@@ -289,6 +329,8 @@ namespace TinderApp
         List<User> testList = new List<User>{testUser, testUser2};
         Assert.Equal(true, testList.Contains(testUser));
     }
+
+
 
 
     // [Fact]
