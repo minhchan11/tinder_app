@@ -193,6 +193,20 @@ namespace TinderApp
     }
 
     [Fact]
+    public void DeleteHobby_OneUser_EmptyList()
+    {
+        User testUser = new User("Riley", "hello");
+        testUser.Save();
+        testUser.AddHobby("Coding");
+        testUser.AddHobby("Singing");
+        testUser.DeleteHobby("Singing");
+        List<string> output = testUser.GetHobbies();
+        List<string> verify = new List<string>{"Coding"};
+
+        Assert.Equal(verify, output);
+    }
+
+    [Fact]
     public void GetLikedUsers_OneUser_ListOfLikedUsers()
     {
         User testUser = new User("Riley", "hello");

@@ -416,6 +416,31 @@ namespace TinderApp
         return hobbyList;
     }
 
+    public void DeleteHobby(string hobby)
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        int hobbyId = 0;
+        SqlCommand cmdQuery = new SqlCommand("SELECT * FROM hobbies WHERE hobby = @HobbyName;", conn);
+        cmdQuery.Parameters.Add(new SqlParameter("@HobbyName", hobby));
+        SqlDataReader rdr = cmdQuery.ExecuteReader();
+        while(rdr.Read())
+        {
+            hobbyId = rdr.GetInt32(0);
+        }
+
+        if(rdr != null)
+        {
+          rdr.Close();
+        }
+
+        SqlCommand cmdDelete = new SqlCommand("DELETE FROM users_hobbies WHERE user_id = @UserId AND hobby_id = @HobbyId;", conn);
+        cmdDelete.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
+        cmdDelete.Parameters.Add(new SqlParameter("@HobbyId", hobbyId.ToString()));
+        cmdDelete.ExecuteNonQuery();
+        DB.CloseSqlConnection(conn, rdr);
+    }
+
     public static bool CheckExistence(string tableName, string rowValue)
     {
         bool existence = false;
