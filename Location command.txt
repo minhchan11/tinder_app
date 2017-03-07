@@ -57,3 +57,12 @@ GO
 Declare @sql varchar(500)
 SET @sql = 'BCP "SELECT tbBin FROM tinder_test.dbo.TestBlob where tbId=1" QUERYOUT C:\users\epicodus\desktop\cat3.jpg -T -f C:\users\epicodus\desktop\testblob.fmt -S ' + '(localdb)\mssqllocaldb';
 EXEC master.dbo.xp_CmdShell @sql
+
+EXEC sp_configure 'show advanced options', 1;
+GO
+RECONFIGURE;
+GO
+EXEC sp_configure 'xp_cmdshell',1
+GO
+RECONFIGURE
+GO
