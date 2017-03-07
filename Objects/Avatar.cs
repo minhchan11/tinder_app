@@ -17,7 +17,7 @@ namespace TinderApp
       _binaryValue = binaryValue;
     }
 
-    public int userId
+    public int avatarId
     {
       get
       {
@@ -29,7 +29,7 @@ namespace TinderApp
       }
     }
 
-    public string userPath
+    public string avatarPath
     {
       get
       {
@@ -41,7 +41,7 @@ namespace TinderApp
       }
     }
 
-    public string binaryValue
+    public string avatarBinary
     {
       get
       {
@@ -53,10 +53,6 @@ namespace TinderApp
       }
     }
 
-    // public void AddImage(Image newImage)
-    // {
-    //
-    // }
 
     public static void DeleteAll()
     {
@@ -64,22 +60,36 @@ namespace TinderApp
     }
 
     public static List<Avatar> GetAll()
+   {
+     List<Avatar> allAvatars = new List<Avatar>{};
+     SqlConnection conn = DB.Connection();
+     conn.Open();
+
+     SqlCommand cmd = new SqlCommand("SELECT * FROM avatars;", conn);
+     SqlDataReader rdr = cmd.ExecuteReader();
+
+     while(rdr.Read())
+     {
+       Avatar newAvatar = new Avatar(rdr.GetString(1), System.Text.Encoding.Default.GetString((byte[]) rdr.GetValue(2)), rdr.GetInt32(0));
+       allAvatars.Add(newAvatar);
+     }
+
+     DB.CloseSqlConnection(conn, rdr);
+     return allAvatars;
+   }
+
+   public override bool Equals(System.Object randomAvatar)
        {
-         List<Avatar> allAvatars = new List<Avatar>{};
-         SqlConnection conn = DB.Connection();
-         conn.Open();
-
-         SqlCommand cmd = new SqlCommand("SELECT * FROM avatars;", conn);
-         SqlDataReader rdr = cmd.ExecuteReader();
-
-         while(rdr.Read())
+         if(!(randomAvatar is Avatar))
          {
-           Avatar newAvatar = new Avatar(rdr.GetString(1), System.Text.Encoding.Default.GetString((byte[]) rdr.GetValue(2)), rdr.GetInt32(0));
-           allAvatars.Add(newAvatar);
+           return false;
          }
-
-         DB.CloseSqlConnection(conn, rdr);
-         return allAvatars;
+         else
+         {
+           Avatar newAvatar = (Avatar) randomAvatar;
+           bool newEqual = (this.avatarId == newAvatar.avatarId) && (this.avatarPath == newAvatar.avatarPath) && (this.avatarBinary == newAvatar.avatarBinary);
+           return newEqual;
+         }
        }
 
   }

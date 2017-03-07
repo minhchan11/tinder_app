@@ -19,14 +19,25 @@ namespace TinderApp
     }
 
     [Fact]
-        public void GetAll_DatabaseEmptyAtFirst_ZeroOutput()
-        {
-          //Arrange, Act
-          int result = Avatar.GetAll().Count;
+    public void GetAll_DatabaseEmptyAtFirst_ZeroOutput()
+    {
+      //Arrange, Act
+      int result = Avatar.GetAll().Count;
 
-          //Assert
-          Assert.Equal(0, result);
-        }
+      //Assert
+      Assert.Equal(0, result);
+    }
+
+    [Fact]
+    public void OverrideBool_SameAvatar_ReturnsEqual()
+    {
+      //Arrange, Act
+      Avatar avatarOne = new Avatar ("C:\\Users\\epicodus\\Desktop\\cat.jpg");
+      Avatar avatarTwo = new Avatar ("C:\\Users\\epicodus\\Desktop\\cat.jpg");
+
+      //Assert
+      Assert.Equal(avatarTwo, avatarOne);
+    }
 
   }
 }
