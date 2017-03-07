@@ -19,10 +19,10 @@ namespace TinderApp
         return View["user_profile.cshtml",testAvatar];
       };
 
-       Get["/users"] = _ => {
-           List<User> AllUsers = User.GetAll();
-           return View["users.cshtml", AllUsers];
-       };
+      //  Get["/users"] = _ => {
+      //      List<User> AllUsers = User.GetAll();
+      //      return View["users.cshtml", AllUsers];
+      //  };
        /*Get["/users/new"] = _ => {
          return View["users_form.cshtml"];
        };
