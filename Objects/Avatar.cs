@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 
 namespace TinderApp
 {
@@ -17,7 +18,7 @@ namespace TinderApp
       _binaryValue = binaryValue;
     }
 
-    public int userId
+    public int avatarId
     {
       get
       {
@@ -29,7 +30,7 @@ namespace TinderApp
       }
     }
 
-    public string userPath
+    public string avatarPath
     {
       get
       {
@@ -41,7 +42,7 @@ namespace TinderApp
       }
     }
 
-    public string binaryValue
+    public string avatarBinary
     {
       get
       {
@@ -53,10 +54,11 @@ namespace TinderApp
       }
     }
 
-    // public void AddImage(Image newImage)
-    // {
-    //
-    // }
+    public string jpg()
+    {
+      return this.avatarId.ToString() + ".jpg";
+    }
+
 
     public static void DeleteAll()
     {
@@ -64,23 +66,100 @@ namespace TinderApp
     }
 
     public static List<Avatar> GetAll()
+   {
+     List<Avatar> allAvatars = new List<Avatar>{};
+     SqlConnection conn = DB.Connection();
+     conn.Open();
+
+     SqlCommand cmd = new SqlCommand("SELECT * FROM avatars;", conn);
+     SqlDataReader rdr = cmd.ExecuteReader();
+
+     while(rdr.Read())
+     {
+       Avatar newAvatar = new Avatar(rdr.GetString(2), System.Text.Encoding.Default.GetString((byte[]) rdr.GetValue(1)), rdr.GetInt32(0));
+       allAvatars.Add(newAvatar);
+     }
+
+     DB.CloseSqlConnection(conn, rdr);
+     return allAvatars;
+   }
+
+   public override bool Equals(System.Object randomAvatar)
        {
-         List<Avatar> allAvatars = new List<Avatar>{};
-         SqlConnection conn = DB.Connection();
-         conn.Open();
-
-         SqlCommand cmd = new SqlCommand("SELECT * FROM avatars;", conn);
-         SqlDataReader rdr = cmd.ExecuteReader();
-
-         while(rdr.Read())
+         if(!(randomAvatar is Avatar))
          {
-           Avatar newAvatar = new Avatar(rdr.GetString(1), System.Text.Encoding.Default.GetString((byte[]) rdr.GetValue(2)), rdr.GetInt32(0));
-           allAvatars.Add(newAvatar);
+           return false;
          }
-
-         DB.CloseSqlConnection(conn, rdr);
-         return allAvatars;
+         else
+         {
+           Avatar newAvatar = (Avatar) randomAvatar;
+           bool newEqual = (this.avatarId == newAvatar.avatarId) && (this.avatarPath == newAvatar.avatarPath) && (this.avatarBinary == newAvatar.avatarBinary);
+           return newEqual;
+         }
        }
+
+   public void Save()
+   {
+     SqlConnection conn = DB.Connection();
+     conn.Open();
+     SqlCommand cmd = new SqlCommand("INSERT INTO avatars (path, image) OUTPUT INSERTED.id,INSERTED.image, INSERTED.path SELECT @ImagePath, BulkColumn FROM Openrowset(Bulk '"+this.avatarPath+"', SINGLE_BLOB) as tb;", conn);
+     cmd.Parameters.Add("@ImagePath",  this.avatarPath);
+     SqlDataReader rdr = cmd.ExecuteReader();
+     while(rdr.Read())
+     {
+       this.avatarId = rdr.GetInt32(0);
+       this.avatarPath = rdr.GetString(2);
+       this.avatarBinary = System.Text.Encoding.Default.GetString((byte[]) rdr.GetValue(1));
+     }
+     DB.CloseSqlConnection(conn, rdr);
+   }
+
+   public static Avatar Find(int id)
+   {
+     Avatar foundAvatar = new Avatar("");
+     SqlConnection conn = DB.Connection();
+     conn.Open();
+
+     SqlCommand cmd = new SqlCommand("SELECT * FROM avatars WHERE id = @AvatarId;", conn);
+     cmd.Parameters.Add(new SqlParameter("@AvatarId", id.ToString()));
+     SqlDataReader rdr = cmd.ExecuteReader();
+
+     while (rdr.Read())
+     {
+       foundAvatar.avatarId = rdr.GetInt32(0);
+       foundAvatar.avatarPath = rdr.GetString(2);
+       foundAvatar.avatarBinary = System.Text.Encoding.Default.GetString((byte[]) rdr.GetValue(1));
+     }
+
+     DB.CloseSqlConnection(conn, rdr);
+     return foundAvatar;
+   }
+
+   public void Display()
+   {
+     SqlConnection conn = DB.Connection();
+     conn.Open();
+     SqlCommand cmd = new SqlCommand("Declare @sql varchar(500) SET @sql = 'BCP \"SELECT image FROM tinder.dbo.avatars where id=" + this.avatarId + "\" QUERYOUT C:\\users\\epicodus\\desktop\\tinder_app\\Contents\\Profile\\output\\" + this.avatarId + ".jpg -T -f C:\\users\\epicodus\\desktop\\tinder_app\\Resources\\testblob.fmt -S ' + '(localdb)\\mssqllocaldb'; EXEC master.dbo.xp_CmdShell @sql;", conn);
+     cmd.ExecuteNonQuery();
+     DB.CloseSqlConnection(conn);
+   }
+
+   public void DeleteJpg()
+   {
+     File.Delete(this.avatarPath);
+   }
+
+   public void Update(string newAvatarPath)
+  {
+    SqlConnection conn = DB.Connection();
+    conn.Open();
+
+    SqlCommand cmd = new SqlCommand("UPDATE avatars SET image = (SELECT BulkColumn FROM Openrowset(Bulk '" + newAvatarPath + "', SINGLE_BLOB) as tb) WHERE id = @TargetId; UPDATE avatars SET path = '" + newAvatarPath + "' WHERE id = @TargetId;", conn);
+    cmd.Parameters.Add(new SqlParameter("@TargetId", this.avatarId));
+    cmd.ExecuteNonQuery();
+    this.avatarPath = newAvatarPath;
+    DB.CloseSqlConnection(conn);
+  }
 
   }
 }
