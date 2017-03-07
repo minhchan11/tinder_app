@@ -96,12 +96,8 @@ namespace TinderApp
    {
      SqlConnection conn = DB.Connection();
      conn.Open();
-    //  string command = string.Format("INSERT INTO avatars (path, image) OUTPUT INSERTED.id,INSERTED.image, INSERTED.path SELECT path, BulkColumn FROM Openrowset(Bulk 'C:\\Users\\epicodus\\Desktop\\cat.jpg', SINGLE_BLOB) as tb;", this.avatarPath);
-    //  SqlCommand cmd = new SqlCommand(command, conn);
-     SqlCommand cmd = new SqlCommand("INSERT INTO avatars (path, image) OUTPUT INSERTED.id,INSERTED.image, INSERTED.path SELECT @ImagePath, BulkColumn FROM Openrowset(Bulk '@ImagePath', SINGLE_BLOB) as tb;", conn);
-     Console.WriteLine(this.avatarPath);
+     SqlCommand cmd = new SqlCommand("INSERT INTO avatars (path, image) OUTPUT INSERTED.id,INSERTED.image, INSERTED.path SELECT @ImagePath, BulkColumn FROM Openrowset(Bulk '"+this.avatarPath+"', SINGLE_BLOB) as tb;", conn);
      cmd.Parameters.Add("@ImagePath",  this.avatarPath);
-    //  cmd.Parameters.Add("@Bulk", "Bulk " + "'" + )
      SqlDataReader rdr = cmd.ExecuteReader();
      while(rdr.Read())
      {
@@ -111,6 +107,8 @@ namespace TinderApp
      }
      DB.CloseSqlConnection(conn, rdr);
    }
+
+
 
   }
 }

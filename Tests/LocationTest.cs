@@ -47,6 +47,7 @@ namespace TinderApp
           Location result = Location.GetAll()[0];
           Assert.Equal(testPlace, result);
         }
+    [Fact]
         public void Save_NewLocations_SaveToDatabase()
         {
           //Arrange, Act
