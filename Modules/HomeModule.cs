@@ -12,10 +12,11 @@ namespace TinderApp
       Get["/"] = _ => {
         return View["index.cshtml"];
       };
-      Post["/"] = _ => {
+      Post["/user-profile"] = _ => {
         Avatar testAvatar = new Avatar (Request.Form["value"]);
         testAvatar.Save();
         testAvatar.Display();
+        testAvatar.DeleteJpg();
         return View["user_profile.cshtml",testAvatar];
       };
 

@@ -55,7 +55,7 @@ namespace TinderApp
     {
       //Arrange, Act
       Avatar avatarOne = new Avatar ("C:\\Users\\epicodus\\Desktop\\cat.jpg");
-      Avatar avatarTwo = new Avatar ("C:\\Users\\epicodus\\Desktop\\cat3.jpg");
+      Avatar avatarTwo = new Avatar ("C:\\Users\\epicodus\\Desktop\\cat5.jpg");
       avatarOne.Save();
       avatarTwo.Save();
       //Assert
@@ -94,8 +94,16 @@ namespace TinderApp
       Assert.Equal(testAvatar, foundAvatar);
     }
 
+    [Fact]
+    public void Avatar_Update_UpdateDatabaseAndLocalObject()
+    {
+      Avatar testAvatar = new Avatar ("C:\\Users\\epicodus\\Desktop\\cat.jpg");
+      testAvatar.Save();
 
+      testAvatar.Update("C:\\Users\\epicodus\\Desktop\\cat5.jpg");
 
+      Assert.Equal(testAvatar, Avatar.GetAll()[0]);
+    }
 
   }
 }
