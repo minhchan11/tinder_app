@@ -129,6 +129,17 @@ namespace TinderApp
      return foundAvatar;
    }
 
+   public void Display()
+   {
+     SqlConnection conn = DB.Connection();
+     conn.Open();
+
+     SqlCommand cmd = new SqlCommand("Declare @sql varchar(500) SET @sql = 'BCP \"SELECT tbBin FROM tinder.dbo.avatars where id=@Id\" QUERYOUT C:\\users\\epicodus\\desktop\\tinder_app\\Contents\\Profile\\output\\@Id.jpg -T -f C:\\users\\epicodus\\desktop\\tinder_app\\Resources\\testblob.fmt -S ' + '(localdb)\\mssqllocaldb'; EXEC master.dbo.xp_CmdShell @sql;", conn);
+     cmd.Parameters.Add("@Id", this.avatarId);
+     cmd.ExecuteNonQuery();
+     DB.CloseSqlConnection(conn);
+   }
+
 
   }
 }

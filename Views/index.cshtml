@@ -1,8 +1,16 @@
 @{
   Layout = "Shared/_Layout.cshtml";
 }
-
-<div class="row">
-    <h3><a href="/bands">See all bands</a></h3>
-    <h3><a href="/venues">See all venues</a></h3>
+<div class="well">
+  <h1>input your image</h1>
+  <form class="" action="/" method="post">
+    <input type="file" id="myFile">
+    <input type="hidden" name="value" value="" id="path">
+    <button type="submit" name="button">Upload image</button>
+  </form>
 </div>
+
+@* <div class="well">
+  <span id="value"></span>
+  @* <img src="~/Content/profiles/user-@Model.avatarId"> *@
+@* </div> *@

@@ -9,11 +9,17 @@ namespace TinderApp
   {
     public HomeModule()
     {
-    //   Get["/"] = _ => {
-    //     return View["index.cshtml"];
-    //   };
-    //
-    //
+      Get["/"] = _ => {
+        return View["index.cshtml"];
+      };
+      Post["/"] = _ => {
+        Avatar testAvatar = new Avatar (Request.Form["value"]);
+        testAvatar.Save();
+        testAvatar.Display();
+        return View["user_profile.cshtml",testAvatar];
+      };
+
+
     // }
     // public static Dictionary<string, object> ModelMaker()
     // {

@@ -1,3 +1,5 @@
+WHERE PATHS ARE:
+script.js;
 
 USE tinder_test
 GO
