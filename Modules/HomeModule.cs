@@ -11,13 +11,13 @@ namespace TinderApp
       Get["/"] = _ => {
         return View["index.cshtml"];
       };
-      Post["/user-profile"] = _ => {
-        Avatar testAvatar = new Avatar (Request.Form["value"]);
-        testAvatar.Save();
-        testAvatar.Display();
-        testAvatar.DeleteJpg();
-        return View["user_profile.cshtml",testAvatar];
-      };
+      // Post["/user-profile"] = _ => {
+      //   Avatar testAvatar = new Avatar (Request.Form["value"]);
+      //   testAvatar.Save();
+      //   testAvatar.Display();
+      //   testAvatar.DeleteJpg();
+      //   return View["user_profile.cshtml",testAvatar];
+      // };
 
       //  Get["/users"] = _ => {
       //      List<User> AllUsers = User.GetAll();
@@ -60,6 +60,18 @@ namespace TinderApp
            User.DeleteAll();
            return View["index.cshtml"];
        };*/
+
+      //  Dictionary<string, object> model = ModelMaker();
+      //   model.Add("recipe", newRecipe);
     }
+  //   public static Dictionary<string, object> ModelMaker()
+  //  {
+  //    Dictionary<string, object> model = new Dictionary<string, object>
+  //    {
+  //      {"recipes", Recipe.GetAll()},
+  //      {"categories", Category.GetAll()},
+  //      {"ingredients", Ingredient.GetAll()}
+  //    };
+  //    return model;
   }
 }
