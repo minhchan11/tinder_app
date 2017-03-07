@@ -1,0 +1,59 @@
+
+USE tinder_test
+GO
+
+INSERT INTO locations_test (location)
+VALUES (geography::STGeomFromText('POINT(-73.9949905872345 40.728616558706655)', 4326));
+GO
+INSERT INTO locations_test (location)
+VALUES (geography::STGeomFromText('POINT(-122.33250090000001 47.6067006)', 4326));
+GO
+
+
+DECLARE @g geography;
+SET @g = geography::STGeomFromText('POINT(-73.99617612361908 40.72882591627228)', 4326);
+SELECT * FROM locations_test WHERE deliveryArea.STContains(@g) = 'true';
+GO
+
+USE tinder_test
+GO
+ALTER TABLE locations ADD radius AS location.STBuffer(1000) persisted
+GO
+
+INSERT INTO avatars (image)
+SELECT BulkColumn
+FROM Openrowset(Bulk 'C:\Users\epicodus\Desktop\cat.jpg', SINGLE_BLOB) as img;
+GO
+
+declare @file varbinary(max) = (select image from avatars WHERE id = 1)
+declare @filepath nvarchar(4000) = N'c:\users\epicodus\desktop\' + 'cat1.jpg'
+SELECT dbo.avatars.WriteToFile(@file, @filepath, 0)
+
+EXEC sp_configure 'show advanced options', 1;
+GO
+RECONFIGURE;
+GO
+EXEC sp_configure 'xp_cmdshell',1
+GO
+RECONFIGURE
+GO
+
+USE tinder;
+GO
+
+CREATE TABLE [dbo].[avatars](
+[id] [int] IDENTITY(1,1) NOT NULL,
+[image] [varbinary](max) NULL
+)
+
+Declare @sql varchar(500)
+SET @sql = 'bcp tinder_test.dbo.TestBlob format nul -T -n -f C:\users\epicodus\desktop\testblob.fmt -S ' + '(localdb)\mssqllocaldb'
+select @sql
+EXEC master.dbo.xp_CmdShell @sql
+
+USE tinder_test;
+GO
+
+Declare @sql varchar(500)
+SET @sql = 'BCP "SELECT tbBin FROM tinder_test.dbo.TestBlob where tbId=1" QUERYOUT C:\users\epicodus\desktop\cat3.jpg -T -f C:\users\epicodus\desktop\testblob.fmt -S ' + '(localdb)\mssqllocaldb';
+EXEC master.dbo.xp_CmdShell @sql
