@@ -88,6 +88,30 @@ namespace TinderApp
     }
 
     [Fact]
+    public void UpdateUsersName_OneUser_UpdatedName()
+    {
+      User testUser = new User("John", "I love Epicodus");
+      testUser.Save();
+
+      string newName = "Nick";
+      testUser.UpdateUsersName(newName);
+
+      Assert.Equal("Nick", newName);
+    }
+
+    [Fact]
+    public void UpdateUsersDescription_OneUser_UpdatedDescription()
+    {
+      User testUser = new User("John", "I love Epicodus");
+      testUser.Save();
+
+      string newDescription = "I love coding";
+      testUser.UpdateUsersDescription(newDescription);
+
+      Assert.Equal("I love coding", newDescription);
+    }
+
+    [Fact]
     public void AddGenderGetGenders_OneUser_ListOfGenders()
     {
         User testUser = new User("Nick", "hello");
@@ -124,6 +148,19 @@ namespace TinderApp
         List<string> verify = new List<string>{"McDonalds", "Burger King"};
 
         Assert.Equal(verify, output);
+    }
+
+    [Fact]
+    public void DeleteUser_OneUser_EmptyList()
+    {
+        User testUser = new User("Riley", "Hello");
+        testUser.Save();
+        User testUser2 = new User("John", "I love Epicodus");
+        testUser2.Save();
+        List<User> expectedUser = new List<User>{testUser2};
+        testUser.DeleteUser(testUser.userId);
+
+        Assert.Equal(expectedUser, User.GetAll());
     }
 
     [Fact]
@@ -164,6 +201,20 @@ namespace TinderApp
         testUser.DeleteFood("Sushi");
         List<string> output = testUser.GetFoods();
         List<string> verify = new List<string>{"Burger"};
+
+        Assert.Equal(verify, output);
+    }
+
+    [Fact]
+    public void DeleteHobby_OneUser_EmptyList()
+    {
+        User testUser = new User("Riley", "hello");
+        testUser.Save();
+        testUser.AddHobby("Coding");
+        testUser.AddHobby("Singing");
+        testUser.DeleteHobby("Singing");
+        List<string> output = testUser.GetHobbies();
+        List<string> verify = new List<string>{"Coding"};
 
         Assert.Equal(verify, output);
     }
@@ -329,7 +380,6 @@ namespace TinderApp
         List<User> testList = new List<User>{testUser, testUser2};
         Assert.Equal(true, testList.Contains(testUser));
     }
-
 
 
 

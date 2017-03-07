@@ -97,6 +97,17 @@ namespace TinderApp
       }
     }
 
+    public void DeleteUser(int userId)
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+
+        SqlCommand cmdDelete = new SqlCommand("DELETE FROM users WHERE id = @UserId;DELETE FROM users_genders WHERE user_id = @UserId;DELETE FROM users_works WHERE user_id = @UserId;DELETE FROM users_foods WHERE user_id = @UserId;DELETE FROM users_hobbies WHERE user_id = @UserId;", conn);
+        cmdDelete.Parameters.Add(new SqlParameter("@UserId", userId.ToString()));
+        cmdDelete.ExecuteNonQuery();
+        DB.CloseSqlConnection(conn);
+    }
+
     public List<int> GetLikedUsers()
     {
         List<int> likedUserIds = new List<int>{};
@@ -416,6 +427,31 @@ namespace TinderApp
         }
         DB.CloseSqlConnection(conn, rdr);
         return hobbyList;
+    }
+
+    public void DeleteHobby(string hobby)
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        int hobbyId = 0;
+        SqlCommand cmdQuery = new SqlCommand("SELECT * FROM hobbies WHERE hobby = @HobbyName;", conn);
+        cmdQuery.Parameters.Add(new SqlParameter("@HobbyName", hobby));
+        SqlDataReader rdr = cmdQuery.ExecuteReader();
+        while(rdr.Read())
+        {
+            hobbyId = rdr.GetInt32(0);
+        }
+
+        if(rdr != null)
+        {
+          rdr.Close();
+        }
+
+        SqlCommand cmdDelete = new SqlCommand("DELETE FROM users_hobbies WHERE user_id = @UserId AND hobby_id = @HobbyId;", conn);
+        cmdDelete.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
+        cmdDelete.Parameters.Add(new SqlParameter("@HobbyId", hobbyId.ToString()));
+        cmdDelete.ExecuteNonQuery();
+        DB.CloseSqlConnection(conn, rdr);
     }
 
     public static bool CheckExistence(string tableName, string rowValue)
@@ -753,6 +789,47 @@ namespace TinderApp
           return foundUser;
         }
 
+        public void UpdateUsersName(string newName)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE users SET name = @NewName OUTPUT INSERTED.* WHERE id = @UserId;", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@NewName", newName));
+
+            cmd.Parameters.Add(new SqlParameter("@UserId", userId.ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this.name = rdr.GetString(1);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+        }
+
+        public void UpdateUsersDescription(string newDescription)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE users SET description = @NewDescription OUTPUT INSERTED.* WHERE id = @UserId;", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@NewDescription", newDescription));
+
+            cmd.Parameters.Add(new SqlParameter("@UserId", userId.ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this.description = rdr.GetString(2);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+        }
         // public static List<User> SearchName(string name)
         // {
         //   List<User> foundUsers = new List<User>{};

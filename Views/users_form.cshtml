@@ -1,0 +1,28 @@
+@{
+  Layout = "Shared/_Layout.cshtml";
+}
+
+<hr>
+<form action="/users/new" method="post">
+  <label for="user-name">Name:</label>
+  <input id="user-name" name="user-name" type="text">
+
+  <label for="user-description">Description:</label>
+  <input id="user-description" name="user-description" type="text">
+
+  <label for="user-gender">Gender:</label>
+  <input id="user-gender" name="user-gender" type="text">
+
+  <label for="user-work">Work:</label>
+  <input id="user-work" name="user-work" type="text">
+
+  <label for="user-food">Food:</label>
+  <input id="user-food" name="user-food" type="text">
+
+  <label for="user-hobby">Hobby:</label>
+  <input id="user-hobby" name="user-hobby" type="text">
+
+  <button type="submit" class="btn">Add New</button>
+</form>
+<hr>
+<h4><a href="/users">View All Bands</a> | <a href="/">Return Home</a></h4>
