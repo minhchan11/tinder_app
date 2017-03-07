@@ -15,7 +15,7 @@ namespace TinderApp
            List<User> AllUsers = User.GetAll();
            return View["users.cshtml", AllUsers];
        };
-       Get["/users/new"] = _ => {
+       /*Get["/users/new"] = _ => {
          return View["users_form.cshtml"];
        };
        Post["/users/new"] = _ => {
@@ -25,13 +25,13 @@ namespace TinderApp
        };
 
        Get["/users/{id}"] = parameters => {
-          /* Dictionary<string, object> model = new Dictionary<string, object>();
+          Dictionary<string, object> model = new Dictionary<string, object>();
            var SelectedUser = User.Find(parameters.id);
            var UserUsers = SelectedUser.GetUsers();
            List<User> AllUsers = User.GetAll();
            model.Add("venue", SelectedUser);
            model.Add("venueUsers", UserUsers);
-           model.Add("allUsers", AllUsers);*/
+           model.Add("allUsers", AllUsers);
            return View["user.cshtml"];
        };
 
@@ -51,7 +51,7 @@ namespace TinderApp
        Post["/users/delete"] = _ => {
            User.DeleteAll();
            return View["index.cshtml"];
-       };
+       };*/
     }
   }
 }
