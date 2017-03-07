@@ -2,7 +2,7 @@
 ----
 ###
 
-#### By
+#### By Renee Mei
 
 ## Description
 
@@ -317,4 +317,4 @@ This web application uses:
 
 *This project is licensed under the MIT license.*
 
-Copyright (c) 2017 _**Minh Phuong**_
+Copyright (c) 2017 _**Minh Phuong, Nicholas Mead, Jiwon Kang**_
