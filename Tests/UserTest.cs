@@ -88,6 +88,18 @@ namespace TinderApp
     }
 
     [Fact]
+    public void UpdateUsersName_OneUser_UpdatedName()
+    {
+      User testUser = new User("John", "I love Epicodus");
+      testUser.Save();
+
+      string newName = "Nick";
+      testUser.UpdateUsersName(newName);
+
+      Assert.Equal("Nick", newName);
+    }
+
+    [Fact]
     public void AddGenderGetGenders_OneUser_ListOfGenders()
     {
         User testUser = new User("Nick", "hello");

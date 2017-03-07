@@ -521,6 +521,26 @@ namespace TinderApp
           return foundUser;
         }
 
+        public void UpdateUsersName(string newName)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE users SET name = @NewName OUTPUT INSERTED.* WHERE id = @UserId;", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@NewName", newName));
+
+            cmd.Parameters.Add(new SqlParameter("@UserId", userId.ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this.name = rdr.GetString(1);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+        }
         // public static List<User> SearchName(string name)
         // {
         //   List<User> foundUsers = new List<User>{};
