@@ -184,6 +184,27 @@ namespace TinderApp
         Assert.Equal(expected, output);
     }
 
+    [Fact]
+    public void Find_OneUser_FoundUserObject()
+    {
+        User testUser = new User("Nick", "Konnichiwa");
+        testUser.Save();
+        User expected = User.Find(testUser.userId);
+        Assert.Equal(expected, testUser);
+    }
+
+    [Fact]
+    public void AddHobbyGetHobbies_OneUser_FoundHobbyStrings()
+    {
+        User testUser = new User("Nick", "hola");
+        testUser.Save();
+        testUser.AddHobby("Gym");
+        testUser.AddHobby("Eating");
+        List<string> output = testUser.GetHobbies();
+        List<string> expected = new List<string>{"Gym", "Eating"};
+        Assert.Equal(expected, output);
+    }
+
     // [Fact]
     // public void AddLike_OneUser_ListOfLikes()
 

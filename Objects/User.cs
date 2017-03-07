@@ -363,6 +363,59 @@ namespace TinderApp
         DB.CloseSqlConnection(conn, rdr);
     }
 
+    public void AddHobby(string hobbyValue)
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        int hobbyId = 0;
+        SqlCommand cmd = new SqlCommand();
+
+        if (!CheckExistence("hobbies", hobbyValue))
+        {
+            cmd.CommandText = "INSERT INTO hobbies (hobby) OUTPUT INSERTED.id VALUES (@UserHobby);";
+        }
+        else
+        {
+            cmd.CommandText = "SELECT * FROM hobbies WHERE hobby = @UserHobby;";
+        }
+        cmd.Connection = conn;
+        cmd.Parameters.Add(new SqlParameter("@UserHobby", hobbyValue));
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while(rdr.Read())
+        {
+            hobbyId = rdr.GetInt32(0);
+        }
+
+        if(rdr != null)
+        {
+          rdr.Close();
+        }
+
+        SqlCommand cmd2 = new SqlCommand("INSERT INTO users_hobbies (user_id, hobby_id) VALUES (@UserId, @HobbyId);", conn);
+        cmd2.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
+        cmd2.Parameters.Add(new SqlParameter("@HobbyId", hobbyId.ToString()));
+
+        cmd2.ExecuteNonQuery();
+        DB.CloseSqlConnection(conn, rdr);
+    }
+
+    public List<string> GetHobbies()
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        List<string> hobbyList = new List<string>{};
+
+        SqlCommand cmd = new SqlCommand("SELECT hobbies.* FROM users JOIN users_hobbies ON (users.id = users_hobbies.user_id) JOIN hobbies ON (users_hobbies.hobby_id = hobbies.id) WHERE users.id = @UserId;", conn);
+        cmd.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while(rdr.Read())
+        {
+            hobbyList.Add(rdr.GetString(1));
+        }
+        DB.CloseSqlConnection(conn, rdr);
+        return hobbyList;
+    }
+
     public static bool CheckExistence(string tableName, string rowValue)
     {
         bool existence = false;
@@ -446,26 +499,27 @@ namespace TinderApp
         //   this.name = newName;
         //   DB.CloseSqlConnection(conn);
         // }
-    //
-    // public static User Find(int id)
-    //     {
-    //     User foundUser = new User("");
-    //     SqlConnection conn = DB.Connection();
-    //     conn.Open();
-    //
-    //       SqlCommand cmd = new SqlCommand("SELECT * FROM users WHERE id = @UserId;", conn);
-    //       cmd.Parameters.Add(new SqlParameter("@UserId", id.ToString()));
-    //       SqlDataReader rdr = cmd.ExecuteReader();
-    //
-    //       while (rdr.Read())
-    //       {
-    //         foundUser.userId = rdr.GetInt32(0);
-    //         foundUser.name = rdr.GetString(1);
-    //       }
-    //
-    //       DB.CloseSqlConnection(conn, rdr);
-    //       return foundUser;
-    //     }
+
+    public static User Find(int id)
+        {
+        User foundUser = new User("", "");
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+
+          SqlCommand cmd = new SqlCommand("SELECT * FROM users WHERE id = @UserId;", conn);
+          cmd.Parameters.Add(new SqlParameter("@UserId", id.ToString()));
+          SqlDataReader rdr = cmd.ExecuteReader();
+
+          while (rdr.Read())
+          {
+            foundUser.userId = rdr.GetInt32(0);
+            foundUser.name = rdr.GetString(1);
+            foundUser.description = rdr.GetString(2);
+          }
+
+          DB.CloseSqlConnection(conn, rdr);
+          return foundUser;
+        }
 
         // public static List<User> SearchName(string name)
         // {
