@@ -541,6 +541,27 @@ namespace TinderApp
 
             DB.CloseSqlConnection(conn, rdr);
         }
+
+        public void UpdateUsersDescription(string newDescription)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE users SET description = @NewDescription OUTPUT INSERTED.* WHERE id = @UserId;", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@NewDescription", newDescription));
+
+            cmd.Parameters.Add(new SqlParameter("@UserId", userId.ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this.description = rdr.GetString(2);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+        }
         // public static List<User> SearchName(string name)
         // {
         //   List<User> foundUsers = new List<User>{};
