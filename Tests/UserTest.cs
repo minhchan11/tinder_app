@@ -205,6 +205,92 @@ namespace TinderApp
         Assert.Equal(expected, output);
     }
 
+    [Fact]
+    public void FindByGender_TwoUsers_ListOfUsersByGender()
+    {
+        User testUser = new User("Nick", "hello");
+        User testUser2 = new User("Minh", "hi");
+        User testUser3 = new User("Jiwon", "hey");
+        testUser.Save();
+        testUser2.Save();
+        testUser3.Save();
+        testUser.AddGender("Male");
+        testUser.AddGender("Female");
+        testUser2.AddGender("Male");
+        testUser3.AddGender("Female");
+        List<User> userList = new List<User>{testUser, testUser2};
+        List<User> actual = User.FindByGender("Female", userList);
+        List<User> expected = new List<User>{testUser};
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void FindByWork_TwoUsers_ListOfUsersByWork()
+    {
+        User testUser = new User("Nick", "hello");
+        User testUser2 = new User("Minh", "hi");
+        User testUser3 = new User("Jiwon", "hey");
+        testUser.Save();
+        testUser2.Save();
+        testUser3.Save();
+        testUser.AddWork("Mcdonalds");
+        testUser.AddWork("Burger King");
+        testUser2.AddWork("KFC");
+        testUser3.AddWork("Mcdonalds");
+        List<User> userList = new List<User>{testUser2, testUser3};
+        List<User> actual = User.FindByWork("Mcdonalds", userList);
+        List<User> expected = new List<User>{testUser3};
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void FindByFood_TwoUsers_ListOfUsersByFood()
+    {
+        User testUser = new User("Nick", "hello");
+        User testUser2 = new User("Minh", "hi");
+        User testUser3 = new User("Jiwon", "hey");
+        testUser.Save();
+        testUser2.Save();
+        testUser3.Save();
+        testUser.AddFood("Sushi");
+        testUser.AddFood("Burgers");
+        testUser2.AddFood("Burgers");
+        testUser3.AddFood("Burritos");
+        List<User> userList = new List<User>{testUser, testUser3};
+        List<User> actual = User.FindByFood("Burgers", userList);
+        List<User> expected = new List<User>{testUser};
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void FindByHobby_TwoUsers_ListOfUsersByHobby()
+    {
+        User testUser = new User("Nick", "hello");
+        User testUser2 = new User("Minh", "hi");
+        User testUser3 = new User("Jiwon", "hey");
+        testUser.Save();
+        testUser2.Save();
+        testUser3.Save();
+        testUser.AddHobby("Gym");
+        testUser.AddHobby("Eating");
+        testUser2.AddHobby("Gym");
+        testUser3.AddHobby("Gym");
+        List<User> userList = new List<User>{testUser, testUser2};
+        List<User> actual = User.FindByHobby("Gym", userList);
+        List<User> expected = new List<User>{testUser, testUser2};
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void Contains_True()
+    {
+        User testUser = new User("Nick", "hello");
+        User testUser2 = new User("Jiwon", "hi");
+        List<User> testList = new List<User>{testUser, testUser2};
+        Assert.Equal(true, testList.Contains(testUser));
+    }
+
+
     // [Fact]
     // public void AddLike_OneUser_ListOfLikes()
 

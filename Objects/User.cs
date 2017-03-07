@@ -60,6 +60,8 @@ namespace TinderApp
       DB.DeleteAll("users_works");
       DB.DeleteAll("users_foods");
       DB.DeleteAll("likes");
+      DB.DeleteAll("hobbies");
+      DB.DeleteAll("users_hobbies");
     }
 
     public static List<User> GetAll()
@@ -431,6 +433,10 @@ namespace TinderApp
         {
             cmd.CommandText = "SELECT * FROM works WHERE work = @RowValue;";
         }
+        else if(tableName == "hobbies")
+        {
+            cmd.CommandText = "SELECT * FROM hobbies WHERE hobby = @RowValue;";
+        }
         else
         {
             cmd.CommandText = "SELECT * FROM foods WHERE food = @RowValue;";
@@ -477,6 +483,180 @@ namespace TinderApp
         DB.CloseSqlConnection(conn);
     }
 
+    public List<User> Filter()
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+    }
+
+    public static List<User> FindByGender(string gender, List<User> passedList)
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        List<User> newList = new List<User>{};
+        int genderId = 0;
+        SqlCommand cmdQuery = new SqlCommand("SELECT * FROM genders WHERE gender = @GenderName;", conn);
+        cmdQuery.Parameters.Add("@GenderName", gender);
+        SqlDataReader rdr = cmdQuery.ExecuteReader();
+        while(rdr.Read())
+        {
+            genderId = rdr.GetInt32(0);
+        }
+
+        if(rdr != null)
+        {
+          rdr.Close();
+        }
+
+        SqlCommand cmd = new SqlCommand("SELECT users.* FROM genders JOIN users_genders ON (genders.id = users_genders.gender_id) JOIN users ON (users_genders.user_id = users.id) WHERE genders.id = @GenderId", conn);
+
+        cmd.Parameters.Add("@GenderId", genderId.ToString());
+        rdr = cmd.ExecuteReader();
+
+        while(rdr.Read())
+        {
+            User foundUser = new User(rdr.GetString(1), rdr.GetString(2), rdr.GetInt32(0));
+            if (passedList.Contains(foundUser))
+            {
+                newList.Add(new User(rdr.GetString(1), rdr.GetString(2), rdr.GetInt32(0)));
+            }
+        }
+
+        DB.CloseSqlConnection(conn, rdr);
+        return newList;
+    }
+
+    public static List<User> FindByWork(string work, List<User> passedList)
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        List<User> userList = new List<User>{};
+        int workId = 0;
+        SqlCommand cmdQuery = new SqlCommand("SELECT * FROM works WHERE work = @WorkName;", conn);
+        cmdQuery.Parameters.Add("@WorkName", work);
+        SqlDataReader rdr = cmdQuery.ExecuteReader();
+        while(rdr.Read())
+        {
+            workId = rdr.GetInt32(0);
+        }
+
+        if(rdr != null)
+        {
+          rdr.Close();
+        }
+
+        SqlCommand cmd = new SqlCommand("SELECT users.* FROM works JOIN users_works ON (works.id = users_works.work_id) JOIN users ON (users_works.user_id = users.id) WHERE works.id = @WorkId", conn);
+
+        cmd.Parameters.Add("@WorkId", workId.ToString());
+        rdr = cmd.ExecuteReader();
+
+        while(rdr.Read())
+        {
+            User foundUser = new User(rdr.GetString(1), rdr.GetString(2), rdr.GetInt32(0));
+            if (passedList.Contains(foundUser))
+            {
+                userList.Add(foundUser);
+            }
+        }
+
+        DB.CloseSqlConnection(conn, rdr);
+        return userList;
+    }
+
+    public static List<User> FindByFood(string food, List<User> passedList)
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        List<User> userList = new List<User>{};
+        int foodId = 0;
+        SqlCommand cmdQuery = new SqlCommand("SELECT * FROM foods WHERE food = @FoodName;", conn);
+        cmdQuery.Parameters.Add("@FoodName", food);
+        SqlDataReader rdr = cmdQuery.ExecuteReader();
+        while(rdr.Read())
+        {
+            foodId = rdr.GetInt32(0);
+        }
+
+        if(rdr != null)
+        {
+          rdr.Close();
+        }
+
+        SqlCommand cmd = new SqlCommand("SELECT users.* FROM foods JOIN users_foods ON (foods.id = users_foods.food_id) JOIN users ON (users_foods.user_id = users.id) WHERE foods.id = @FoodId", conn);
+
+        cmd.Parameters.Add("@FoodId", foodId.ToString());
+        rdr = cmd.ExecuteReader();
+
+        while(rdr.Read())
+        {
+            User foundUser = new User(rdr.GetString(1), rdr.GetString(2), rdr.GetInt32(0));
+            if(passedList.Contains(foundUser))
+            {
+                userList.Add(foundUser);
+            }
+        }
+
+        DB.CloseSqlConnection(conn, rdr);
+        return userList;
+    }
+
+    public static List<User> FindByHobby(string hobby, List<User> passedList)
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        List<User> userList = new List<User>{};
+        int hobbyId = 0;
+        SqlCommand cmdQuery = new SqlCommand("SELECT * FROM hobbies WHERE hobby = @HobbyName;", conn);
+        cmdQuery.Parameters.Add("@HobbyName", hobby);
+        SqlDataReader rdr = cmdQuery.ExecuteReader();
+        while(rdr.Read())
+        {
+            hobbyId = rdr.GetInt32(0);
+        }
+
+        if(rdr != null)
+        {
+          rdr.Close();
+        }
+
+        SqlCommand cmd = new SqlCommand("SELECT users.* FROM hobbies JOIN users_hobbies ON (hobbies.id = users_hobbies.hobby_id) JOIN users ON (users_hobbies.user_id = users.id) WHERE hobbies.id = @HobbyId;", conn);
+
+        cmd.Parameters.Add("@HobbyId", hobbyId.ToString());
+        rdr = cmd.ExecuteReader();
+
+        while(rdr.Read())
+        {
+            User foundUser = new User(rdr.GetString(1), rdr.GetString(2), rdr.GetInt32(0));
+            if (passedList.Contains(foundUser))
+            {
+                userList.Add(foundUser);
+            }
+        }
+
+        DB.CloseSqlConnection(conn, rdr);
+        return userList;
+    }
+
+    // public static List<int> FindHobbyId(string hobby)
+    // {
+    //     List<int> newlist = new List<int>{};
+    //     SqlConnection conn = DB.Connection();
+    //     conn.Open();
+    //     int hobbyId = 0;
+    //
+    //     SqlCommand cmdQuery = new SqlCommand("SELECT * FROM hobbies WHERE hobby = @HobbyName;", conn);
+    //     cmdQuery.Parameters.Add("@HobbyName", hobby);
+    //     SqlDataReader rdr = cmdQuery.ExecuteReader();
+    //     while(rdr.Read())
+    //     {
+    //     hobbyId = rdr.GetInt32(0);
+    //     newlist.Add(hobbyId);
+    //     }
+    //
+    //     DB.CloseSqlConnection(conn, rdr);
+    //     return newlist;
+    // }
+
         // public void DeleteThis()
         // {
         //   SqlConnection conn = DB.Connection();
@@ -500,7 +680,7 @@ namespace TinderApp
         //   DB.CloseSqlConnection(conn);
         // }
 
-    public static User Find(int id)
+        public static User Find(int id)
         {
         User foundUser = new User("", "");
         SqlConnection conn = DB.Connection();
