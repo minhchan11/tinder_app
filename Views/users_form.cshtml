@@ -27,7 +27,10 @@
     <input type="file" id="myFile">
     <input type="hidden" name="value" value="" id="path">
   </div>
-
+  <label for="location">Location:</label>
+  <p>Use Current Location</p>
+  <input type="hidden" name="location" id="location" value="">
+  @Html.Partial("map.cshtml")
   <button type="submit" class="btn">Add New</button>
 </form>
 <hr>

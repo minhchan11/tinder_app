@@ -14,3 +14,11 @@ body {
   font-family: 'Slabo 27px', serif;
   font-size: 2em;
 }
+
+#map {
+  height: 100%;
+}
+
+#map-block {
+  height: 400px;
+}
