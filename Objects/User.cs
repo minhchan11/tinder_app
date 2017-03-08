@@ -533,13 +533,7 @@ namespace TinderApp
             if (locationId != 0)
             {
                 List<User> geographicallyFilteredUsers = Location.FindNearbyUsers(locationId);
-                foreach(var user in foundUsers)
-                {
-                    if (!geographicallyFilteredUsers.Contains(user))
-                    {
-                        foundUsers.Remove(user);
-                    }
-                }
+                foundUsers = foundUsers.Intersect(geographicallyFilteredUsers).ToList();
             }
             if (foundUsers.Count == 0)
             {
