@@ -14,16 +14,7 @@ else
     @foreach (var user in Model)
     {
       <li><a href="/users/@user.userId">@user.name</a></li>
-      <form action="/users/@user.userId" method="post">
-          <input type="hidden" name="_method" value="DELETE">
-          <button type="submit" class="btn">Delete</button>
-      </form>
-      <form class="appears" action="/user/edit/@user.userId" method="post">
-            <input type="hidden" name="_method" value="PATCH">
-            <label for="new-user-name">User Name: </label>
-            <input type="text" name="new-user-name" value="@user.GetName()">
-            <button type="submit" class="btn">Edit</button>
-      </form>
+
     }
   </ul>
 }
