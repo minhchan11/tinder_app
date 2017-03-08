@@ -11,18 +11,34 @@ namespace TinderApp
       Get["/"] = _ => {
         return View["index.cshtml"];
       };
-      // Post["/user-profile"] = _ => {
-      //   Avatar testAvatar = new Avatar (Request.Form["value"]);
-      //   testAvatar.Save();
-      //   testAvatar.Display();
-      //   testAvatar.DeleteJpg();
-      //   return View["user_profile.cshtml",testAvatar];
-      // };
 
-      //  Get["/users"] = _ => {
-      //      List<User> AllUsers = User.GetAll();
-      //      return View["users.cshtml", AllUsers];
-      //  };
+
+      Post["/users/new"] = _ => {
+        Avatar testAvatar = new Avatar (Request.Form["value"]);
+        testAvatar.Save();
+        testAvatar.Display();
+        testAvatar.DeleteJpg();
+        return View["user_profile.cshtml",testAvatar];
+      };
+
+      Get["/users/new/form"] = _ => View["users_form.cshtml"];
+
+      Post["/users/new"] = _ => {
+        User newUser = new User(Request.Form["user-name"], Request.Form["user-description"]);
+        newUser.Save();
+        Avatar testAvatar = new Avatar (Request.Form["value"]);
+        testAvatar.Save();
+        testAvatar.Display();
+        testAvatar.DeleteJpg();
+        Dictionary<string, object> Model = new Dictionary<string, object>{{"name", newUser.name},{"description", newUser.description}, {"gender", Request.Form["user-gender"]},{"work", Request.Form["user-work"]}, {"food", Request.Form["user-food"]}, {"hobby", Request.Form["user-hooby"]}, {"avatar", testAvatar}};
+        return View["user.cshtml", Model];
+      };
+
+      Get["/users"] = _ => {
+         List<User> AllUsers = User.GetAll();
+         return View["users.cshtml", AllUsers];
+      };
+
        /*Get["/users/new"] = _ => {
          return View["users_form.cshtml"];
        };
@@ -64,14 +80,14 @@ namespace TinderApp
       //  Dictionary<string, object> model = ModelMaker();
       //   model.Add("recipe", newRecipe);
     }
-  //   public static Dictionary<string, object> ModelMaker()
-  //  {
-  //    Dictionary<string, object> model = new Dictionary<string, object>
-  //    {
-  //      {"recipes", Recipe.GetAll()},
-  //      {"categories", Category.GetAll()},
-  //      {"ingredients", Ingredient.GetAll()}
-  //    };
-  //    return model;
-  }
+    // public static Dictionary<string, object> ModelMaker()
+    // {
+    //  Dictionary<string, object> model = new Dictionary<string, object>
+    //  {
+    //    {"recipes", Recipe.GetAll()},
+    //    {"categories", Category.GetAll()},
+    //    {"ingredients", Ingredient.GetAll()}
+    //  };
+    //  return model;
+   }
 }

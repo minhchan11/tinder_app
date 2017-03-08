@@ -1,0 +1,14 @@
+@{
+    Layout="Shared/_Layout.cshtml";
+}
+
+<img src='/Contents/Profile/output/@Model["avatar"].jpg()'>
+
+<h1>@Model["name"]</h1>
+<h4>@Model["gender"]</h4>
+<p>@Model["description"]</p>
+<ul>
+  <li>Work: @Model["work"]</li>
+  <li>Food: @Model["food"]</li>
+  <li>Hobby: @Model["hobby"]</li>
+</ul>
