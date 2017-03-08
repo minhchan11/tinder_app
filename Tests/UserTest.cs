@@ -388,6 +388,36 @@ namespace TinderApp
     }
 
     [Fact]
+    public void GetUsersByAscendingRatingOrder_ManyUsers_UserListSortedByRating()
+    {
+        User user1 = new User("1", "hello");
+        User user2 = new User("2", "hola");
+        User user3 = new User("3", "hi");
+        user1.Save();
+        user2.Save();
+        user3.Save();
+        User.AddRating(user1.userId, 4);
+        User.AddRating(user1.userId, 3);
+        User.AddRating(user1.userId, 2);
+        User.AddRating(user1.userId, 2);
+        User.AddRating(user1.userId, 3);
+        User.AddRating(user2.userId, 5);
+        User.AddRating(user2.userId, 5);
+        User.AddRating(user2.userId, 4);
+        User.AddRating(user2.userId, 3);
+        User.AddRating(user2.userId, 5);
+        User.AddRating(user3.userId, 1);
+        User.AddRating(user3.userId, 1);
+        User.AddRating(user3.userId, 1);
+        User.AddRating(user3.userId, 1);
+        User.AddRating(user3.userId, 2);
+        User.AddRating(user3.userId, 3);
+        List<User> expected = new List<User>{user3, user1, user2};
+        List<User> actual = User.GetUsersByAscendingRatingOrder();
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
     public void Contains_True()
     {
         User testUser = new User("Nick", "hello");

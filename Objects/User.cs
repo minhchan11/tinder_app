@@ -753,53 +753,23 @@ namespace TinderApp
             ratingList.Add(rdr.GetInt32(2));
         }
 
-        double averageRating = (double)ratingList.Sum()/(double)ratingList.Count;
+        if(ratingList.Count > 0)
+        {
+            double averageRating = (double)ratingList.Sum()/(double)ratingList.Count;
+            return averageRating;
+        }
+        else
+        {
+            return 0;
+        }
 
-        return averageRating;
     }
 
-    // public static List<int> FindHobbyId(string hobby)
-    // {
-    //     List<int> newlist = new List<int>{};
-    //     SqlConnection conn = DB.Connection();
-    //     conn.Open();
-    //     int hobbyId = 0;
-    //
-    //     SqlCommand cmdQuery = new SqlCommand("SELECT * FROM hobbies WHERE hobby = @HobbyName;", conn);
-    //     cmdQuery.Parameters.Add("@HobbyName", hobby);
-    //     SqlDataReader rdr = cmdQuery.ExecuteReader();
-    //     while(rdr.Read())
-    //     {
-    //     hobbyId = rdr.GetInt32(0);
-    //     newlist.Add(hobbyId);
-    //     }
-    //
-    //     DB.CloseSqlConnection(conn, rdr);
-    //     return newlist;
-    // }
-
-        // public void DeleteThis()
-        // {
-        //   SqlConnection conn = DB.Connection();
-        //   conn.Open();
-        //   SqlCommand cmd = new SqlCommand("DELETE FROM users WHERE id = @TargetId; DELETE FROM users_venues WHERE user_id = @TargetId;", conn);
-        //   cmd.Parameters.Add(new SqlParameter("@TargetId", this.userId));
-        //   cmd.ExecuteNonQuery();
-        //   DB.CloseSqlConnection(conn);
-        // }
-    //
-        // public void Update(string newName)
-        // {
-        //   SqlConnection conn = DB.Connection();
-        //   conn.Open();
-        //
-        //   SqlCommand cmd = new SqlCommand("UPDATE users SET name = @NewName WHERE id = @TargetId;", conn);
-        //   cmd.Parameters.Add(new SqlParameter("@NewName", newName));
-        //   cmd.Parameters.Add(new SqlParameter("@TargetId", this.userId));
-        //   cmd.ExecuteNonQuery();
-        //   this.name = newName;
-        //   DB.CloseSqlConnection(conn);
-        // }
+    public static List<User> GetUsersByAscendingRatingOrder()
+    {
+        List<User> sortedList = User.GetAll().OrderBy(o=>o.GetAverageRating()).ToList();
+        return sortedList;
+    }
 
         public static User Find(int id)
         {
