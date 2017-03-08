@@ -660,6 +660,30 @@ namespace TinderApp
     }
 
     [Fact]
+    public void CheckIfLatestUser_ManyUsers_ReturnTrue()
+    {
+        User user1 = new User("1", "hello");
+        User user2 = new User("2", "hola");
+        User user3 = new User("3", "hi");
+        user1.Save();
+        user2.Save();
+        user3.Save();
+        Assert.Equal(true, user3.CheckIfLatestUser());
+    }
+
+    [Fact]
+    public void CheckIfLatestUser_ManyUsers_ReturnFalse()
+    {
+        User user1 = new User("1", "hello");
+        User user2 = new User("2", "hola");
+        User user3 = new User("3", "hi");
+        user1.Save();
+        user2.Save();
+        user3.Save();
+        Assert.Equal(false, user1.CheckIfLatestUser());
+    }
+
+    [Fact]
     public void Contains_True()
     {
         User testUser = new User("Nick", "hello");
