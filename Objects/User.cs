@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace TinderApp
 {
@@ -62,6 +63,7 @@ namespace TinderApp
       DB.DeleteAll("likes");
       DB.DeleteAll("hobbies");
       DB.DeleteAll("users_hobbies");
+      DB.DeleteAll("ratings");
     }
 
     public static List<User> GetAll()
@@ -725,48 +727,49 @@ namespace TinderApp
         return userList;
     }
 
-    // public static List<int> FindHobbyId(string hobby)
-    // {
-    //     List<int> newlist = new List<int>{};
-    //     SqlConnection conn = DB.Connection();
-    //     conn.Open();
-    //     int hobbyId = 0;
-    //
-    //     SqlCommand cmdQuery = new SqlCommand("SELECT * FROM hobbies WHERE hobby = @HobbyName;", conn);
-    //     cmdQuery.Parameters.Add("@HobbyName", hobby);
-    //     SqlDataReader rdr = cmdQuery.ExecuteReader();
-    //     while(rdr.Read())
-    //     {
-    //     hobbyId = rdr.GetInt32(0);
-    //     newlist.Add(hobbyId);
-    //     }
-    //
-    //     DB.CloseSqlConnection(conn, rdr);
-    //     return newlist;
-    // }
+    public static void AddRating(int id, int rating)
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
 
-        // public void DeleteThis()
-        // {
-        //   SqlConnection conn = DB.Connection();
-        //   conn.Open();
-        //   SqlCommand cmd = new SqlCommand("DELETE FROM users WHERE id = @TargetId; DELETE FROM users_venues WHERE user_id = @TargetId;", conn);
-        //   cmd.Parameters.Add(new SqlParameter("@TargetId", this.userId));
-        //   cmd.ExecuteNonQuery();
-        //   DB.CloseSqlConnection(conn);
-        // }
-    //
-        // public void Update(string newName)
-        // {
-        //   SqlConnection conn = DB.Connection();
-        //   conn.Open();
-        //
-        //   SqlCommand cmd = new SqlCommand("UPDATE users SET name = @NewName WHERE id = @TargetId;", conn);
-        //   cmd.Parameters.Add(new SqlParameter("@NewName", newName));
-        //   cmd.Parameters.Add(new SqlParameter("@TargetId", this.userId));
-        //   cmd.ExecuteNonQuery();
-        //   this.name = newName;
-        //   DB.CloseSqlConnection(conn);
-        // }
+        SqlCommand cmd = new SqlCommand("INSERT INTO ratings (user_rated_id, rating) VALUES (@UserId, @RatingId);", conn);
+        cmd.Parameters.Add(new SqlParameter("@UserId", id));
+        cmd.Parameters.Add(new SqlParameter("@RatingId", rating));
+        cmd.ExecuteNonQuery();
+        DB.CloseSqlConnection(conn);
+    }
+
+    public double GetAverageRating()
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        List<int> ratingList = new List<int>{};
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM ratings WHERE user_rated_id = @UserId;", conn);
+        cmd.Parameters.Add("@UserId", this.userId);
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while(rdr.Read())
+        {
+            ratingList.Add(rdr.GetInt32(2));
+        }
+
+        if(ratingList.Count > 0)
+        {
+            double averageRating = (double)ratingList.Sum()/(double)ratingList.Count;
+            return averageRating;
+        }
+        else
+        {
+            return 0;
+        }
+
+    }
+
+    public static List<User> GetUsersByAscendingRatingOrder()
+    {
+        List<User> sortedList = User.GetAll().OrderBy(o=>o.GetAverageRating()).ToList();
+        return sortedList;
+    }
 
         public static User Find(int id)
         {
