@@ -11,7 +11,7 @@ namespace TinderApp
     private string _name;
     private string _description;
 
-    public User(string name, string description, int userId = 0){
+    public User(string name = null, string description = null, int userId = 0){
       _id = userId;
       _name = name;
       _description = description;
@@ -833,26 +833,5 @@ namespace TinderApp
 
             DB.CloseSqlConnection(conn, rdr);
         }
-        // public static List<User> SearchName(string name)
-        // {
-        //   List<User> foundUsers = new List<User>{};
-        //   SqlConnection conn = DB.Connection();
-        //   conn.Open();
-        //
-        //   SqlCommand cmd = new SqlCommand("SELECT * FROM users WHERE name LIKE @UserName", conn);
-        //   cmd.Parameters.Add(new SqlParameter("@UserName", "%" + name + "%"));
-        //   SqlDataReader rdr = cmd.ExecuteReader();
-        //
-        //   while (rdr.Read())
-        //   {
-        //     int userId = rdr.GetInt32(0);
-        //     string newName = rdr.GetString(1);
-        //     User foundUser = new User(newName, userId);
-        //     foundUsers.Add(foundUser);
-        //   }
-        //
-        //   DB.CloseSqlConnection(conn, rdr);
-        //   return foundUsers;
-        // }
     }
 }

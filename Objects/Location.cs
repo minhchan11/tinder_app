@@ -42,6 +42,7 @@ namespace TinderApp
     public static void DeleteAll()
     {
       DB.DeleteAll("locations");
+      DB.DeleteAll("users_locations");
     }
 
     public static List<Location> GetAll()
@@ -91,6 +92,37 @@ namespace TinderApp
            }
            DB.CloseSqlConnection(conn, rdr);
          }
+
+    public void AddUserToLocation(int userId)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("INSERT INTO users_locations (user_id, location_id) VALUES(@UserId, @LocationId);", conn);
+            cmd.Parameters.Add("@UserId", userId.ToString());
+            cmd.Parameters.Add("@LocationId", this.locationId.ToString());
+            cmd.ExecuteNonQuery();
+            DB.CloseSqlConnection(conn);
+        }
+
+    public User GetUser()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT users.* FROM locations JOIN users_locations ON (locations.id = users_locations.location_id) JOIN users ON (users_locations.user_id = users.id) WHERE locations.id = @LocationId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@LocationId", this.locationId.ToString()));
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            User foundUser = new User();
+            while(rdr.Read())
+            {
+                foundUser.userId = rdr.GetInt32(0);
+                foundUser.name = rdr.GetString(1);
+                foundUser.description = rdr.GetString(2);
+            }
+            DB.CloseSqlConnection(conn, rdr);
+            return foundUser;
+        }
 
     public static Location Find(int id)
         {

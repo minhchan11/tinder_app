@@ -119,5 +119,23 @@ namespace TinderApp
           Assert.Equal(expectedLocation, Location.Find(testLocation.locationId));
         }
 
+    [Fact]
+        public void AddUserToLocation_GetUser_AddUser_ReturnsCorrectUser()
+        {
+            Location testLocation = new Location ("POINT (-73.993808 40.702999)");
+            testLocation.Save();
+            Location locationTwo = new Location ("POINT (-73.994014 40.703058)");
+            locationTwo.Save();
+            User testUser1 = new User("Nick", "hello");
+            testUser1.Save();
+            User testUser2 = new User("Henry", "hi");
+            testUser2.Save();
+
+            testLocation.AddUserToLocation(testUser2.userId);
+            locationTwo.AddUserToLocation(testUser1.userId);
+
+            User actual = testLocation.GetUser();
+            Assert.Equal(testUser2, actual);
+        }
   }
 }
