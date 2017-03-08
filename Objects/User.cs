@@ -527,9 +527,24 @@ namespace TinderApp
         conn.Open();
         List<User> foundUsers = new List<User>{};
 
+        if(preferences["rating"] != "no preference")
+        {
+            foundUsers = FindByMinRating(Int32.Parse(preferences["rating"]));
+            if (foundUsers.Count == 0)
+            {
+                return foundUsers;
+            }
+        }
         if(preferences["gender"] != "no preference")
         {
-            foundUsers = FindByGender(preferences["gender"], User.GetAll());
+            if(foundUsers.Count > 0)
+            {
+                foundUsers = FindByGender(preferences["gender"], foundUsers);
+            }
+            else
+            {
+                foundUsers = FindByGender(preferences["gender"], User.GetAll());
+            }
             if (foundUsers.Count == 0)
             {
                 return foundUsers;
@@ -725,6 +740,22 @@ namespace TinderApp
 
         DB.CloseSqlConnection(conn, rdr);
         return userList;
+    }
+
+    public static List<User> FindByMinRating (int rating)
+    {
+        List<User> orderedList = User.GetUsersByAscendingRatingOrder();
+        int count = 0;
+        while ((int)orderedList[count].GetAverageRating() < rating)
+        {
+            count++;
+            if (count == orderedList.Count)
+            {
+                return (new List<User>{});
+            }
+        }
+
+        return orderedList.GetRange(count, orderedList.Count - count);
     }
 
     public static void AddRating(int id, int rating)

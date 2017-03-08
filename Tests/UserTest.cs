@@ -363,12 +363,81 @@ namespace TinderApp
         john.AddHobby("Grading");
         Dictionary<string, string> preferences = new Dictionary<string, string>()
         {
+            {"rating", "no preference"},
             {"gender", "Male"},
             {"work", "McDonalds"},
             {"food", "no preference"},
             {"hobby", "Gym"}
         };
         List<User> expected = new List<User>{nick};
+        List<User> actual = User.Filter(preferences);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void Filter_ManyUsers_ListOfUsersWithMatchingPreferencesAndRating()
+    {
+        User nick = new User("nick", "hey");
+        User minh = new User("minh", "hi");
+        User jiwon = new User("jiwon", "sup");
+        User renee = new User("renee", "dude");
+        User john = new User("john", "hey");
+        nick.Save();
+        minh.Save();
+        jiwon.Save();
+        renee.Save();
+        john.Save();
+        User.AddRating(nick.userId, 4);
+        User.AddRating(nick.userId, 3);
+        User.AddRating(nick.userId, 2);
+        User.AddRating(nick.userId, 2);
+        User.AddRating(nick.userId, 3);
+        User.AddRating(minh.userId, 5);
+        User.AddRating(minh.userId, 5);
+        User.AddRating(minh.userId, 4);
+        User.AddRating(minh.userId, 3);
+        User.AddRating(minh.userId, 5);
+        User.AddRating(jiwon.userId, 1);
+        User.AddRating(jiwon.userId, 1);
+        User.AddRating(jiwon.userId, 1);
+        User.AddRating(jiwon.userId, 1);
+        User.AddRating(jiwon.userId, 2);
+        User.AddRating(jiwon.userId, 3);
+        User.AddRating(renee.userId, 4);
+        User.AddRating(renee.userId, 3);
+        User.AddRating(renee.userId, 2);
+        User.AddRating(renee.userId, 2);
+        User.AddRating(renee.userId, 3);
+        User.AddRating(john.userId, 1);
+        User.AddRating(john.userId, 1);
+        User.AddRating(john.userId, 2);
+        User.AddRating(john.userId, 1);
+        User.AddRating(john.userId, 1);
+        User.AddRating(john.userId, 1);
+        nick.AddGender("Male");
+        minh.AddGender("Male");
+        jiwon.AddGender("Female");
+        renee.AddGender("Female");
+        john.AddGender("Male");
+        nick.AddWork("McDonalds");
+        minh.AddWork("McDonalds");
+        jiwon.AddWork("Burger King");
+        renee.AddWork("KFC");
+        john.AddWork("Epicodus");
+        nick.AddHobby("Gym");
+        minh.AddHobby("Fashion");
+        jiwon.AddHobby("Hello Kitty");
+        renee.AddHobby("Traveling");
+        john.AddHobby("Grading");
+        Dictionary<string, string> preferences = new Dictionary<string, string>()
+        {
+            {"rating", "2"},
+            {"gender", "no preference"},
+            {"work", "McDonalds"},
+            {"food", "no preference"},
+            {"hobby", "Fashion"}
+        };
+        List<User> expected = new List<User>{minh};
         List<User> actual = User.Filter(preferences);
         Assert.Equal(expected, actual);
     }
@@ -414,6 +483,96 @@ namespace TinderApp
         User.AddRating(user3.userId, 3);
         List<User> expected = new List<User>{user3, user1, user2};
         List<User> actual = User.GetUsersByAscendingRatingOrder();
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void FindByMinRating_ManyUsers_UserListWithMinRatingRemoveOneUser()
+    {
+        User user1 = new User("1", "hello");
+        User user2 = new User("2", "hola");
+        User user3 = new User("3", "hi");
+        user1.Save();
+        user2.Save();
+        user3.Save();
+        User.AddRating(user1.userId, 4);
+        User.AddRating(user1.userId, 3);
+        User.AddRating(user1.userId, 2);
+        User.AddRating(user1.userId, 2);
+        User.AddRating(user1.userId, 3);
+        User.AddRating(user2.userId, 5);
+        User.AddRating(user2.userId, 5);
+        User.AddRating(user2.userId, 4);
+        User.AddRating(user2.userId, 3);
+        User.AddRating(user2.userId, 5);
+        User.AddRating(user3.userId, 1);
+        User.AddRating(user3.userId, 1);
+        User.AddRating(user3.userId, 1);
+        User.AddRating(user3.userId, 1);
+        User.AddRating(user3.userId, 2);
+        User.AddRating(user3.userId, 3);
+        List<User> expected = new List<User>{user1, user2};
+        List<User> actual = User.FindByMinRating(2);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void FindByMinRating_ManyUsers_UserListWithMinRatingRemoveTwoUsers()
+    {
+        User user1 = new User("1", "hello");
+        User user2 = new User("2", "hola");
+        User user3 = new User("3", "hi");
+        user1.Save();
+        user2.Save();
+        user3.Save();
+        User.AddRating(user1.userId, 4);
+        User.AddRating(user1.userId, 3);
+        User.AddRating(user1.userId, 2);
+        User.AddRating(user1.userId, 2);
+        User.AddRating(user1.userId, 3);
+        User.AddRating(user2.userId, 5);
+        User.AddRating(user2.userId, 5);
+        User.AddRating(user2.userId, 4);
+        User.AddRating(user2.userId, 3);
+        User.AddRating(user2.userId, 5);
+        User.AddRating(user3.userId, 1);
+        User.AddRating(user3.userId, 1);
+        User.AddRating(user3.userId, 1);
+        User.AddRating(user3.userId, 1);
+        User.AddRating(user3.userId, 2);
+        User.AddRating(user3.userId, 3);
+        List<User> expected = new List<User>{user2};
+        List<User> actual = User.FindByMinRating(4);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void FindByMinRating_ManyUsers_UserListWithMinRatingRemoveAllUsers()
+    {
+        User user1 = new User("1", "hello");
+        User user2 = new User("2", "hola");
+        User user3 = new User("3", "hi");
+        user1.Save();
+        user2.Save();
+        user3.Save();
+        User.AddRating(user1.userId, 4);
+        User.AddRating(user1.userId, 3);
+        User.AddRating(user1.userId, 2);
+        User.AddRating(user1.userId, 2);
+        User.AddRating(user1.userId, 3);
+        User.AddRating(user2.userId, 5);
+        User.AddRating(user2.userId, 5);
+        User.AddRating(user2.userId, 4);
+        User.AddRating(user2.userId, 3);
+        User.AddRating(user2.userId, 5);
+        User.AddRating(user3.userId, 1);
+        User.AddRating(user3.userId, 1);
+        User.AddRating(user3.userId, 1);
+        User.AddRating(user3.userId, 1);
+        User.AddRating(user3.userId, 2);
+        User.AddRating(user3.userId, 3);
+        List<User> expected = new List<User>{};
+        List<User> actual = User.FindByMinRating(5);
         Assert.Equal(expected, actual);
     }
 
