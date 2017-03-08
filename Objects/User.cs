@@ -521,7 +521,7 @@ namespace TinderApp
         DB.CloseSqlConnection(conn);
     }
 
-    public static List<User> Filter(Dictionary<string, string> preferences)
+    public static List<User> Filter(Dictionary<string, string> preferences, int locationId = 0)
     {
         SqlConnection conn = DB.Connection();
         conn.Open();
@@ -530,6 +530,17 @@ namespace TinderApp
         if(preferences["rating"] != "no preference")
         {
             foundUsers = FindByMinRating(Int32.Parse(preferences["rating"]));
+            if (locationId != 0)
+            {
+                List<User> geographicallyFilteredUsers = Location.FindNearbyUsers(locationId);
+                foreach(var user in foundUsers)
+                {
+                    if (!geographicallyFilteredUsers.Contains(user))
+                    {
+                        foundUsers.Remove(user);
+                    }
+                }
+            }
             if (foundUsers.Count == 0)
             {
                 return foundUsers;

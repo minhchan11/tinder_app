@@ -443,6 +443,89 @@ namespace TinderApp
     }
 
     [Fact]
+    public void Filter_ManyUsers_ListOfUsersWithMatchingPreferencesAndRatingAndLocation()
+    {
+        User nick = new User("nick", "hey");
+        User minh = new User("minh", "hi");
+        User jiwon = new User("jiwon", "sup");
+        User renee = new User("renee", "dude");
+        User john = new User("john", "hey");
+        nick.Save();
+        minh.Save();
+        jiwon.Save();
+        renee.Save();
+        john.Save();
+        Location testLocation1 = new Location ("POINT (-73.993808 40.702999)");
+        Location testLocation2 = new Location ("POINT (-7.993808 4.703999)");
+        Location testLocation3 = new Location ("POINT (-73.993808 40.702899)");
+        Location testLocation4 = new Location ("POINT (-73.993808 4.702999)");
+        Location testLocation5 = new Location ("POINT (-73.993808 1.702999)");
+        testLocation1.Save();
+        testLocation2.Save();
+        testLocation3.Save();
+        testLocation4.Save();
+        testLocation5.Save();
+        testLocation1.AddUserToLocation(nick.userId);
+        testLocation2.AddUserToLocation(minh.userId);
+        testLocation3.AddUserToLocation(jiwon.userId);
+        testLocation4.AddUserToLocation(renee.userId);
+        testLocation5.AddUserToLocation(john.userId);
+        User.AddRating(nick.userId, 4);
+        User.AddRating(nick.userId, 3);
+        User.AddRating(nick.userId, 2);
+        User.AddRating(nick.userId, 2);
+        User.AddRating(nick.userId, 3);
+        User.AddRating(minh.userId, 5);
+        User.AddRating(minh.userId, 5);
+        User.AddRating(minh.userId, 4);
+        User.AddRating(minh.userId, 3);
+        User.AddRating(minh.userId, 5);
+        User.AddRating(jiwon.userId, 1);
+        User.AddRating(jiwon.userId, 1);
+        User.AddRating(jiwon.userId, 1);
+        User.AddRating(jiwon.userId, 1);
+        User.AddRating(jiwon.userId, 2);
+        User.AddRating(jiwon.userId, 3);
+        User.AddRating(renee.userId, 4);
+        User.AddRating(renee.userId, 3);
+        User.AddRating(renee.userId, 2);
+        User.AddRating(renee.userId, 2);
+        User.AddRating(renee.userId, 3);
+        User.AddRating(john.userId, 1);
+        User.AddRating(john.userId, 1);
+        User.AddRating(john.userId, 2);
+        User.AddRating(john.userId, 1);
+        User.AddRating(john.userId, 1);
+        User.AddRating(john.userId, 1);
+        nick.AddGender("Male");
+        minh.AddGender("Male");
+        jiwon.AddGender("Female");
+        renee.AddGender("Female");
+        john.AddGender("Male");
+        nick.AddWork("McDonalds");
+        minh.AddWork("McDonalds");
+        jiwon.AddWork("Burger King");
+        renee.AddWork("KFC");
+        john.AddWork("Epicodus");
+        nick.AddHobby("Gym");
+        minh.AddHobby("Fashion");
+        jiwon.AddHobby("Hello Kitty");
+        renee.AddHobby("Traveling");
+        john.AddHobby("Grading");
+        Dictionary<string, string> preferences = new Dictionary<string, string>()
+        {
+            {"rating", "2"},
+            {"gender", "no preference"},
+            {"work", "McDonalds"},
+            {"food", "no preference"},
+            {"hobby", "Fashion"}
+        };
+        List<User> expected = new List<User>{};
+        List<User> actual = User.Filter(preferences, testLocation1.locationId);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
     public void AddRatingGetAverageRating_OneUser_AverageRatingInt()
     {
         User testUser = new User("Nick", "hello");

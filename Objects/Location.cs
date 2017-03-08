@@ -166,8 +166,6 @@ namespace TinderApp
 
       public static List<User> FindNearbyUsers(int id)
       {
-        //   Location foundLocation = Location.Find(id);
-        //   List<Location> locationList = FindNearby(foundLocation);
         List<User> nearbyUsers = new List<User>{};
         foreach(var location in Location.FindNearby(Location.Find(id)))
         {
