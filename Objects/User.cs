@@ -807,6 +807,24 @@ namespace TinderApp
         return sortedList;
     }
 
+    public bool CheckIfLatestUser()
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+
+        SqlCommand cmd = new SqlCommand("SELECT TOP 1 id FROM users ORDER BY id DESC;", conn);
+        int lastId = 0;
+        SqlDataReader rdr = cmd.ExecuteReader();
+
+        while(rdr.Read())
+        {
+            lastId = rdr.GetInt32(0);
+        }
+
+        DB.CloseSqlConnection(conn, rdr);
+        return (lastId == this.userId);
+    }
+
         public static User Find(int id)
         {
         User foundUser = new User("", "");
