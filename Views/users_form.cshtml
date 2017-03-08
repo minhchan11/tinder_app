@@ -27,12 +27,11 @@
     <input type="file" id="myFile">
     <input type="hidden" name="value" value="" id="path">
   </div>
-
+  <label for="location">Location:</label>
+  <p>Use Current Location</p>
+  <input type="hidden" name="location" id="location" value="">
+  @Html.Partial("map.cshtml")
   <button type="submit" class="btn">Add New</button>
 </form>
-<input type="text" name="address" id="address" value="">
-<button type="button" id="encode" name="button">Convert</button>
-<input type="text" id="coordinates" value="">
-@Html.Partial("map.cshtml")
 <hr>
 <h4><a href="/users">View All Bands</a> | <a href="/">Return Home</a></h4>

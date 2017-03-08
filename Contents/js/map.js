@@ -13,6 +13,8 @@
           lng: position.coords.longitude
         };
 
+        $("#location").val("POINT (" + position.coords.longitude +" " + position.coords.latitude + ")" );
+
         infoWindow.setPosition(pos);
         infoWindow.setContent('Location found.');
         map.setCenter(pos);
