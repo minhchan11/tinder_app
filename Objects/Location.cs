@@ -164,6 +164,18 @@ namespace TinderApp
         return matchedLocations;
       }
 
+      public static List<User> FindNearbyUsers(int id)
+      {
+        //   Location foundLocation = Location.Find(id);
+        //   List<Location> locationList = FindNearby(foundLocation);
+        List<User> nearbyUsers = new List<User>{};
+        foreach(var location in Location.FindNearby(Location.Find(id)))
+        {
+            nearbyUsers.Add(location.GetUser());
+        }
+        return nearbyUsers;
+      }
+
       public void Update(string newLocation)
       {
         SqlConnection conn = DB.Connection();

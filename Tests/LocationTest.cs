@@ -137,5 +137,57 @@ namespace TinderApp
             User actual = testLocation.GetUser();
             Assert.Equal(testUser2, actual);
         }
+
+    [Fact]
+        public void FindNearbyUsers_Location_ReturnListOfUsersNearby()
+        {
+            Location testLocation = new Location ("POINT (-73.993808 40.702999)");
+            testLocation.Save();
+            Location locationTwo = new Location ("POINT (-73.994014 40.703058)");
+            locationTwo.Save();
+            Location tooFar = new Location ("POINT (40.703058 -73.994014)");
+            tooFar.Save();
+
+            User user1 = new User("ted", "hi");
+            User user2 = new User("may", "hola");
+            User user3 = new User("nick", "hey");
+            user1.Save();
+            user2.Save();
+            user3.Save();
+
+            testLocation.AddUserToLocation(user1.userId);
+            locationTwo.AddUserToLocation(user2.userId);
+            tooFar.AddUserToLocation(user3.userId);
+
+            List<User> expected = new List<User>{user2};
+            List<User> actual = Location.FindNearbyUsers(testLocation.locationId);
+            Assert.Equal(expected, actual);
+        }
+
+    [Fact]
+        public void FindNearbyUsers_Location_ReturnEmptyList()
+        {
+            Location testLocation = new Location ("POINT (-73.993808 40.702999)");
+            testLocation.Save();
+            Location locationTwo = new Location ("POINT (-73.994014 40.703058)");
+            locationTwo.Save();
+            Location tooFar = new Location ("POINT (40.703058 -73.994014)");
+            tooFar.Save();
+
+            User user1 = new User("ted", "hi");
+            User user2 = new User("may", "hola");
+            User user3 = new User("nick", "hey");
+            user1.Save();
+            user2.Save();
+            user3.Save();
+
+            testLocation.AddUserToLocation(user1.userId);
+            locationTwo.AddUserToLocation(user2.userId);
+            tooFar.AddUserToLocation(user3.userId);
+
+            List<User> expected = new List<User>{};
+            List<User> actual = Location.FindNearbyUsers(tooFar.locationId);
+            Assert.Equal(expected, actual);
+        }
   }
 }
