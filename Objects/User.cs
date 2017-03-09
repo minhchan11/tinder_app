@@ -959,5 +959,35 @@ namespace TinderApp
 
             DB.CloseSqlConnection(conn, rdr);
         }
+
+        public void AddAvatarToUser(Avatar thisAvatar)
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+          SqlCommand cmd = new SqlCommand("INSERT INTO users_avatars (user_id, avatar_id) VALUES(@UserId, @AvatarId);", conn);
+          cmd.Parameters.Add("@UserId", this.userId.ToString());
+          cmd.Parameters.Add("@AvatarId", thisAvatar.avatarId.ToString());
+          cmd.ExecuteNonQuery();
+          DB.CloseSqlConnection(conn);
+        }
+
+        public Avatar GetAvatar()
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+          SqlCommand cmd = new SqlCommand("SELECT avatars.* FROM users JOIN users_avatars ON (users.id = users_avatars.user_id) JOIN avatars ON (avatars.id = users_avatars.avatar_id) WHERE users.id = @UserId;", conn);
+          cmd.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
+          SqlDataReader rdr = cmd.ExecuteReader();
+
+          Avatar foundAvatar = new Avatar(null,null,0);
+          while(rdr.Read())
+          {
+            foundAvatar.avatarId = rdr.GetInt32(0);
+            foundAvatar.avatarPath = rdr.GetString(2);
+            foundAvatar.avatarBinary = System.Text.Encoding.Default.GetString((byte[]) rdr.GetValue(1));
+          }
+          DB.CloseSqlConnection(conn, rdr);
+          return foundAvatar;
+        }
     }
 }

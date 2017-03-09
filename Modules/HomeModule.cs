@@ -29,8 +29,16 @@ namespace TinderApp
         return View["user_profile.cshtml", Model];
       };
 
-      Get["/loggedin"] = _ => {
-        return View["index_loggedin.cshtml"];
+      Get["/loggedin/{id}"] = parameters => {
+        User newUser = User.Find(parameters.id);
+        return View["index_loggedin.cshtml", newUser];
+      };
+
+      Get["/users/profile/{id}"] = parameters => {
+        var SelectedUser = User.Find(parameters.id);
+        var UserUsers = SelectedUser.name;
+        Dictionary<string, object> Model = new Dictionary<string, object>{{"user", SelectedUser.userId},{"name", SelectedUser.name},{"description", SelectedUser.description}, {"gender", SelectedUser.GetGenders()},{"work", SelectedUser.GetWorks()}, {"food", SelectedUser.GetFoods()}, {"hobby", SelectedUser.GetHobbies()}};
+        return View["user_profile.cshtml", Model];
       };
 
       Get["/users"] = _ => {

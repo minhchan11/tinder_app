@@ -17,6 +17,7 @@ namespace TinderApp
     public void Dispose()
     {
       User.DeleteAll();
+      Avatar.DeleteAll();
     }
 
     [Fact]
@@ -726,6 +727,18 @@ namespace TinderApp
         User testUser2 = new User("Jiwon", "hi");
         List<User> testList = new List<User>{testUser, testUser2};
         Assert.Equal(true, testList.Contains(testUser));
+    }
+
+    [Fact]
+    public void AddAvatarToUser_Same()
+    {
+      User testUser = new User("Nick", "hello");
+      testUser.Save();
+      Avatar testAvatar = new Avatar ("C:\\Users\\epicodus\\Desktop\\cat.jpg");
+      testAvatar.Save();
+      testUser.AddAvatarToUser(testAvatar);
+      Avatar actual = testUser.GetAvatar();
+      Assert.Equal(testAvatar, actual);
     }
   }
 }

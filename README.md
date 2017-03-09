@@ -12,18 +12,9 @@ This website will match people
 
 ##### Create Database and Tables
 * In a command window:
-```sql
-> sqlcmd -S "(localdb)\mssqllocaldb"
-> CREATE DATABASE band_tracker;
-> GO
-> USE band_tracker;
-> GO
-> CREATE TABLE bands (id INT IDENTITY(1,1), name VARCHAR(255));
-> GO
-> CREATE TABLE venues (id INT IDENTITY(1,1), name VARCHAR(255));
-> GO
-> CREATE TABLE bands_venues (id INT IDENTITY(1,1), band_id INT, venue_id INT);
-> GO
+
+
+
 ```
 * Requires DNU, DNX, MSSQL, and Mono
 * Clone to local machine
