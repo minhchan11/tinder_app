@@ -21,7 +21,7 @@
 	<header class="userprofile">
 		<div class="profile">
 			<div class="avatar">
-				<img src="~/Contents/img/profile1.jpg" class="media" alt="" />
+				<img src='~/Contents/Profile/output/@Model["user"].GetAvatar().jpg()' class="media" alt="" />
 			</div>
 			<div class="info">
 				<h1>@Model["user"].name</h1><span class="uk-badge gender">@Model["user"].GetGenders()[0]</span>
@@ -46,8 +46,8 @@
 
 	<section class="main clearfix">
 		<div class="userbanner">
-<a href="/"><img src="Contents/img/logo.png" title="Clover-An App for love" alt="Clover" class="userlogo"/>
-	<img src="Contents/img/tagline.png" class="tagline">
+<a href="/"><img src="~/Contents/img/logo.png" title="Clover-An App for love" alt="Clover" class="userlogo"/>
+	<img src="~/Contents/img/tagline.png" class="tagline">
 </a>
 			</div>
 		<div class="uk-grid-collapse uk-child-width-expands uk-text-center" uk-grid>
@@ -73,27 +73,11 @@
 	<ul class="uk-switcher uk-margin">
 	    <li>
 
-
-
-				<div class="profile uk-transition-toggle">
-					<a href="inner.html">
-						<img src="Contents/img/profile3.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-						<div class="caption">
-								<h1>Rick</h1>
-								<h3>Never gonna give you up and/or let you down</h3>
-						</div>
-					</a>
-				</div>
-
-			</li>
-
-	    <li>
-
-				@foreach(var user in Model["user"].FindByFood())
+				@foreach(var user in Model["nearby-users"])
 				{
 					<div class="profile uk-transition-toggle">
 						<a href="inner.html">
-							<img src="Contents/img/profile5.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
+							<img src='~/Contents/Profile/output/@user.GetAvatar().jpg()' class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
 							<div class="caption">
 									<h1>@user.name</h1>
 									<h3>@user.description</h3>
@@ -102,27 +86,15 @@
 					</div>
 				}
 
-				<div class="profile uk-transition-toggle">
-					<a href="inner.html">
-						<img src="Contents/img/profile5.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-						<div class="caption">
-								<h1>Gaga, Miss</h1>
-								<h3>Being extra is a way of life</h3>
-						</div>
-					</a>
-				</div>
-
-
-
 			</li>
 
 	    <li>
 
-				@foreach(var user in Model["user"].FindByWork())
+				@foreach(var user in Model["food-users"])
 				{
 					<div class="profile uk-transition-toggle">
 						<a href="inner.html">
-							<img src="Contents/img/profile8.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
+							<img src='~/Contents/Profile/output/@user.GetAvatar().jpg()' class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
 							<div class="caption">
 									<h1>@user.name</h1>
 									<h3>@user.description</h3>
@@ -131,24 +103,33 @@
 					</div>
 				}
 
-				<div class="profile uk-transition-toggle">
-					<a href="inner.html">
-						<img src="Contents/img/profile8.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-						<div class="caption">
-								<h1>Bill</h1>
-								<h3>Casually richer than you</h3>
-						</div>
-					</a>
-				</div>
+
+
+			</li>
+
+	    <li>
+
+				@foreach(var user in Model["work-users"])
+				{
+					<div class="profile uk-transition-toggle">
+						<a href="inner.html">
+							<img src='~/Contents/Profile/output/@user.GetAvatar().jpg()' class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
+							<div class="caption">
+									<h1>@user.name</h1>
+									<h3>@user.description</h3>
+							</div>
+						</a>
+					</div>
+				}
 
 			</li>
 
 			<li>
-				@foreach(var user in Model["user"].FindByMinRating(3))
+				@foreach(var user in Model["hottest-users"])
 				{
 					<div class="profile uk-transition-toggle">
 						<a href="inner.html">
-							<img src="Contents/img/profile8.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
+							<img src='~/Contents/Profile/output/@user.GetAvatar().jpg()' class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
 							<div class="caption">
 									<h1>@user.name</h1>
 									<h3>@user.description</h3>

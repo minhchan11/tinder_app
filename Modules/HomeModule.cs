@@ -8,6 +8,13 @@ namespace TinderApp
   {
     public HomeModule()
     {
+      Get["/deleteAll"] =_=> {
+        User.DeleteAll();
+        Location.DeleteAll();
+        Avatar.DeleteAll();
+        return View["index.cshtml"];
+      };
+
       Get["/"] = _ => {
           return View["index.cshtml"];
       };
@@ -79,9 +86,15 @@ namespace TinderApp
 
       Get["/users/{id}"] = parameters => {
         var SelectedUser = User.Find(parameters.id);
+        Location userLocation = SelectedUser.GetLocation();
+        Console.WriteLine(userLocation.locationId.ToString());
         Dictionary<string, object> Model = new Dictionary<string, object>
         {
-          {"user", SelectedUser}
+          {"user", SelectedUser},
+          {"nearby-users", Location.FindNearbyUsers(userLocation.locationId)},
+          {"food-users", User.FindByFood(SelectedUser.GetFoods()[0], User.GetAll())},
+          {"work-users", User.FindByWork(SelectedUser.GetWorks()[0], User.GetAll())},
+          {"hottest-users", User.FindByMinRating(3)}
         };
 
         return View["user.cshtml", Model];
