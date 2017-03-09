@@ -45,23 +45,23 @@
 		</div>
 
 		<nav class="usernav uk-align-center">
-			<button class="uk-button uk-button-primary btn button-back" href="/">All users</button><br>
+			<a class="uk-button uk-button-primary btn button-back" href='/users/@Model["userId"]/current'>All users</a><br>
 			<button class="uk-button uk-button-secondary btn" uk-toggle="target: #edit" type="button">Edit my profile</button><br>
 			<button class="uk-button uk-button-danger btn" href="#">Contact Us</button><br>
 		</nav>
 		<!-- end navigation menu -->
-	</header>
+</header>
 	<!-- end header -->
 
-	<section class="main clearfix">
+	<div class="main clearfix container">
 		@foreach (var user in @Model["allUsers"])
 		{
-			@if (user.userId == @Model["currentUser"].userId)
-			{
-				<div class="ribbon"><span>NEW</span></div>
-			}
 			<div class="profile uk-transition-toggle uk-transition-toggle">
-				<a href="/users/@user.userId">
+				@if (@user.userId == @Model["userId"])
+				{
+					<div class="ribbon"><span>NEW</span></div>
+				}
+				<a href='/users/@Model["userId"]'>
 					<img src="~/Contents/Profile/output/@user.GetAvatar().jpg()" class="media uk-transition-scale-up uk-transition-opaque uk-transition-scale-up uk-transition-opaque" alt=""/>
 					<div class="caption">
 						<h1>@user.name</h1>
@@ -71,87 +71,6 @@
 			</div>
 		}
 
-		<!-- <div class="profile uk-transition-toggle">
-			<a href="inner.html">
-				<img src="~/Contents/img/profile2.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-				<div class="caption">
-						<h1>Steve</h1>
-						<h3>I'll mix up the Miss Universe result for you</h3>
-				</div>
-			</a>
-		</div>
-
-		<div class="profile uk-transition-toggle">
-			<a href="inner.html">
-				<img src="~/Contents/img/profile3.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-				<div class="caption">
-						<h1>Rick</h1>
-						<h3>Never gonna give you up and/or let you down</h3>
-				</div>
-			</a>
-		</div>
-
-		<div class="profile uk-transition-toggle">
-			<a href="inner.html">
-				<img src="~/Contents/img/profile4.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-				<div class="caption">
-						<h1>Salt Bae</h1>
-						<h3>Salt isn't the only thing I can sprinkle ;)</h3>
-				</div>
-			</a>
-		</div>
-
-		<div class="profile uk-transition-toggle">
-			<a href="inner.html">
-				<img src="~/Contents/img/profile5.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-				<div class="caption">
-						<h1>Gaga, Miss</h1>
-						<h3>Being extra is a way of life</h3>
-				</div>
-			</a>
-		</div>
-
-		<div class="profile uk-transition-toggle">
-			<a href="inner.html">
-				<img src="~/Contents/img/profile6.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-				<div class="caption">
-						<h1>Bob</h1>
-						<h3>Living in a pineapple under the sea</h3>
-				</div>
-			</a>
-		</div>
-
-		<div class="profile uk-transition-toggle">
-			<a href="inner.html">
-				<img src="~/Contents/img/profile7.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-				<div class="caption">
-						<h1>Breaking Cat</h1>
-						<h3>Not doing meth at the moment</h3>
-				</div>
-			</a>
-		</div>
-
-		<div class="profile uk-transition-toggle">
-			<a href="inner.html">
-				<img src="~/Contents/img/profile8.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-				<div class="caption">
-						<h1>Bill</h1>
-						<h3>Casually richer than you</h3>
-				</div>
-			</a>
-		</div>
-
-		<div class="profile uk-transition-toggle">
-			<div class="ribbon"><span>NEW</span></div>
-			<a href="inner.html">
-				<img src="~/Contents/img/profile9.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-				<div class="caption">
-						<h1>Joanne</h1>
-						<h3>Honestly,truly...Get out of my Caucasian House</h3>
-				</div>
-			</a>
-		</div> -->
-		<!-- </div> -->
-	</section><!-- end main -->
+	</div><!-- end main -->
 </body>
 </html>

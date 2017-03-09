@@ -66,6 +66,11 @@ namespace TinderApp
       DB.DeleteAll("ratings");
     }
 
+    public int GetId()
+    {
+      return _id;
+    }
+
     public static List<User> GetAll()
     {
       List<User> allUsers = new List<User>{};

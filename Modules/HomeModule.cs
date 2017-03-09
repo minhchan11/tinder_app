@@ -38,20 +38,13 @@ namespace TinderApp
         newUser.AddFood(Request.Form["user-food"]);
         newUser.AddHobby(Request.Form["user-hobby"]);
         List<User> allUsers = User.GetAll();
-        Dictionary<string, object> Model = new Dictionary<string, object>{{"currentUser", newUser},{"avatar", newAvatar},{"allUsers", allUsers}};
+        Dictionary<string, object> Model = new Dictionary<string, object>{{"currentUser", newUser},{"avatar", newAvatar},{"allUsers", allUsers}, {"userId", newUser.userId}};
         return View["index-loggedin.cshtml", Model];
       };
 
       Get["/loggedin/{id}"] = parameters => {
         User newUser = User.Find(parameters.id);
         return View["index_loggedin.cshtml", newUser];
-      };
-
-      Get["/users/profile/{id}"] = parameters => {
-        User SelectedUser = User.Find(parameters.id);
-        Dictionary<string, object> Model = new Dictionary<string, object>{{"user", SelectedUser.userId},{"name", SelectedUser.name},{"description", SelectedUser.description}, {"gender", SelectedUser.GetGenders()},{"work", SelectedUser.GetWorks()}, {"food", SelectedUser.GetFoods()}, {"hobby", SelectedUser.GetHobbies()}};
-        Model.Add("avatar", SelectedUser.GetAvatar());
-        return View["user_profile.cshtml", Model];
       };
 
       Get["/users"] = _ => {
@@ -75,6 +68,14 @@ namespace TinderApp
         User targetUser = User.Find(parameters.id);
         targetUser.DeleteUser(parameters.id);
         return View["index.cshtml"];
+      };
+
+      Get["/users/{currentId}/current"] = parameters => {
+        User SelectedUser = User.Find(parameters.currentId);
+        Avatar SelectedAvatar = SelectedUser.GetAvatar();
+        List<User> allUsers = User.GetAll();
+        Dictionary<string, object> Model = new Dictionary<string, object>{{"currentUser", SelectedUser},{"avatar", SelectedAvatar},{"allUsers", allUsers}, {"userId", parameters.currentId}};
+        return View["index-loggedin.cshtml", Model];
       };
 
 
