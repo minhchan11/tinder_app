@@ -29,7 +29,7 @@
 
 		<nav>
 			<button class="uk-button uk-button-default btn" href = "/"><span uk-icon="icon: home"></span> Home</button><br>
-			<button class="uk-button uk-button-secondary btn" uk-toggle="target: #signup" type="button" ><span uk-icon="icon: user"></span>  Sign up</button><br>
+			<button class="uk-button uk-button-secondary btn" uk-toggle="target: #signup" type="button" id="sign-up"><span uk-icon="icon: user"></span>  Sign up</button><br>
 			<button class="uk-button uk-button-danger btn" href="#"><span uk-icon="icon: info"></span>  Contact Us</button><br>
 		</nav><!-- end navigation menu -->
 
@@ -169,6 +169,14 @@
 	    <input type="file" id="myFile">
 	    <input type="hidden" name="value" value="" id="path">
 	  </div>
+
+		<div class="map">
+
+		</div>
+
+		@* <p>Use Current Location</p>
+	  <input type="hidden" name="location" id="location" value="">
+	  @Html.Partial("map.cshtml") *@
 
     @* <div class="uk-margin">
         <label class="uk-form-label" for="form-stacked-select">Select</label>
