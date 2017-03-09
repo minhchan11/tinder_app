@@ -46,7 +46,7 @@
 
 		<nav class="usernav uk-align-center">
 			<a class="uk-button uk-button-primary btn button-back" href='/users/@Model["userId"]/current'>All users</a><br>
-			<button class="uk-button uk-button-secondary btn" uk-toggle="target: #edit" type="button">Edit my profile</button><br>
+			<button class="uk-button uk-button-secondary btn" uk-toggle="target: #edit" type="button" >Edit my profile</button><br>
 			<button class="uk-button uk-button-danger btn" href="#">Contact Us</button><br>
 		</nav>
 		<!-- end navigation menu -->
@@ -72,5 +72,63 @@
 		}
 
 	</div><!-- end main -->
+
+	<div id="edit" uk-modal>
+	<div class="uk-modal-dialog uk-modal-body">
+		<h2 class="uk-modal-title">Edit Your Profile</h2>
+		<form class="uk-form-stacked" action="/users/@Model["userId"]/updated" method="post">
+			<input type="hidden" name="_method" value="PATCH">
+	    <div class="uk-margin">
+	        <label class="uk-form-label" for="form-stacked-text">New Name</label>
+	        <div class="uk-form-controls">
+	            <input class="uk-input uk-form-width-large" id="name" type="text" placeholder="Your full name" name="user-name">
+	        </div>
+	    </div>
+
+	    <div class="uk-margin">
+	        <label class="uk-form-label" for="form-stacked-text">Create a new username</label>
+	        <div class="uk-form-controls">
+	            <input class="uk-input uk-form-width-medium" id="username" type="text" placeholder="Username" name="user-username">
+	        </div>
+	    </div>
+
+	    <div class="uk-margin">
+	        <label class="uk-form-label" for="form-stacked-text">New description</label>
+	        <div class="uk-form-controls">
+	            <textarea class="uk-input uk-form-width-medium" type="text" placeholder="Description" id="description" name="user-description"></textarea>
+	        </div>
+	    </div>
+
+			<div class="map">
+
+			</div>
+
+			<!-- @* <p>Use Current Location</p>
+		  <input type="hidden" name="location" id="location" value="">
+		  @Html.Partial("map.cshtml") *@
+
+	    @* <div class="uk-margin">
+	        <label class="uk-form-label" for="form-stacked-select">Select</label>
+	        <div class="uk-form-controls">
+	            <select class="uk-select" id="form-stacked-select">
+	                <option>Option 01</option>
+	                <option>Option 02</option>
+	            </select>
+	        </div>
+	    </div>
+
+	    <div class="uk-margin">
+	        <div class="uk-form-label">Radio</div>
+	        <div class="uk-form-controls">
+	            <label><input class="uk-radio" type="radio" name="radio1"> Option 01</label><br>
+	            <label><input class="uk-radio" type="radio" name="radio1"> Option 02</label>
+	        </div>
+	    </div> *@ -->
+			<br>
+			<button class="uk-button uk-button-default" type="submit">Submit</button>
+			<button class="uk-button uk-button-primary uk-modal-close" type="button" id="cancel">Cancel</button>
+	</form>
+	</div>
+	</div>
 </body>
 </html>

@@ -42,6 +42,16 @@ namespace TinderApp
         return View["index-loggedin.cshtml", Model];
       };
 
+      Patch["/users/{currentId}/updated"] = parameters => {
+        User SelectedUser = User.Find(parameters.currentId);
+        Avatar SelectedAvatar = SelectedUser.GetAvatar();
+        List<User> allUsers = User.GetAll();
+        SelectedUser.UpdateUsersName(Request.Form["user-name"]);
+        SelectedUser.UpdateUsersDescription(Request.Form["user-description"]);
+        Dictionary<string, object> Model = new Dictionary<string, object>{{"currentUser", SelectedUser},{"avatar", SelectedAvatar},{"allUsers", allUsers}, {"userId", SelectedUser.userId}};
+        return View["index-loggedin.cshtml", Model];
+      };
+
       Get["/loggedin/{id}"] = parameters => {
         User newUser = User.Find(parameters.id);
         return View["index_loggedin.cshtml", newUser];
@@ -78,6 +88,13 @@ namespace TinderApp
         return View["index-loggedin.cshtml", Model];
       };
 
+      Get["/users/{currentId}/edit"] = parameters => {
+        User SelectedUser = User.Find(parameters.currentId);
+        Avatar SelectedAvatar = SelectedUser.GetAvatar();
+        List<User> allUsers = User.GetAll();
+        Dictionary<string, object> Model = new Dictionary<string, object>{{"currentUser", SelectedUser},{"avatar", SelectedAvatar},{"allUsers", allUsers}, {"userId", parameters.currentId}};
+        return View["current_edit.cshtml", Model];
+      };
 
       // Get["/users/{id}"] = parameters => {
         // var SelectedUser = User.Find(parameters.id);
