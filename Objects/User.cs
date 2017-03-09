@@ -782,6 +782,18 @@ namespace TinderApp
         return userList;
     }
 
+
+public static List<User> FilterCurrentUser(int id, List<User> userList)
+{
+  for(int i = userList.Count - 1; i >= 0; i--)
+  {
+    if (userList[i].userId == id)
+    {
+      userList.RemoveAt(i);
+    }
+  }
+  return userList;
+}
     public static List<User> FindByHobby(string hobby, List<User> passedList)
     {
         SqlConnection conn = DB.Connection();

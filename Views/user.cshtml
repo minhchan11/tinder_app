@@ -21,16 +21,16 @@
 	<header class="userprofile">
 		<div class="profile">
 			<div class="avatar">
-				<img src="~/Contents/img/profile1.jpg" class="media" alt="" />
+				<img src='~/Contents/Profile/output/@Model["user"].GetAvatar().jpg()' class="media" alt="" />
 			</div>
 			<div class="info">
-				<h1>@Model.name</h1><span class="uk-badge gender">@Model.GetGenders()[0]</span>
+				<h1>@Model["user"].name</h1><span class="uk-badge gender">@Model["user"].GetGenders()[0]</span>
 				<ul class="social-icons icon-circle icon-rotate list-unstyled list-inline">
 					<li> <a href="#"><i class="fa fa-flickr"></i></a></li>
 					<li> <a href="https://m.me/XYZ" uk-toggle="target: #my-id"><i class="fa fa-facebook"></i></a></li>
 					<li> <a href="#"><i class="fa fa-foursquare"></i></a></li>
 				</ul>
-				<h3>@Model.description</h3>
+				<h3>@Model["user"].description</h3>
 			</div>
 
 		</div>
@@ -46,19 +46,19 @@
 
 	<section class="main clearfix">
 		<div class="userbanner">
-<a href="/"><img src="Contents/img/logo.png" title="Clover-An App for love" alt="Clover" class="userlogo"/>
-	<img src="Contents/img/tagline.png" class="tagline">
+<a href="/"><img src="~/Contents/img/logo.png" title="Clover-An App for love" alt="Clover" class="userlogo"/>
+	<img src="~/Contents/img/tagline.png" class="tagline">
 </a>
 			</div>
 		<div class="uk-grid-collapse uk-child-width-expands uk-text-center" uk-grid>
     <div>
-        <div class="uk-padding hobby"><p>@Model.GetHobbies()[0]</p></div>
+        <div class="uk-padding hobby"><p>@Model["user"].GetHobbies()[0]</p></div>
     </div>
     <div>
-        <div class="uk-padding food"><p>@Model.GetFoods()[0]</p></div>
+        <div class="uk-padding food"><p>@Model["user"].GetFoods()[0]</p></div>
     </div>
     <div>
-        <div class="uk-padding work"><p>@Model.GetWorks()[0]</p></div>
+        <div class="uk-padding work"><p>@Model["user"].GetWorks()[0]</p></div>
     </div>
 </div>
 
@@ -67,88 +67,76 @@
 	    <li><a href="#">Closest to You</a></li>
 	    <li><a href="#">Love the same food</a></li>
 	    <li><a href="#">Like the same hobby</a></li>
+			<li><a href="#">Checkout the hotties</a></li>
 	</ul>
 
 	<ul class="uk-switcher uk-margin">
 	    <li>
-				<div class="profile uk-transition-toggle">
-					<a href="inner.html">
-						<img src="Contents/img/profile3.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-						<div class="caption">
-								<h1>Rick</h1>
-								<h3>Never gonna give you up and/or let you down</h3>
-						</div>
-					</a>
-				</div>
 
-				<div class="profile uk-transition-toggle">
-					<a href="inner.html">
-						<img src="Contents/img/profile4.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-						<div class="caption">
-								<h1>Salt Bae</h1>
-								<h3>Salt isn't the only thing I can sprinkle ;)</h3>
-						</div>
-					</a>
-				</div>
+				@foreach(var user in Model["nearby-users"])
+				{
+					<div class="profile uk-transition-toggle">
+						<a href='/users/@Model["user"].userId/details/@user.userId'>
+							<img src='~/Contents/Profile/output/@user.GetAvatar().jpg()' class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
+							<div class="caption">
+									<h1>@user.name</h1>
+									<h3>@user.description</h3>
+							</div>
+						</a>
+					</div>
+				}
 
 			</li>
 
 	    <li>
 
-				<div class="profile uk-transition-toggle">
-					<a href="inner.html">
-						<img src="Contents/img/profile5.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-						<div class="caption">
-								<h1>Gaga, Miss</h1>
-								<h3>Being extra is a way of life</h3>
-						</div>
-					</a>
-				</div>
+				@foreach(var user in Model["food-users"])
+				{
+					<div class="profile uk-transition-toggle">
+						<a href='/users/@Model["user"].userId/details/@user.userId'>
+							<img src='~/Contents/Profile/output/@user.GetAvatar().jpg()' class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
+							<div class="caption">
+									<h1>@user.name</h1>
+									<h3>@user.description</h3>
+							</div>
+						</a>
+					</div>
+				}
 
-				<div class="profile uk-transition-toggle">
-					<a href="inner.html">
-						<img src="Contents/img/profile6.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-						<div class="caption">
-								<h1>Bob</h1>
-								<h3>Living in a pineapple under the sea</h3>
-						</div>
-					</a>
-				</div>
 
-				<div class="profile uk-transition-toggle">
-					<a href="inner.html">
-						<img src="Contents/img/profile7.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-						<div class="caption">
-								<h1>Breaking Cat</h1>
-								<h3>Not doing meth at the moment</h3>
-						</div>
-					</a>
-				</div>
 
 			</li>
 
 	    <li>
 
-				<div class="profile uk-transition-toggle">
-					<a href="inner.html">
-						<img src="Contents/img/profile8.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-						<div class="caption">
-								<h1>Bill</h1>
-								<h3>Casually richer than you</h3>
-						</div>
-					</a>
-				</div>
+				@foreach(var user in Model["work-users"])
+				{
+					<div class="profile uk-transition-toggle">
+						<a href='/users/@Model["user"].userId/details/@user.userId'>
+							<img src='~/Contents/Profile/output/@user.GetAvatar().jpg()' class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
+							<div class="caption">
+									<h1>@user.name</h1>
+									<h3>@user.description</h3>
+							</div>
+						</a>
+					</div>
+				}
 
-				<div class="profile uk-transition-toggle">
-					<a href="inner.html">
-						<img src="Contents/img/profile9.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
-						<div class="caption">
-								<h1>Joanne</h1>
-								<h3>Honestly,truly...Get out of my Caucasian House</h3>
-						</div>
-					</a>
-				</div>
+			</li>
 
+			<li>
+				@foreach(var user in Model["hottest-users"])
+				{
+					<div class="profile uk-transition-toggle">
+						<a href='/users/@Model["user"].userId/details/@user.userId'>
+							<img src='~/Contents/Profile/output/@user.GetAvatar().jpg()' class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
+							<div class="caption">
+									<h1>@user.name</h1>
+									<h3>@user.description</h3>
+							</div>
+						</a>
+					</div>
+				}
 			</li>
 
 	</ul>

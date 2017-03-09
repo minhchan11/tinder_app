@@ -1,5 +1,6 @@
 using Nancy;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace TinderApp
@@ -8,6 +9,13 @@ namespace TinderApp
   {
     public HomeModule()
     {
+      Get["/deleteAll"] =_=> {
+        User.DeleteAll();
+        Location.DeleteAll();
+        Avatar.DeleteAll();
+        return View["index.cshtml"];
+      };
+
       Get["/"] = _ => {
           return View["index.cshtml"];
       };
@@ -78,11 +86,27 @@ namespace TinderApp
       // };
 
       Get["/users/{id}"] = parameters => {
-        var SelectedUser = User.Find(parameters.id);
-        // var UserUsers = SelectedUser.name;
-        // Dictionary<string, object> Model = new Dictionary<string, object>{{"user", SelectedUser.userId},{"name", SelectedUser.name},{"description", SelectedUser.description}, {"gender", SelectedUser.GetGenders()},{"work", SelectedUser.GetWorks()}, {"food", SelectedUser.GetFoods()}, {"hobby", SelectedUser.GetHobbies()}};
+        User SelectedUser = User.Find(parameters.id);
+        Location userLocation = SelectedUser.GetLocation();
+        Dictionary<string, object> Model = new Dictionary<string, object>
+        {
+          {"user", SelectedUser},
+          {"nearby-users", User.FilterCurrentUser(SelectedUser.userId, Location.FindNearbyUsers(userLocation.locationId))},
+          {"food-users", User.FilterCurrentUser(SelectedUser.userId, User.FindByFood(SelectedUser.GetFoods()[0], User.GetAll()))},
+          {"work-users", User.FilterCurrentUser(SelectedUser.userId, User.FindByWork(SelectedUser.GetWorks()[0], User.GetAll()))},
+          {"hottest-users", User.FilterCurrentUser(SelectedUser.userId, User.FindByMinRating(3))}
+        };
 
-        return View["user.cshtml", SelectedUser];
+        return View["user.cshtml", Model];
+      };
+
+      Get["/users/{currentId}/details/{id}"] = parameters => {
+        Dictionary<string, object> Model = new Dictionary<string, object>
+        {
+          {"current-user", User.Find(parameters.currentId)},
+          {"details-user", User.Find(parameters.id)}
+        };
+        return View["user-detail.cshtml", Model];
       };
 
 
