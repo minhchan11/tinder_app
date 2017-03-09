@@ -30,14 +30,13 @@ namespace TinderApp
       };
 
       Get["/users"] = _ => {
-        Dictionary<string, object> Model = new Dictionary<string, object>
-        {
-            {"user list", User.GetAll()},
-            {"all genders", User.GetAllGenders()},
-            {"all works", User.GetAllWorks()},
-            {"all food", User.GetAllFoods()},
-            {"all hobbies", User.GetAllHobbies()}
-        };
+        Dictionary<string, object> Model = new Dictionary<string, object>{};
+
+        Model.Add("userlist", User.GetAll());
+        Model.Add("allgenders", User.GetAllGenders());
+        Model.Add("allworks", User.GetAllWorks());
+        Model.Add("allfood", User.GetAllFoods());
+        Model.Add("allhobbies", User.GetAllHobbies());
         return View["users.cshtml", Model];
       };
 
