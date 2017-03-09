@@ -57,22 +57,28 @@
 
 <div class="uk-padding-small uk-child-width-expand@s userrating uk-text-center" uk-grid>
 	<div class="ratingform">
+			<input type="hidden" name="" id="avg-rating" value=''>
 			<div class="rating">
-				<input type="hidden" name="" id="avg-rating" value="3">
-	<input type="radio" class="rating-input" id="rating-1" name="rating-input-1">
-	<label for="rating-1" class="rating-star"></label>
-	<input type="radio" class="rating-input" id="rating-2" name="rating-input-1">
-	<label for="rating-2" class="rating-star"></label>
-	<input type="radio" class="rating-input" id="rating-3" name="rating-input-1">
-	<label for="rating-3" class="rating-star"></label>
-		<input type="radio" class="rating-input" id="rating-4" name="rating-input-1">
-		<label for="rating-4" class="rating-star"></label>
-	</div>
-	</div>
-		<button class="myButton" name="button">Make a move ;) Give this clover user a rating!</button>
+				<form action='/users/@Model["current-user"].userId/details/@Model["details-user"].userId' method="post">
+					<input type="hidden" name="_method" value="PATCH">
+					<!-- average rating => -->
+		<input type="radio" class="rating-input" id="rating-1" name="rating-input-1" value="4">
+		<label for="rating-1" class="rating-star"></label>
+		<input type="radio" class="rating-input" id="rating-2" name="rating-input-1" value="3">
+		<label for="rating-2" class="rating-star"></label>
+		<input type="radio" class="rating-input" id="rating-3" name="rating-input-1" value="2">
+		<label for="rating-3" class="rating-star"></label>
+			<input type="radio" class="rating-input" id="rating-4" name="rating-input-1" value="1">
+			<label for="rating-4" class="rating-star"></label>
+		</div>
+		</div>
+			<button class="myButton" name="button">Make a move ;) Give this clover user a rating!</button>
+				</form>
 </div>
 
 
+<!-- NUMBER OF RATINGS -->
+<input type="hidden" name="" value='@Model["details-user"].GetNumberOfRatings()'>
 
 	</section>
 	<!-- end main -->

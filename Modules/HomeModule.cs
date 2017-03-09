@@ -109,6 +109,19 @@ namespace TinderApp
         return View["user-detail.cshtml", Model];
       };
 
+      Patch["/users/{currentId}/details/{id}"] = parameters => {
+        User.AddRating(parameters.id, Int32.Parse(Request.Form["rating-input-1"]));
+        Console.WriteLine(User.Find(parameters.id).GetAverageRating().ToString());
+        Dictionary<string, object> Model = new Dictionary<string, object>
+        {
+          {"current-user", User.Find(parameters.currentId)},
+          {"details-user", User.Find(parameters.id)},
+          {"average-rating", (int)User.Find(parameters.id).GetAverageRating()},
+          {"number-of-ratings", User.Find(parameters.id).GetNumberOfRatings()}
+        };
+        return View["user-detail.cshtml", Model];
+      };
+
 
       // Post["/users/new"] = _ => {
       //   Avatar testAvatar = new Avatar (Request.Form["value"]);
