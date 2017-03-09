@@ -139,7 +139,7 @@ namespace TinderApp
    {
      SqlConnection conn = DB.Connection();
      conn.Open();
-     SqlCommand cmd = new SqlCommand("Declare @sql varchar(500) SET @sql = 'BCP \"SELECT image FROM tinder.dbo.avatars where id=" + this.avatarId + "\" QUERYOUT C:\\users\\epicodus\\desktop\\tinder_app\\Contents\\Profile\\output\\" + this.avatarId + ".jpg -T -f C:\\users\\epicodus\\desktop\\tinder_app\\Resources\\testblob.fmt -S ' + '(localdb)\\mssqllocaldb'; EXEC master.dbo.xp_CmdShell @sql;", conn);
+     SqlCommand cmd = new SqlCommand("Declare @sql varchar(500) SET @sql = 'BCP \"SELECT image FROM tinder.dbo.avatars where id=" + this.avatarId + "\" QUERYOUT C:\\users\\G1\\desktop\\tinder_app\\Contents\\Profile\\output\\" + this.avatarId + ".jpg -T -f C:\\users\\G1\\desktop\\tinder_app\\Resources\\testblob.fmt -S ' + '(localdb)\\mssqllocaldb'; EXEC master.dbo.xp_CmdShell @sql;", conn);
      cmd.ExecuteNonQuery();
      DB.CloseSqlConnection(conn);
    }
