@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Clover-Get Lucky!</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700" rel="stylesheet">
+	<link rel='stylesheet prefetch' href='http:////netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css'>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.16/css/uikit.min.css" />
+	<link rel="stylesheet" type="text/css" href="~/Contents/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="~/Contents/css/main.css">
+	<link rel="stylesheet" type="text/css" href="~/Contents/css/profile.css">
+	<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.16/js/uikit.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.16/js/uikit-icons.min.js"></script>
+	<script type="text/javascript" src="\Contents\js\scripts.js"></script>
+</head>
+
+<body>
+
+  <header class="userprofile">
+		<div class="profile">
+			<div class="avatar">
+				<img src='~/Contents/Profile/output/@Model["avatar"].jpg()' class="media" alt="" />
+			</div>
+			<div class="info">
+				<h1>@Model["user"].name</h1>
+				@if (@Model["user"].GetGenders().Count == 0)
+				{
+					<span class="uk-badge gender">Gender Undefined</span>
+				}
+				else
+				{
+					<span class="uk-badge gender">@Model["user"].GetGenders()[0]</span>
+				}
+				<ul class="social-icons icon-circle icon-rotate list-unstyled list-inline">
+					<li> <a href="#"><i class="fa fa-flickr"></i></a></li>
+					<li> <a href="https://m.me/XYZ" uk-toggle="target: #my-id"><i class="fa fa-facebook"></i></a></li>
+					<li> <a href="#"><i class="fa fa-foursquare"></i></a></li>
+				</ul>
+				<h3>@Model["user"].description</h3>
+			</div>
+
+		</div>
+
+		<nav class="usernav uk-align-center">
+			<button class="uk-button uk-button-primary btn button-back" href="/">All users</button><br>
+			<button class="uk-button uk-button-secondary btn" uk-toggle="target: #edit" type="button">Edit my profile</button><br>
+			<button class="uk-button uk-button-danger btn" href="#">Contact Us</button><br>
+		</nav>
+		<!-- end navigation menu -->
+	</header>
+	<!-- end header -->
+
+	<section class="main clearfix">
+		<div class="profile uk-transition-toggle uk-transition-toggle">
+			<a href="inner.html">
+				<img src="~/Contents/img/profile1.jpg" class="media uk-transition-scale-up uk-transition-opaque uk-transition-scale-up uk-transition-opaque" alt=""/>
+				<div class="caption">
+						<h1>Amanda</h1>
+						<h3>Cashme ousside howboudah?</h3>
+				</div>
+			</a>
+		</div>
+
+		<div class="profile uk-transition-toggle">
+			<a href="inner.html">
+				<img src="~/Contents/img/profile2.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
+				<div class="caption">
+						<h1>Steve</h1>
+						<h3>I'll mix up the Miss Universe result for you</h3>
+				</div>
+			</a>
+		</div>
+
+		<div class="profile uk-transition-toggle">
+			<a href="inner.html">
+				<img src="~/Contents/img/profile3.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
+				<div class="caption">
+						<h1>Rick</h1>
+						<h3>Never gonna give you up and/or let you down</h3>
+				</div>
+			</a>
+		</div>
+
+		<div class="profile uk-transition-toggle">
+			<a href="inner.html">
+				<img src="~/Contents/img/profile4.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
+				<div class="caption">
+						<h1>Salt Bae</h1>
+						<h3>Salt isn't the only thing I can sprinkle ;)</h3>
+				</div>
+			</a>
+		</div>
+
+		<div class="profile uk-transition-toggle">
+			<a href="inner.html">
+				<img src="~/Contents/img/profile5.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
+				<div class="caption">
+						<h1>Gaga, Miss</h1>
+						<h3>Being extra is a way of life</h3>
+				</div>
+			</a>
+		</div>
+
+		<div class="profile uk-transition-toggle">
+			<a href="inner.html">
+				<img src="~/Contents/img/profile6.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
+				<div class="caption">
+						<h1>Bob</h1>
+						<h3>Living in a pineapple under the sea</h3>
+				</div>
+			</a>
+		</div>
+
+		<div class="profile uk-transition-toggle">
+			<a href="inner.html">
+				<img src="~/Contents/img/profile7.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
+				<div class="caption">
+						<h1>Breaking Cat</h1>
+						<h3>Not doing meth at the moment</h3>
+				</div>
+			</a>
+		</div>
+
+		<div class="profile uk-transition-toggle">
+			<a href="inner.html">
+				<img src="~/Contents/img/profile8.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
+				<div class="caption">
+						<h1>Bill</h1>
+						<h3>Casually richer than you</h3>
+				</div>
+			</a>
+		</div>
+
+		<div class="profile uk-transition-toggle">
+			<div class="ribbon"><span>NEW</span></div>
+			<a href="inner.html">
+				<img src="~/Contents/img/profile9.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
+				<div class="caption">
+						<h1>Joanne</h1>
+						<h3>Honestly,truly...Get out of my Caucasian House</h3>
+				</div>
+			</a>
+		</div>
+		</div>
+	</section><!-- end main -->
+</body>
+</html>

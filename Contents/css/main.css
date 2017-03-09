@@ -45,6 +45,14 @@ h5, h6          { font-weight: bolder }
     *zoom: 1;
 }
 
+#map-block{
+  height: 200px;
+}
+
+#map {
+  height: 100%;`
+}
+
 
 /*  Header  */
 @media (min-width:1099px){
