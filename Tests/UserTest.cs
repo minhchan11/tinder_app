@@ -771,9 +771,19 @@ namespace TinderApp
       testAvatar.Save();
       testUser.AddAvatarToUser(testAvatar);
       Avatar actual = testUser.GetAvatar();
-      Console.WriteLine(actual.avatarPath);
-      Console.WriteLine(testAvatar.avatarPath);
       Assert.Equal(testAvatar, actual);
+    }
+
+    [Fact]
+    public void AddLocationToUser_Same()
+    {
+      User testUser = new User("Nick", "hello");
+      testUser.Save();
+      Location testLocation = new Location ("POINT (-73.9949905872345 40.728616558706655)");
+      testLocation.Save();
+      testLocation.AddUserToLocation(testUser.userId);
+      Location actual = testUser.GetLocation();
+      Assert.Equal(testLocation, actual);
     }
   }
 }
