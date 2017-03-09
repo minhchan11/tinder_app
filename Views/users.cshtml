@@ -3,100 +3,90 @@
 }
 
 <div class="row">
-    <form class="" action="/view-all" method="post">
-        <div class="gender input-field col s2"> -->
-            <select>
-                <option value="no preference">no preference</option>
-                @foreach(var gender in @Model["allgenders"])
-                {
-                    <option value="@gender">@gender</option>
-                }
-            </select>
-        </div>
+  <form class="" action="/view-all" method="post">
+    <div class="gender input-field col s2">
+      <select>
+        <option value="no preference">no preference</option>
+        @foreach(var gender in @Model["allgenders"])
+        {
+          <option value="@gender">@gender</option>
+        }
+      </select>
+    </div>
 
+    <div class="work input-field col s2">
+      <select>
+        <option value="no preference">no preference</option>
+        @foreach(var work in Model["allworks"])
+        {
+          <option value="@work">@work</option>
+        }
+      </select>
+    </div>
 
-                <div class="work input-field col s2">
-                    <select>
-                        <option value="no preference">no preference</option>
-                        @foreach(var work in Model["all works"])
-                        {
-                            <option value="@work">@work</option>
-                        }
-                    </select>
-                </div>
+    <div class="Food input-field col s2">
+      <select>
+        <option value="no preference">no preference</option>
+        @foreach(var food in Model["allfoods"])
+        {
+          <option value="@food">@food</option>
+        }
+      </select>
+    </div>
 
-                                <div class="Food input-field col s2">
-                                    <select>
-                                        <option value="no preference">no preference</option>
-                                        @foreach(var Food in Model["all foods"])
-                                        {
-                                            <option value="@Food">@Food</option>
-                                        }
-                                    </select>
-                                </div>
+    <div class="hobby input-field col s2">
+      <select>
+        <option value="no preference">no preference</option>
+        @foreach(var hobby in Model["allhobbies"])
+        {
+          <option value="@hobby">@hobby</option>
+        }
+      </select>
+    </div>
 
-                                <div class="hobby input-field col s2">
-                                    <select>
-                                        <option value="no preference">no preference</option>
-                                        @foreach(var hobby in Model["all hobbies"])
-                                        {
-                                            <option value="@hobby">@hobby</option>
-                                        }
-                                    </select>
-                                </div>
+    <div class="rating input-field col s2">
+      <select>
+        <option value="no preference">no preference</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Your Standards Are Too High)</option>
+      </select>
+    </div>
+  </form>
+</div>
 
-                                <div class="rating input-field col s2">
-                                    <select>
-                                        <option value="no preference">no preference</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5 (Your Standards Are Too High)</option>
-                                    </select>
-                                </div>
+@if (@Model["userlist"].Count == 0)
+{
+  <p>No users have been added yet!</p>
+}
+else
+{
+  <h1>Users</h1>
+  <hr>
+  <ul>
+  @foreach (var user in @Model["userlist"])
+  {
+    <li><a href="/users/@user.userId">@user.name</a></li>
+    <form action="/users/@user.userId" method="post">
+    <input type="hidden" name="_method" value="DELETE">
+    <button type="submit" class="btn">Delete</button>
+    </form>
+    <form class="appears" action="/user/edit/@user.userId" method="post">
+    <input type="hidden" name="_method" value="PATCH">
+    <label for="new-user-name">User Name: </label>
+    <input type="text" name="new-user-name" value="@user.name">
+    <button type="submit" class="btn">Edit</button>
+    </form>
 
-                                <div class="switch">
-                                    <label>
-                                      Location Off
-                                      <input disabled type="checkbox">
-                                      <span class="lever"></span>
-                                      Location On
-                                    </label>
-                                </div> -->
-                            </form>
-                        </div>
-
-                        @if (@Model["userlist"].Count == 0)
-                        {
-                          <p>No users have been added yet!</p>
-                        }
-                        else
-                        {
-                          <h1>Users</h1>
-                          <hr>
-                          <ul>
-                            @foreach (var user in @Model["userlist"])
-                            {
-                              <li><a href="/users/@user.userId">@user.name</a></li>
-                              <form action="/users/@user.userId" method="post">
-                                  <input type="hidden" name="_method" value="DELETE">
-                                  <button type="submit" class="btn">Delete</button>
-                              </form>
-                              <form class="appears" action="/user/edit/@user.userId" method="post">
-                                    <input type="hidden" name="_method" value="PATCH">
-                                    <label for="new-user-name">User Name: </label>
-                                    <input type="text" name="new-user-name" value="@user.name">
-                                    <button type="submit" class="btn">Edit</button>
-                              </form>
-
-                            }
-                          </ul>
-                        }
+  }
+  </ul>
+}
 
 <form action="/users/delete" method="post">
-  <h4><a href="/users/new">Add New</a>
-  <button class="btn" type="submit">Clear All</button></h4>
+<h4><a href="/users/new">Add New</a>
+<button class="btn" type="submit">Clear All</button></h4>
 </form>
 <hr>
 <h4><a href="/">Return Home</a></h4>

@@ -36,12 +36,11 @@ namespace TinderApp
       Get["/users"] = _ => {
         Dictionary<string, object> Model = new Dictionary<string, object>{};
 
-        Model.Add("userlist", User.GetAll());
         Model.Add("allgenders", User.GetAllGenders());
         Model.Add("allworks", User.GetAllWorks());
-        Model.Add("allfood", User.GetAllFoods());
+        Model.Add("allfoods", User.GetAllFoods());
         Model.Add("allhobbies", User.GetAllHobbies());
-        return View["users.cshtml", Model];
+        return View["user.cshtml", Model];
       };
 
       Patch["/users/edit/{id}"] = parameters => {
@@ -57,12 +56,21 @@ namespace TinderApp
         return View["users.cshtml", User.GetAll()];
       };
 
+
+      // Get["/users/{id}"] = parameters => {
+        // var SelectedUser = User.Find(parameters.id);
+        // var UserUsers = SelectedUser.name;
+        // Dictionary<string, object> Model = new Dictionary<string, object>{{"user", SelectedUser.userId},{"name", SelectedUser.name},{"description", SelectedUser.description}, {"gender", SelectedUser.GetGenders()},{"work", SelectedUser.GetWorks()}, {"food", SelectedUser.GetFoods()}, {"hobby", SelectedUser.GetHobbies()}};
+
+      //   return View["user.cshtml"];
+      // };
+
       Get["/users/{id}"] = parameters => {
         var SelectedUser = User.Find(parameters.id);
-        var UserUsers = SelectedUser.name;
-        Dictionary<string, object> Model = new Dictionary<string, object>{{"user", SelectedUser.userId},{"name", SelectedUser.name},{"description", SelectedUser.description}, {"gender", SelectedUser.GetGenders()},{"work", SelectedUser.GetWorks()}, {"food", SelectedUser.GetFoods()}, {"hobby", SelectedUser.GetHobbies()}};
+        // var UserUsers = SelectedUser.name;
+        // Dictionary<string, object> Model = new Dictionary<string, object>{{"user", SelectedUser.userId},{"name", SelectedUser.name},{"description", SelectedUser.description}, {"gender", SelectedUser.GetGenders()},{"work", SelectedUser.GetWorks()}, {"food", SelectedUser.GetFoods()}, {"hobby", SelectedUser.GetHobbies()}};
 
-        return View["user.cshtml", Model];
+        return View["user.cshtml", SelectedUser];
       };
 
 
