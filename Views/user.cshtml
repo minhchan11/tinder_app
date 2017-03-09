@@ -36,15 +36,16 @@
 		</div>
 
 		<nav class="usernav uk-align-center">
-			<button class="uk-button uk-button-primary btn button-back" href="/">All users</button><br>
+			<a class="uk-button uk-button-primary btn button-back" href="/">All users</a><br>
 			<button class="uk-button uk-button-secondary btn" uk-toggle="target: #edit" type="button">Edit my profile</button><br>
 			<button class="uk-button uk-button-danger btn" href="#">Contact Us</button><br>
+			<a href='/users/@Model["user"].userId/custom' class="uk-button uk-button-primary btn button-back">Advanced Search</a>
 		</nav>
 		<!-- end navigation menu -->
 	</header>
 	<!-- end header -->
 
-	<section class="main clearfix">
+	<div class="main clearfix">
 		<div class="userbanner">
 <a href="/"><img src="~/Contents/img/logo.png" title="Clover-An App for love" alt="Clover" class="userlogo"/>
 	<img src="~/Contents/img/tagline.png" class="tagline">
@@ -62,6 +63,7 @@
 	    <li><a href="#">Love the same food</a></li>
 	    <li><a href="#">Like the same hobby</a></li>
 			<li><a href="#">Checkout the hotties</a></li>
+			<li><a href="#">CoWorkers?</a></li>
 	</ul>
 
 	<ul class="uk-switcher uk-margin">
@@ -103,7 +105,7 @@
 
 	    <li>
 
-				@foreach(var user in Model["work-users"])
+				@foreach(var user in Model["hobby-users"])
 				{
 					<div class="profile uk-transition-toggle">
 						<a href='/users/@Model["user"].userId/details/@user.userId'>
@@ -133,12 +135,27 @@
 				}
 			</li>
 
+			<li>
+				@foreach(var user in Model["work-users"])
+				{
+					<div class="profile uk-transition-toggle">
+						<a href='/users/@Model["user"].userId/details/@user.userId'>
+							<img src='~/Contents/Profile/output/@user.GetAvatar().jpg()' class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
+							<div class="caption">
+									<h1>@user.name</h1>
+									<h3>@user.description</h3>
+							</div>
+						</a>
+					</div>
+				}
+			</li>
+
 	</ul>
 
 </div>
 
 
-	</section>
+	</div>
 	<!-- end main -->
 
 	<div id="edit" uk-modal>

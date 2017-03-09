@@ -94,7 +94,8 @@ namespace TinderApp
           {"nearby-users", User.FilterCurrentUser(SelectedUser.userId, Location.FindNearbyUsers(userLocation.locationId))},
           {"food-users", User.FilterCurrentUser(SelectedUser.userId, User.FindByFood(SelectedUser.GetFoods()[0], User.GetAll()))},
           {"work-users", User.FilterCurrentUser(SelectedUser.userId, User.FindByWork(SelectedUser.GetWorks()[0], User.GetAll()))},
-          {"hottest-users", User.FilterCurrentUser(SelectedUser.userId, User.FindByMinRating(3))}
+          {"hottest-users", User.FilterCurrentUser(SelectedUser.userId, User.FindByMinRating(3))},
+          {"hobby-users", User.FilterCurrentUser(SelectedUser.userId, User.FindByWork(SelectedUser.GetWorks()[0], User.GetAll()))}
         };
 
         return View["user.cshtml", Model];
@@ -115,12 +116,14 @@ namespace TinderApp
         Dictionary<string, object> Model = new Dictionary<string, object>
         {
           {"current-user", User.Find(parameters.currentId)},
-          {"details-user", User.Find(parameters.id)},
-          {"average-rating", (int)User.Find(parameters.id).GetAverageRating()},
-          {"number-of-ratings", User.Find(parameters.id).GetNumberOfRatings()}
+          {"details-user", User.Find(parameters.id)}
         };
         return View["user-detail.cshtml", Model];
       };
+
+      // Get["/users/{id}/custom"] = parameters => {
+      //   return View["custom-search.cshtml", User.Find(parameters.id)];
+      // }
 
 
       // Post["/users/new"] = _ => {
