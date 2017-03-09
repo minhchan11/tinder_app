@@ -2,7 +2,7 @@
     Layout="Shared/_Layout.cshtml";
 }
 
-<img src='/Contents/Profile/output/@Model["avatar"].jpg()'>
+<img src='~/Contents/Profile/output/@Model["avatar"].jpg()'>
 
 <h1>@Model["name"]</h1>
 <form action='/users/@Model["user"]' method="post">

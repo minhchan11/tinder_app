@@ -127,6 +127,21 @@ namespace TinderApp
     }
 
     [Fact]
+    public void AddGenderGetGenders_OneUser_ListOfGender()
+    {
+        User testUser = new User("Nick", "hello");
+        User testUser2 = new User("john", "male");
+        testUser2.Save();
+        testUser.Save();
+        testUser.AddGender("Male");
+        testUser2.AddGender("Female");
+        List<string> output = testUser.GetGenders();
+        List<string> verify = new List<string>{"Male"};
+
+        Assert.Equal(verify, output);
+    }
+
+    [Fact]
     public void AddWorkGetWorks_OneUser_ListOfWorks()
     {
         User testUser = new User("Nick", "hello");
@@ -717,6 +732,24 @@ namespace TinderApp
         user2.AddWork("Five Guys");
         List<string> expected = new List<string>{"McDonalds", "BurgerKing", "Epicodus", "Five Guys"};
         List<string> actual = User.GetAllWorks();
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void GetAllFoods_ManyUsers_ListOfAllFoods()
+    {
+        User user1 = new User("1", "hello");
+        User user2 = new User("2", "hola");
+        User user3 = new User("3", "hi");
+        user1.Save();
+        user2.Save();
+        user3.Save();
+        user1.AddFood("McDonalds");
+        user2.AddFood("BurgerKing");
+        user3.AddFood("Epicodus");
+        user2.AddFood("Five Guys");
+        List<string> expected = new List<string>{"McDonalds", "BurgerKing", "Epicodus", "Five Guys"};
+        List<string> actual = User.GetAllFoods();
         Assert.Equal(expected, actual);
     }
 
