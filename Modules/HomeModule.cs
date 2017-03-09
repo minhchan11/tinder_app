@@ -21,6 +21,9 @@ namespace TinderApp
         testAvatar.Save();
         testAvatar.Display();
         testAvatar.DeleteJpg();
+        Location newLocation = new Location(Request.Form["location"]);
+        newLocation.Save();
+        newLocation.AddUserToLocation(newUser.userId);
         newUser.AddGender(Request.Form["user-gender"]);
         newUser.AddWork(Request.Form["user-work"]);
         newUser.AddFood(Request.Form["user-food"]);
