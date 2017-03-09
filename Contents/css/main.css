@@ -45,14 +45,6 @@ h5, h6          { font-weight: bolder }
     *zoom: 1;
 }
 
-#map-block{
-  height: 200px;
-}
-
-#map {
-  height: 100%;`
-}
-
 
 
 /*  Header  */
@@ -63,7 +55,7 @@ h5, h6          { font-weight: bolder }
         top: 0;
         left: 0;
         width: 250px;
-        min-height: 70%;
+        min-height: 100%;
         padding: 0 0 0 30px;
         background: #ffffff;
         float: left;
@@ -125,7 +117,7 @@ h5, h6          { font-weight: bolder }
 
     .usernav{
       margin-top: -5%;
-      padding-left: 20%;
+      padding-left: 15%;
     }
 
     .info h1{
@@ -150,6 +142,9 @@ h5, h6          { font-weight: bolder }
     clear: both;
 }
 
+.chart{
+  margin-top: 20%;
+}
 
 /*  Home/portfolio  */
 header img {
@@ -253,6 +248,10 @@ header img {
   margin-bottom: 5px;
 }
 
+.btn-icon {
+  padding-right: 5px;
+}
+
 .gender{
   background-color: rgb(237, 78, 226);
   margin-bottom: 10px;
@@ -339,6 +338,69 @@ header img {
   margin-left: 5%;
 }
 
+.userrating, .ratingform{
+  background-color: #63FFB8;
+}
+
+.uk-grid+.uk-grid {
+  margin-top: 0;
+}
+   .rating {
+    overflow: hidden;
+    display: inline-block;
+    font-size: 0;
+    position: relative;
+}
+.rating-input {
+    float: right;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    margin: 0 0 0 -16px;
+    opacity: 0;
+}
+.rating:hover .rating-star:hover,
+.rating:hover .rating-star:hover ~ .rating-star,
+.rating-input:checked ~ .rating-star {
+    background-position: 0 0;
+}
+.rating-star,
+.rating:hover .rating-star {
+    position: relative;
+    float: right;
+    display: block;
+    width: 40px;
+    height: 40px;
+    background: url('../img/clover.png') 0 -40px;
+    margin-top: 3px;
+    opacity: 0.7;
+}
+.myButton {
+  background-color:#79d13e;
+	-moz-border-radius:17px;
+	-webkit-border-radius:17px;
+	border-radius:17px;
+	border:1px solid #3ede25;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:'Raleway', sans-serif;
+  font-weight: bold;
+	font-size:14px;
+	padding:15px 9px;
+	text-decoration:none;
+  width: 200px;
+}
+.myButton:hover {
+	background-color:#4ebd2a;
+  color:white;
+  text-decoration: none;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
 
 /*  Responsive code  */
 @media (max-width:1099px){
@@ -411,6 +473,8 @@ header img {
     #map{
         margin: 0!important;
     }
+
+
 }
 
 @media (max-width:550px){
