@@ -26,8 +26,8 @@
 			<div class="info">
 				<h1>@Model["details-user"].name</h1><span class="uk-badge gender">@Model["details-user"].GetGenders()[0]</span>
 				<ul class="social-icons icon-circle icon-rotate list-unstyled list-inline">
-					<li> <a href="#"><i class="fa fa-flickr"></i></a></li>
-					<li> <a href="https://m.me/XYZ" uk-toggle="target: #my-id"><i class="fa fa-facebook"></i></a></li>
+					<li>  <a href="https://m.me/XYZ" uk-toggle="target: #my-id"><i class="fa fa-flickr"></i></a></li>
+					<li> <a href="#"><i class="fa fa-facebook"></i></a></li>
 					<li> <a href="#"><i class="fa fa-foursquare"></i></a></li>
 				</ul>
 				<h3>@Model["details-user"].description</h3>
@@ -50,7 +50,7 @@
 	<img src="~/Contents/img/tagline.png" class="tagline">
 </a>
 			</div>
-		<div class="uk-child-width-expands uk-text-center" uk-grid>
+		<div class="uk-child-width-expand uk-text-center" uk-grid>
         <div class="uk-padding hobby"><p>@Model["details-user"].GetHobbies()[0]</p></div>
         <div class="uk-padding food"><p>@Model["details-user"].GetFoods()[0]</p></div>
         <div class="uk-padding work"><p>@Model["details-user"].GetWorks()[0]</p></div>
