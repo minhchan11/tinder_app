@@ -738,6 +738,8 @@ namespace TinderApp
       testAvatar.Save();
       testUser.AddAvatarToUser(testAvatar);
       Avatar actual = testUser.GetAvatar();
+      Console.WriteLine(actual.avatarPath);
+      Console.WriteLine(testAvatar.avatarPath);
       Assert.Equal(testAvatar, actual);
     }
   }

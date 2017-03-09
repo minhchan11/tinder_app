@@ -964,7 +964,7 @@ namespace TinderApp
         {
           SqlConnection conn = DB.Connection();
           conn.Open();
-          SqlCommand cmd = new SqlCommand("INSERT INTO users_avatars (user_id, avatar_id) VALUES(@UserId, @AvatarId);", conn);
+          SqlCommand cmd = new SqlCommand("INSERT INTO users_avatars (user_id, avatar_id) VALUES (@UserId, @AvatarId);", conn);
           cmd.Parameters.Add("@UserId", this.userId.ToString());
           cmd.Parameters.Add("@AvatarId", thisAvatar.avatarId.ToString());
           cmd.ExecuteNonQuery();
