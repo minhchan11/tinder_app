@@ -104,7 +104,7 @@ namespace TinderApp
         SqlConnection conn = DB.Connection();
         conn.Open();
 
-        SqlCommand cmdDelete = new SqlCommand("DELETE FROM users WHERE id = @UserId;DELETE FROM users_genders WHERE user_id = @UserId;DELETE FROM users_works WHERE user_id = @UserId;DELETE FROM users_foods WHERE user_id = @UserId;DELETE FROM users_hobbies WHERE user_id = @UserId;", conn);
+        SqlCommand cmdDelete = new SqlCommand("DELETE FROM users WHERE id = @UserId;DELETE FROM users_genders WHERE user_id = @UserId;DELETE FROM users_works WHERE user_id = @UserId;DELETE FROM users_foods WHERE user_id = @UserId;DELETE FROM users_hobbies WHERE user_id = @UserId;DELETE FROM users_avatars WHERE user_id = @UserId;", conn);
         cmdDelete.Parameters.Add(new SqlParameter("@UserId", userId.ToString()));
         cmdDelete.ExecuteNonQuery();
         DB.CloseSqlConnection(conn);

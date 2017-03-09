@@ -66,7 +66,7 @@ namespace TinderApp
       {
         User targetUser = User.Find(parameters.id);
         targetUser.DeleteUser(parameters.id);
-        return View["users.cshtml", User.GetAll()];
+        return View["index.cshtml"];
       };
 
       Get["/users/{id}"] = parameters => {
