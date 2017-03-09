@@ -50,16 +50,10 @@
 	<img src="~/Contents/img/tagline.png" class="tagline">
 </a>
 			</div>
-		<div class="uk-grid-collapse uk-child-width-expands uk-text-center" uk-grid>
-    <div>
+		<div class="uk-child-width-expand uk-text-center" uk-grid>
         <div class="uk-padding hobby"><p>@Model["user"].GetHobbies()[0]</p></div>
-    </div>
-    <div>
         <div class="uk-padding food"><p>@Model["user"].GetFoods()[0]</p></div>
-    </div>
-    <div>
         <div class="uk-padding work"><p>@Model["user"].GetWorks()[0]</p></div>
-    </div>
 </div>
 
 <div class="uk-padding filter">
