@@ -17,20 +17,20 @@ namespace TinderApp
       Post["/users/new/added"] = _ => {
         User newUser = new User(Request.Form["user-name"], Request.Form["user-description"]);
         newUser.Save();
-        Avatar testAvatar = new Avatar (Request.Form["value"]);
-        testAvatar.Save();
-        testAvatar.Display();
-        testAvatar.DeleteJpg();
-        Location newLocation = new Location(Request.Form["location"]);
-        newLocation.Save();
-        newLocation.AddUserToLocation(newUser.userId);
-        newUser.AddAvatarToUser(testAvatar);
-        newUser.AddGender(Request.Form["user-gender"]);
-        newUser.AddWork(Request.Form["user-work"]);
-        newUser.AddFood(Request.Form["user-food"]);
-        newUser.AddHobby(Request.Form["user-hobby"]);
-        Dictionary<string, object> Model = new Dictionary<string, object>{{"user", newUser.userId},{"name", newUser.name},{"description", newUser.description}, {"gender", Request.Form["user-gender"]},{"work", Request.Form["user-work"]}, {"food", Request.Form["user-food"]}, {"hobby", Request.Form["user-hobby"]}, {"avatar", testAvatar}};
-        return View["user_profile.cshtml", Model];
+        // Avatar testAvatar = new Avatar (Request.Form["value"]);
+        // testAvatar.Save();
+        // testAvatar.Display();
+        // testAvatar.DeleteJpg();
+        // Location newLocation = new Location(Request.Form["location"]);
+        // newLocation.Save();
+        // newLocation.AddUserToLocation(newUser.userId);
+        // newUser.AddAvatarToUser(testAvatar);
+        // newUser.AddGender(Request.Form["user-gender"]);
+        // newUser.AddWork(Request.Form["user-work"]);
+        // newUser.AddFood(Request.Form["user-food"]);
+        // newUser.AddHobby(Request.Form["user-hobby"]);
+        // Dictionary<string, object> Model = new Dictionary<string, object>{{"user", newUser.userId},{"name", newUser.name},{"description", newUser.description}, {"gender", Request.Form["user-gender"]},{"work", Request.Form["user-work"]}, {"food", Request.Form["user-food"]}, {"hobby", Request.Form["user-hobby"]}, {"avatar", testAvatar}};
+        return View["index-loggedin.cshtml", newUser];
       };
 
       Get["/loggedin/{id}"] = parameters => {

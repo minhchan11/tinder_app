@@ -8,9 +8,9 @@
 	<link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700" rel="stylesheet">
 	<link rel='stylesheet prefetch' href='http:////netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css'>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.16/css/uikit.min.css" />
-	<link rel="stylesheet" type="text/css" href="Contents/css/reset.css">
-	<link rel="stylesheet" type="text/css" href="Contents/css/main.css">
-	<link rel="stylesheet" type="text/css" href="Contents/css/profile.css">
+	<link rel="stylesheet" type="text/css" href="/Contents/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/Contents/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/Contents/css/profile.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.16/js/uikit.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.16/js/uikit-icons.min.js"></script>
@@ -133,23 +133,36 @@
 <div id="signup" uk-modal>
 <div class="uk-modal-dialog uk-modal-body">
 	<h2 class="uk-modal-title">Ready to get lucky?</h2>
-	<form class="uk-form-stacked">
+	<form class="uk-form-stacked" action="/users/new/added" method="post">
 
     <div class="uk-margin">
         <label class="uk-form-label" for="form-stacked-text">Name</label>
         <div class="uk-form-controls">
-            <input class="uk-input uk-form-width-large" id="name" type="text" placeholder="Your full name">
+            <input class="uk-input uk-form-width-large" id="name" type="text" placeholder="Your full name" name="user-name">
         </div>
     </div>
 
     <div class="uk-margin">
         <label class="uk-form-label" for="form-stacked-text">Create a username</label>
         <div class="uk-form-controls">
-            <input class="uk-input uk-form-width-medium" id="username" type="text" placeholder="Username">
+            <input class="uk-input uk-form-width-medium" id="username" type="text" placeholder="Username" name="user-username">
         </div>
     </div>
 
     <div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text">Breifly describe yourself</label>
+        <div class="uk-form-controls">
+            <textarea class="uk-input uk-form-width-medium" type="text" placeholder="Description" id="description" name="user-description"></textarea>
+        </div>
+    </div>
+
+		<div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text">Create a password</label>
+        <div class="uk-form-controls">
+            <input class="uk-input uk-form-width-medium" id="password" type="password" placeholder="Password" name="password">
+        </div>
+    </div>
+    @* <div class="uk-margin">
         <label class="uk-form-label" for="form-stacked-select">Select</label>
         <div class="uk-form-controls">
             <select class="uk-select" id="form-stacked-select">
@@ -165,11 +178,11 @@
             <label><input class="uk-radio" type="radio" name="radio1"> Option 01</label><br>
             <label><input class="uk-radio" type="radio" name="radio1"> Option 02</label>
         </div>
-    </div>
+    </div> *@
 
+		<button class="uk-button uk-button-default" type="submit">Submit</button>
+		<button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
 </form>
-	<button class="uk-button uk-button-default" type="submit">Submit</button>
-	<button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
 </div>
 </div>
 
