@@ -14,6 +14,7 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.16/js/uikit.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.16/js/uikit-icons.min.js"></script>
+	<script type="text/javascript" src="\Contents\js\scripts.js"></script>
 </head>
 
 <body>
@@ -21,24 +22,24 @@
   <header class="userprofile">
 		<div class="profile">
 			<div class="avatar">
-				<img src="~/Contents/img/profile1.jpg" class="media" alt="" />
+				<img src='~/Contents/Profile/output/@Model["avatar"].jpg()' class="media" alt="" />
 			</div>
 			<div class="info">
-				<h1>@Model.name</h1>
-				@if (@Model.GetGenders().Count == 0)
+				<h1>@Model["user"].name</h1>
+				@if (@Model["user"].GetGenders().Count == 0)
 				{
-					<span>Gender Undefined</span>
+					<span class="uk-badge gender">Gender Undefined</span>
 				}
 				else
 				{
-					<span class="uk-badge gender">@Model.GetGenders()[0]</span>
+					<span class="uk-badge gender">@Model["user"].GetGenders()[0]</span>
 				}
 				<ul class="social-icons icon-circle icon-rotate list-unstyled list-inline">
 					<li> <a href="#"><i class="fa fa-flickr"></i></a></li>
 					<li> <a href="https://m.me/XYZ" uk-toggle="target: #my-id"><i class="fa fa-facebook"></i></a></li>
 					<li> <a href="#"><i class="fa fa-foursquare"></i></a></li>
 				</ul>
-				<h3>@Model.description</h3>
+				<h3>@Model["user"].description</h3>
 			</div>
 
 		</div>
