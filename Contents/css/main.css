@@ -141,6 +141,9 @@ h5, h6          { font-weight: bolder }
     clear: both;
 }
 
+.chart{
+  margin-top: 20%;
+}
 
 /*  Home/portfolio  */
 header img {

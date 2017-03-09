@@ -885,7 +885,7 @@ public static List<User> FilterCurrentUser(int id, List<User> userList)
 
     }
 
-    public int GetNumberOfRatings()
+    public int GetNumbersOfRating()
     {
         SqlConnection conn = DB.Connection();
         conn.Open();
@@ -898,9 +898,93 @@ public static List<User> FilterCurrentUser(int id, List<User> userList)
         {
             ratingList.Add(rdr.GetInt32(2));
         }
-
         return ratingList.Count;
+    }
 
+    public int GetNumberOfRating1()
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        List<int> ratingList = new List<int>{};
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM ratings WHERE user_rated_id = @UserId;", conn);
+        cmd.Parameters.Add("@UserId", this.userId);
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while(rdr.Read())
+        {
+            ratingList.Add(rdr.GetInt32(2));
+        }
+        int m = ratingList.Count;
+        return ratingList[m-5];
+
+    }
+
+    public int GetNumberOfRating2()
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        List<int> ratingList = new List<int>{};
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM ratings WHERE user_rated_id = @UserId;", conn);
+        cmd.Parameters.Add("@UserId", this.userId);
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while(rdr.Read())
+        {
+            ratingList.Add(rdr.GetInt32(2));
+        }
+        int m = ratingList.Count;
+        return ratingList[m-4];
+    }
+
+    public int GetNumberOfRating3()
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        List<int> ratingList = new List<int>{};
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM ratings WHERE user_rated_id = @UserId;", conn);
+        cmd.Parameters.Add("@UserId", this.userId);
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while(rdr.Read())
+        {
+            ratingList.Add(rdr.GetInt32(2));
+        }
+        int m = ratingList.Count;
+        return ratingList[m-3];
+    }
+
+    public int GetNumberOfRating4()
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        List<int> ratingList = new List<int>{};
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM ratings WHERE user_rated_id = @UserId;", conn);
+        cmd.Parameters.Add("@UserId", this.userId);
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while(rdr.Read())
+        {
+            ratingList.Add(rdr.GetInt32(2));
+        }
+        int m = ratingList.Count;
+        return ratingList[m-2];
+    }
+
+    public int GetNumberOfRating5()
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        List<int> ratingList = new List<int>{};
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM ratings WHERE user_rated_id = @UserId;", conn);
+        cmd.Parameters.Add("@UserId", this.userId);
+        SqlDataReader rdr = cmd.ExecuteReader();
+        while(rdr.Read())
+        {
+            ratingList.Add(rdr.GetInt32(2));
+        }
+        int m = ratingList.Count;
+        return ratingList[m-1];
     }
 
     public static List<User> GetUsersByAscendingRatingOrder()
