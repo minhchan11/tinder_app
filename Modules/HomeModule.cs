@@ -79,10 +79,12 @@ namespace TinderApp
 
       Get["/users/{id}"] = parameters => {
         var SelectedUser = User.Find(parameters.id);
-        // var UserUsers = SelectedUser.name;
-        // Dictionary<string, object> Model = new Dictionary<string, object>{{"user", SelectedUser.userId},{"name", SelectedUser.name},{"description", SelectedUser.description}, {"gender", SelectedUser.GetGenders()},{"work", SelectedUser.GetWorks()}, {"food", SelectedUser.GetFoods()}, {"hobby", SelectedUser.GetHobbies()}};
+        Dictionary<string, object> Model = new Dictionary<string, object>
+        {
+          {"user", SelectedUser}
+        };
 
-        return View["user.cshtml", SelectedUser];
+        return View["user.cshtml", Model];
       };
 
 
