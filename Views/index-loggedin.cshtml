@@ -25,21 +25,21 @@
 				<img src='~/Contents/Profile/output/@Model["avatar"].jpg()' class="media" alt="" />
 			</div>
 			<div class="info">
-				<h1>@Model["user"].name</h1>
-				@if (@Model["user"].GetGenders().Count == 0)
+				<h1>@Model["currentUser"].name</h1>
+				@if (@Model["currentUser"].GetGenders().Count == 0)
 				{
 					<span class="uk-badge gender">Gender Undefined</span>
 				}
 				else
 				{
-					<span class="uk-badge gender">@Model["user"].GetGenders()[0]</span>
+					<span class="uk-badge gender">@Model["currentUser"].GetGenders()[0]</span>
 				}
 				<ul class="social-icons icon-circle icon-rotate list-unstyled list-inline">
 					<li> <a href="#"><i class="fa fa-flickr"></i></a></li>
 					<li> <a href="https://m.me/XYZ" uk-toggle="target: #my-id"><i class="fa fa-facebook"></i></a></li>
 					<li> <a href="#"><i class="fa fa-foursquare"></i></a></li>
 				</ul>
-				<h3>@Model["user"].description</h3>
+				<h3>@Model["currentUser"].description</h3>
 			</div>
 
 		</div>
@@ -54,17 +54,24 @@
 	<!-- end header -->
 
 	<section class="main clearfix">
-		<div class="profile uk-transition-toggle uk-transition-toggle">
-			<a href="inner.html">
-				<img src="~/Contents/img/profile1.jpg" class="media uk-transition-scale-up uk-transition-opaque uk-transition-scale-up uk-transition-opaque" alt=""/>
-				<div class="caption">
-						<h1>Amanda</h1>
-						<h3>Cashme ousside howboudah?</h3>
-				</div>
-			</a>
-		</div>
+		@foreach (var user in @Model["allUsers"])
+		{
+			@if (user.userId == @Model["currentUser"].userId)
+			{
+				<div class="ribbon"><span>NEW</span></div>
+			}
+			<div class="profile uk-transition-toggle uk-transition-toggle">
+				<a href="/users/@user.userId">
+					<img src="~/Contents/Profile/output/@user.GetAvatar().jpg()" class="media uk-transition-scale-up uk-transition-opaque uk-transition-scale-up uk-transition-opaque" alt=""/>
+					<div class="caption">
+						<h1>@user.name</h1>
+						<h3>@user.description</h3>
+					</div>
+				</a>
+			</div>
+		}
 
-		<div class="profile uk-transition-toggle">
+		<!-- <div class="profile uk-transition-toggle">
 			<a href="inner.html">
 				<img src="~/Contents/img/profile2.jpg" class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
 				<div class="caption">
@@ -143,8 +150,8 @@
 						<h3>Honestly,truly...Get out of my Caucasian House</h3>
 				</div>
 			</a>
-		</div>
-		</div>
+		</div> -->
+		<!-- </div> -->
 	</section><!-- end main -->
 </body>
 </html>

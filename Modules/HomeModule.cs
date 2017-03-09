@@ -37,7 +37,8 @@ namespace TinderApp
         newUser.AddWork(Request.Form["user-work"]);
         newUser.AddFood(Request.Form["user-food"]);
         newUser.AddHobby(Request.Form["user-hobby"]);
-        Dictionary<string, object> Model = new Dictionary<string, object>{{"user", newUser},{"avatar", newAvatar}};
+        List<User> allUsers = User.GetAll();
+        Dictionary<string, object> Model = new Dictionary<string, object>{{"currentUser", newUser},{"avatar", newAvatar},{"allUsers", allUsers}};
         return View["index-loggedin.cshtml", Model];
       };
 
