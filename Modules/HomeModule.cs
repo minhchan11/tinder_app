@@ -6,10 +6,11 @@ namespace TinderApp
 {
   public class HomeModule : NancyModule
   {
+
     public HomeModule()
     {
       Get["/"] = _ => {
-        return View["index.cshtml"];
+          return View["index_loggedin.cshtml"];
       };
 
       Get["/users/new"] = _ => View["users_form.cshtml"];
