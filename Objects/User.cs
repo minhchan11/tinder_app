@@ -989,5 +989,22 @@ namespace TinderApp
           DB.CloseSqlConnection(conn, rdr);
           return foundAvatar;
         }
+
+        public Location GetLocation()
+        {
+
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+          SqlCommand cmd = new SqlCommand("SELECT locations.id FROM users JOIN users_locations ON (users.id = users_locations.user_id) JOIN locations ON (locations.id = users_locations.location_id) WHERE users.id = @UserId;", conn);
+          cmd.Parameters.Add(new SqlParameter("@UserId", this.userId.ToString()));
+          SqlDataReader rdr = cmd.ExecuteReader();
+          Location foundLocation = new Location("");
+          while(rdr.Read())
+          {
+            foundLocation = Location.Find(rdr.GetInt32(0));
+          }
+          DB.CloseSqlConnection(conn, rdr);
+          return foundLocation;
+        }
     }
 }
