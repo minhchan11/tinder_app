@@ -6,16 +6,15 @@ namespace TinderApp
 {
   public class HomeModule : NancyModule
   {
-
     public HomeModule()
     {
       Get["/"] = _ => {
-          return View["index_loggedin.cshtml"];
+          return View["index.cshtml"];
       };
 
       Get["/users/new"] = _ => View["users_form.cshtml"];
 
-      Post["/users/new"] = _ => {
+      Post["/users/new/added"] = _ => {
         User newUser = new User(Request.Form["user-name"], Request.Form["user-description"]);
         newUser.Save();
         Avatar testAvatar = new Avatar (Request.Form["value"]);
@@ -28,6 +27,10 @@ namespace TinderApp
         newUser.AddHobby(Request.Form["user-hobby"]);
         Dictionary<string, object> Model = new Dictionary<string, object>{{"user", newUser.userId},{"name", newUser.name},{"description", newUser.description}, {"gender", Request.Form["user-gender"]},{"work", Request.Form["user-work"]}, {"food", Request.Form["user-food"]}, {"hobby", Request.Form["user-hobby"]}, {"avatar", testAvatar}};
         return View["user_profile.cshtml", Model];
+      };
+
+      Get["/loggedin"] = _ => {
+        return View["index_loggedin.cshtml"];
       };
 
       Get["/users"] = _ => {
