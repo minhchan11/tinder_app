@@ -1,0 +1,67 @@
+@{
+    Layout="Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <form class="" action="/view-all" method="post">
+        <div class="gender input-field col s2">
+            <select>
+                <option value="no preference">no preference</option>
+                foreach(var gender in @Model["gender"])
+                {
+                    <option value="@gender">@gender</option>
+                }
+            </select>
+        </div>
+
+        <div class="work input-field col s2">
+            <select>
+                <option value="no preference">no preference</option>
+                foreach(var work in @Model["work"])
+                {
+                    <option value="@work">@work</option>
+                }
+            </select>
+        </div>
+
+        <div class="Food input-field col s2">
+            <select>
+                <option value="no preference">no preference</option>
+                foreach(var Food in @Model["Food"])
+                {
+                    <option value="@Food">@Food</option>
+                }
+            </select>
+        </div>
+
+        <div class="hobby input-field col s2">
+            <select>
+                <option value="no preference">no preference</option>
+                foreach(var hobby in @Model["hobby"])
+                {
+                    <option value="@hobby">@hobby</option>
+                }
+            </select>
+        </div>
+
+        <div class="rating input-field col s2">
+            <select>
+                <option value="no preference">no preference</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5 (Your Standards Are Too High)</option>
+            </select>
+        </div>
+
+        <div class="switch">
+            <label>
+              Location Off
+              <input disabled type="checkbox">
+              <span class="lever"></span>
+              Location On
+            </label>
+        </div>
+    </form>
+</div>
