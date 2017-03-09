@@ -76,7 +76,7 @@
 				@foreach(var user in Model["nearby-users"])
 				{
 					<div class="profile uk-transition-toggle">
-						<a href="inner.html">
+						<a href='/users/@Model["user"].userId/details/@user.userId'>
 							<img src='~/Contents/Profile/output/@user.GetAvatar().jpg()' class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
 							<div class="caption">
 									<h1>@user.name</h1>
@@ -93,7 +93,7 @@
 				@foreach(var user in Model["food-users"])
 				{
 					<div class="profile uk-transition-toggle">
-						<a href="inner.html">
+						<a href='/users/@Model["user"].userId/details/@user.userId'>
 							<img src='~/Contents/Profile/output/@user.GetAvatar().jpg()' class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
 							<div class="caption">
 									<h1>@user.name</h1>
@@ -112,7 +112,7 @@
 				@foreach(var user in Model["work-users"])
 				{
 					<div class="profile uk-transition-toggle">
-						<a href="inner.html">
+						<a href='/users/@Model["user"].userId/details/@user.userId'>
 							<img src='~/Contents/Profile/output/@user.GetAvatar().jpg()' class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
 							<div class="caption">
 									<h1>@user.name</h1>
@@ -128,7 +128,7 @@
 				@foreach(var user in Model["hottest-users"])
 				{
 					<div class="profile uk-transition-toggle">
-						<a href="inner.html">
+						<a href='/users/@Model["user"].userId/details/@user.userId'>
 							<img src='~/Contents/Profile/output/@user.GetAvatar().jpg()' class="media uk-transition-scale-up uk-transition-opaque" alt=""/>
 							<div class="caption">
 									<h1>@user.name</h1>

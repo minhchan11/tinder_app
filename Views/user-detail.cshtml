@@ -1,3 +1,110 @@
-@{
-  Layout = "Shared/_Layout.cshtml";
-}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Clover-Get Lucky!</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.16/css/uikit.min.css" />
+	<link rel='stylesheet prefetch' href='http:////netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css'>
+	<link rel="stylesheet" type="text/css" href="~/Contents/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="~/Contents/css/main.css">
+	<link rel="stylesheet" type="text/css" href="~/Contents/css/profile.css">
+	<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.16/js/uikit.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.16/js/uikit-icons.min.js"></script>
+</head>
+
+<body>
+
+	<header class="userprofile">
+		<div class="profile">
+			<div class="avatar">
+				<img src='~/Contents/Profile/output/@Model["details-user"].GetAvatar().jpg()' class="media" alt="" />
+			</div>
+			<div class="info">
+				<h1>@Model["details-user"].name</h1><span class="uk-badge gender">@Model["details-user"].GetGenders()[0]</span>
+				<ul class="social-icons icon-circle icon-rotate list-unstyled list-inline">
+					<li> <a href="#"><i class="fa fa-flickr"></i></a></li>
+					<li> <a href="https://m.me/XYZ" uk-toggle="target: #my-id"><i class="fa fa-facebook"></i></a></li>
+					<li> <a href="#"><i class="fa fa-foursquare"></i></a></li>
+				</ul>
+				<h3>@Model["details-user"].description</h3>
+			</div>
+
+		</div>
+
+		<nav class="usernav uk-align-center">
+			<button class="uk-button uk-button-primary btn button-back" href="/">All users</button><br>
+			<button class="uk-button uk-button-secondary btn" uk-toggle="target: #edit" type="button">Edit my profile</button><br>
+			<button class="uk-button uk-button-danger btn" href="#">Contact Us</button><br>
+		</nav>
+		<!-- end navigation menu -->
+	</header>
+	<!-- end header -->
+
+	<section class="main clearfix">
+		<div class="userbanner">
+<a href="/"><img src="~/Contents/img/logo.png" title="Clover-An App for love" alt="Clover" class="userlogo"/>
+	<img src="~/Contents/img/tagline.png" class="tagline">
+</a>
+			</div>
+		<div class="uk-child-width-expands uk-text-center" uk-grid>
+        <div class="uk-padding hobby"><p>@Model["details-user"].GetHobbies()[0]</p></div>
+        <div class="uk-padding food"><p>@Model["details-user"].GetFoods()[0]</p></div>
+        <div class="uk-padding work"><p>@Model["details-user"].GetWorks()[0]</p></div>
+</div>
+
+
+
+
+	</section>
+	<!-- end main -->
+
+	<div id="edit" uk-modal>
+		<div class="uk-modal-dialog uk-modal-body">
+			<h2 class="uk-modal-title">Edit your profile</h2>
+			<form class="uk-form-stacked">
+
+				<div class="uk-margin">
+					<label class="uk-form-label" for="form-stacked-text">Name</label>
+					<div class="uk-form-controls">
+						<input class="uk-input uk-form-width-large" id="edit-name" type="text" placeholder="Your full name">
+					</div>
+				</div>
+
+				<div class="uk-margin">
+					<label class="uk-form-label" for="form-stacked-text">Create a username</label>
+					<div class="uk-form-controls">
+						<input class="uk-input uk-form-width-medium" id="edit-username" type="text" placeholder="Username">
+					</div>
+				</div>
+
+				<div class="uk-margin">
+					<label class="uk-form-label" for="form-stacked-select">Select</label>
+					<div class="uk-form-controls">
+						<select class="uk-select" id="form-stacked-select">
+                <option>Option 01</option>
+                <option>Option 02</option>
+            </select>
+					</div>
+				</div>
+
+				<div class="uk-margin">
+					<div class="uk-form-label">Radio</div>
+					<div class="uk-form-controls">
+						<label><input class="uk-radio" type="radio" name="radio1"> Option 01</label><br>
+						<label><input class="uk-radio" type="radio" name="radio1"> Option 02</label>
+					</div>
+				</div>
+				<button class="uk-button uk-button-default" type="submit">Edit</button>
+				<button class="uk-button uk-button-primary button-delete">Delete your account</button>
+				<button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+
+			</form>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,5 +1,6 @@
 using Nancy;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace TinderApp
@@ -85,19 +86,27 @@ namespace TinderApp
       // };
 
       Get["/users/{id}"] = parameters => {
-        var SelectedUser = User.Find(parameters.id);
+        User SelectedUser = User.Find(parameters.id);
         Location userLocation = SelectedUser.GetLocation();
-        Console.WriteLine(userLocation.locationId.ToString());
         Dictionary<string, object> Model = new Dictionary<string, object>
         {
           {"user", SelectedUser},
-          {"nearby-users", Location.FindNearbyUsers(userLocation.locationId)},
-          {"food-users", User.FindByFood(SelectedUser.GetFoods()[0], User.GetAll())},
-          {"work-users", User.FindByWork(SelectedUser.GetWorks()[0], User.GetAll())},
-          {"hottest-users", User.FindByMinRating(3)}
+          {"nearby-users", User.FilterCurrentUser(SelectedUser.userId, Location.FindNearbyUsers(userLocation.locationId))},
+          {"food-users", User.FilterCurrentUser(SelectedUser.userId, User.FindByFood(SelectedUser.GetFoods()[0], User.GetAll()))},
+          {"work-users", User.FilterCurrentUser(SelectedUser.userId, User.FindByWork(SelectedUser.GetWorks()[0], User.GetAll()))},
+          {"hottest-users", User.FilterCurrentUser(SelectedUser.userId, User.FindByMinRating(3))}
         };
 
         return View["user.cshtml", Model];
+      };
+
+      Get["/users/{currentId}/details/{id}"] = parameters => {
+        Dictionary<string, object> Model = new Dictionary<string, object>
+        {
+          {"current-user", User.Find(parameters.currentId)},
+          {"details-user", User.Find(parameters.id)}
+        };
+        return View["user-detail.cshtml", Model];
       };
 
 
