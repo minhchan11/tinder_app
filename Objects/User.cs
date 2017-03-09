@@ -180,6 +180,24 @@ namespace TinderApp
         DB.CloseSqlConnection(conn, rdr);
     }
 
+    public static List<string> GetAllGenders()
+    {
+        List<string> allGenders = new List<string>{};
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM genders;", conn);
+        SqlDataReader rdr = cmd.ExecuteReader();
+
+        while(rdr.Read())
+        {
+          allGenders.Add(rdr.GetString(1));
+        }
+
+        DB.CloseSqlConnection(conn, rdr);
+        return allGenders;
+    }
+
     public List<string> GetGenders()
     {
         SqlConnection conn = DB.Connection();
@@ -256,6 +274,24 @@ namespace TinderApp
 
         cmd2.ExecuteNonQuery();
         DB.CloseSqlConnection(conn, rdr);
+    }
+
+    public static List<string> GetAllWorks()
+    {
+        List<string> allWorks = new List<string>{};
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM works;", conn);
+        SqlDataReader rdr = cmd.ExecuteReader();
+
+        while(rdr.Read())
+        {
+          allWorks.Add(rdr.GetString(1));
+        }
+
+        DB.CloseSqlConnection(conn, rdr);
+        return allWorks;
     }
 
     public List<string> GetWorks()
@@ -336,6 +372,24 @@ namespace TinderApp
         DB.CloseSqlConnection(conn, rdr);
     }
 
+    public static List<string> GetAllFoods()
+    {
+        List<string> allFoods = new List<string>{};
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM foods;", conn);
+        SqlDataReader rdr = cmd.ExecuteReader();
+
+        while(rdr.Read())
+        {
+          allFoods.Add(rdr.GetString(1));
+        }
+
+        DB.CloseSqlConnection(conn, rdr);
+        return allFoods;
+    }
+
     public List<string> GetFoods()
     {
         SqlConnection conn = DB.Connection();
@@ -412,6 +466,24 @@ namespace TinderApp
 
         cmd2.ExecuteNonQuery();
         DB.CloseSqlConnection(conn, rdr);
+    }
+
+    public static List<string> GetAllHobbies()
+    {
+        List<string> allHobbies = new List<string>{};
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM hobbies;", conn);
+        SqlDataReader rdr = cmd.ExecuteReader();
+
+        while(rdr.Read())
+        {
+          allHobbies.Add(rdr.GetString(1));
+        }
+
+        DB.CloseSqlConnection(conn, rdr);
+        return allHobbies;
     }
 
     public List<string> GetHobbies()

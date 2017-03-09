@@ -1,5 +1,5 @@
 @{
-  Layout = "Shared/_Layout.cshtml";
+    Layout="Shared/_Layout.cshtml";
 }
 
 <div class="row">
@@ -7,7 +7,7 @@
         <div class="gender input-field col s2">
             <select>
                 <option value="no preference">no preference</option>
-                foreach(var gender in Model["all genders"])
+                foreach(var gender in @Model["gender"])
                 {
                     <option value="@gender">@gender</option>
                 }
@@ -17,7 +17,7 @@
         <div class="work input-field col s2">
             <select>
                 <option value="no preference">no preference</option>
-                foreach(var work in Model["all works"])
+                foreach(var work in @Model["work"])
                 {
                     <option value="@work">@work</option>
                 }
@@ -27,7 +27,7 @@
         <div class="Food input-field col s2">
             <select>
                 <option value="no preference">no preference</option>
-                foreach(var Food in Model["all foods"])
+                foreach(var Food in @Model["Food"])
                 {
                     <option value="@Food">@Food</option>
                 }
@@ -37,7 +37,7 @@
         <div class="hobby input-field col s2">
             <select>
                 <option value="no preference">no preference</option>
-                foreach(var hobby in Model["all hobbies"])
+                foreach(var hobby in @Model["hobby"])
                 {
                     <option value="@hobby">@hobby</option>
                 }
@@ -65,36 +65,3 @@
         </div>
     </form>
 </div>
-
-@if (@Model["user list"].Count == 0)
-{
-  <p>No users have been added yet!</p>
-}
-else
-{
-  <h1>Users</h1>
-  <hr>
-  <ul>
-    @foreach (var user in @Model["user list"])
-    {
-      <li><a href="/users/@user.userId">@user.name</a></li>
-      <form action="/users/@user.userId" method="post">
-          <input type="hidden" name="_method" value="DELETE">
-          <button type="submit" class="btn">Delete</button>
-      </form>
-      <form class="appears" action="/user/edit/@user.userId" method="post">
-            <input type="hidden" name="_method" value="PATCH">
-            <label for="new-user-name">User Name: </label>
-            <input type="text" name="new-user-name" value="@user.name">
-            <button type="submit" class="btn">Edit</button>
-      </form>
-
-    }
-  </ul>
-}
-<form action="/users/delete" method="post">
-  <h4><a href="/users/new">Add New</a> |
-  <button class="btn" type="submit">Clear All</button></h4>
-</form>
-<hr>
-<h4><a href="/">Return Home</a></h4>

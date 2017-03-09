@@ -684,6 +684,42 @@ namespace TinderApp
     }
 
     [Fact]
+    public void GetAllGenders_ManyUsers_ListOfAllGenders()
+    {
+        User user1 = new User("1", "hello");
+        User user2 = new User("2", "hola");
+        User user3 = new User("3", "hi");
+        user1.Save();
+        user2.Save();
+        user3.Save();
+        user1.AddGender("male");
+        user2.AddGender("female");
+        user3.AddGender("transexual");
+        user2.AddGender("pansexual");
+        List<string> expected = new List<string>{"male", "female", "transexual", "pansexual"};
+        List<string> actual = User.GetAllGenders();
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void GetAllWorks_ManyUsers_ListOfAllWorks()
+    {
+        User user1 = new User("1", "hello");
+        User user2 = new User("2", "hola");
+        User user3 = new User("3", "hi");
+        user1.Save();
+        user2.Save();
+        user3.Save();
+        user1.AddWork("McDonalds");
+        user2.AddWork("BurgerKing");
+        user3.AddWork("Epicodus");
+        user2.AddWork("Five Guys");
+        List<string> expected = new List<string>{"McDonalds", "BurgerKing", "Epicodus", "Five Guys"};
+        List<string> actual = User.GetAllWorks();
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
     public void Contains_True()
     {
         User testUser = new User("Nick", "hello");
