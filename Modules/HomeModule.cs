@@ -21,6 +21,10 @@ namespace TinderApp
         testAvatar.Save();
         testAvatar.Display();
         testAvatar.DeleteJpg();
+        Console.WriteLine(Request.Form["location"]);
+        Location newLocation = new Location(Request.Form["location"]);
+        newLocation.Save();
+        newLocation.AddUserToLocation(newUser.userId);
         newUser.AddGender(Request.Form["user-gender"]);
         newUser.AddWork(Request.Form["user-work"]);
         newUser.AddFood(Request.Form["user-food"]);
@@ -29,8 +33,16 @@ namespace TinderApp
         return View["user_profile.cshtml", Model];
       };
 
-      Get["/loggedin"] = _ => {
-        return View["index_loggedin.cshtml"];
+      Get["/loggedin/{id}"] = parameters => {
+        User newUser = User.Find(parameters.id);
+        return View["index_loggedin.cshtml", newUser];
+      };
+
+      Get["/users/profile/{id}"] = parameters => {
+        var SelectedUser = User.Find(parameters.id);
+        var UserUsers = SelectedUser.name;
+        Dictionary<string, object> Model = new Dictionary<string, object>{{"user", SelectedUser.userId},{"name", SelectedUser.name},{"description", SelectedUser.description}, {"gender", SelectedUser.GetGenders()},{"work", SelectedUser.GetWorks()}, {"food", SelectedUser.GetFoods()}, {"hobby", SelectedUser.GetHobbies()}};
+        return View["user_profile.cshtml", Model];
       };
 
       Get["/users"] = _ => {

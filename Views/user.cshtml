@@ -3,16 +3,6 @@
 }
 
 <h1>@Model["name"]</h1>
-<form action='/users/@Model["user"]' method="post">
-    <input type="hidden" name="_method" value="DELETE">
-    <button type="submit" class="btn">Delete</button>
-</form>
-<form class="appears" action='/users/edit/@Model["user"]' method="post">
-      <input type="hidden" name="_method" value="PATCH">
-      <label for="new-user-name">User Name: </label>
-      <input type="text" name="new-user-name" value='@Model["user"]'>
-      <button type="submit" class="btn">Edit</button>
-</form>
 
 @foreach(var gender in @Model["gender"])
 {

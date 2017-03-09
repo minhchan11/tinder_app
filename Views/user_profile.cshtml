@@ -2,7 +2,7 @@
     Layout="Shared/_Layout.cshtml";
 }
 
-<img src='/Contents/Profile/output/@Model["avatar"].jpg()'>
+@* <img src='/Contents/Profile/output/@Model["avatar"].jpg()'> *@
 
 <h1>@Model["name"]</h1>
 <form action='/users/@Model["user"]' method="post">
@@ -15,11 +15,29 @@
       <input type="text" name="new-user-name" value='@Model["user"]'>
       <button type="submit" class="btn">Edit</button>
 </form>
-<h4>@Model["gender"]</h4>
 <p>@Model["description"]</p>
 <ul>
-  <li>Work: @Model["work"]</li>
-  <li>Food: @Model["food"]</li>
-  <li>Hobby: @Model["hobby"]</li>
+@foreach(var gender in @Model["gender"])
+{
+  <li>@gender</li>
+}
 </ul>
-<h4><a href="/loggedin">Return Home</a></h4>
+<ul>
+@foreach(var work in @Model["work"])
+{
+  <li>@work</li>
+}
+</ul>
+<ul>
+@foreach(var food in @Model["food"])
+{
+  <li>@food</li>
+}
+</ul>
+<ul>
+@foreach(var hobby in @Model["hobby"])
+{
+  <li>@hobby</li>
+}
+</ul>
+<h4><a href='/loggedin/@Model["user"]'>Return Home</a></h4>
